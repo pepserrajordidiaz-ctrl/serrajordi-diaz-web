@@ -7,8 +7,8 @@
     { eye: [-4.6, 1.65, -11.9], target: [1.4, 2.6, -1.5], up: U, fov: 60, vis: ["plot"] },        // in front of the plot, at eye height
     { eye: [30, 21, -25], target: [-3, 2, -5], up: U, fov: 40, vis: ["plot", "st", "nb"] },        // the street from above
     { eye: [2.0, 34, 10.5], target: [0.6, 0, -0.8], up: U, fov: 34, vis: ["dim"] },                // the plot, north up
-    { eye: [-4.5, 7, -30], target: [-0.3, 4.4, -6.8], up: U, fov: 32, vis: ["fl"] },              // the houses rise, seen from the front
-    { eye: [-3, 27, 18], target: [0.8, 2.2, -2.8], up: U, fov: 38, vis: [] }                           // the back faces south
+    { eye: [-4.5, 8, -31], target: [-0.3, 5.6, -6.8], up: U, fov: 37, vis: ["fl"] },              // the houses rise, seen from the front
+    { eye: [-3.5, 31, 21], target: [0.8, 3.2, -2.8], up: U, fov: 38, vis: [] }                           // the back faces south
   ];
   const ORBIT = [false, false, false, false]; V.K = K;
   let vh = 1, top0 = 0, wide = true, aspect = 1.6, lastP = -1, intro = null;
@@ -31,10 +31,10 @@
     let moved = p !== lastP;
     if (moved) {
       lastP = p;
-      st.ghostA = smooth(2.3, 2.55, p); st.ghostH = 0.05 + 9.15 * smooth(2.45, 3.0, p);
+      st.ghostA = smooth(2.3, 2.55, p); st.ghostH = 0.05 + (HOUSE_H - 0.05) * smooth(2.45, 3.0, p);
       st.focus = 0.5 + 0.5 * smooth(0.1, 0.7, p); st.shift = wide ? 0.24 : 0; st.shiftY = wide ? 0 : 0.2;
       rail.forEach((a, i) => a.classList.toggle("on", i === k));
-      floors.forEach(li => li.classList.toggle("on", st.ghostH >= (+li.dataset.f + 1) * 3.0));
+      floors.forEach(li => li.classList.toggle("on", st.ghostH >= [3.0, 6.0, 9.0, 11.8][+li.dataset.f]));
     }
     let cam = camAt(p);
     if (intro) { const t = (now - intro.t0) / 3200; if (t >= 1 || p > 0.05) intro = null; else { cam = camPath(adj(intro.from), cam, Math.max(0, t)); moved = true; } }
@@ -57,7 +57,7 @@ const SUNSTUDY = (function () {
     const cv = document.createElement("canvas"); cv.width = cv.height = n; const g = cv.getContext("2d");
     g.fillStyle = "#000"; g.fillRect(0, 0, n, n);
     const items = PARTS.map(p => ({ pts: p.pts, h: (p.H ?? ((SHOPS.has(p.rc) ? 3.6 : 3.2) + (p.fl - 1) * 2.95)) + 0.5 }))
-      .concat(HOUSES.houses.map(q => ({ pts: q, h: 9.2 }))).sort((a, b) => a.h - b.h);
+      .concat(HOUSES.houses.map(q => ({ pts: q, h: HOUSE_H }))).sort((a, b) => a.h - b.h);
     for (const it of items) {
       const v = Math.min(255, Math.round(it.h * 8)); g.fillStyle = `rgb(${v},${v},${v})`; g.beginPath();
       it.pts.forEach(([E, N], i) => { const X = (E - x0) / cs, Y = (N - y0) / cs; if (i) g.lineTo(X, Y); else g.moveTo(X, Y); });
@@ -78,7 +78,7 @@ const SUNSTUDY = (function () {
     }
     return out;
   }
-  const T = { t: { pts: grid([HOUSES.back], 0.6, 0.3), y: 4.4 }, r: { pts: grid(HOUSES.houses, 0.8, 0.35), y: 9.45 } };
+  const T = { t: { pts: grid([HOUSES.back], 0.6, 0.3), y: 4.4 }, r: { pts: grid(HOUSES.houses, 0.8, 0.35), y: HOUSE_H + 0.25 } };
   function litFrac(set, az, el) {
     if (el <= horizon(az)) return 0;
     const dx = Math.sin(az * DEG), dn = Math.cos(az * DEG), tn = Math.tan(el * DEG), y = set.y, maxT = Math.min(80, (17.5 - y) / tn);

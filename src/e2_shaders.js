@@ -65,7 +65,7 @@ void main(){
  vec3 N=normalize(vNrm);
  float e=min(min(vUV.x,vP.x-vUV.x),min(vUV.y,vP.y-vUV.y));
  float line=1.-smoothstep(.03,.075,e);
- float fl=0.; if(abs(N.y)<.5){fl=(1.-smoothstep(.025,.06,abs(vUV.y-3.2)))+(1.-smoothstep(.025,.06,abs(vUV.y-6.2)));}
+ float fl=0.; if(abs(N.y)<.5){fl=(1.-smoothstep(.025,.06,abs(vUV.y-3.2)))+(1.-smoothstep(.025,.06,abs(vUV.y-6.2)))+(1.-smoothstep(.025,.06,abs(vUV.y-9.2)));}
  float k=max(line,fl*.8);
  vec3 c=mix(vec3(.97,.96,.93)*(.82+.18*max(dot(N,uSunDir),0.))*mix(.38,1.,uDay),vec3(.09,.12,.11),k);
  outC=vec4(c,(.26+.7*k)*uAlpha);

@@ -114,7 +114,7 @@ const VIEW = (function () {
   }
   {
     const [A, B] = PLOT_FRONT, M = [(A[0] + B[0]) / 2, (A[1] + B[1]) / 2];
-    [["PB · Garatge i sala", 1.7, 3.0], ["P1 · Sala, menjador i cuina", 4.7, 6.0], ["P2 · Dues suites", 7.7, 9.0]]
+    [["PB · Garatge", 1.7, 3.0], ["P1 · Cuina i menjador", 4.7, 6.0], ["P2 · 2 habitacions + estudi", 7.7, 9.0], ["Altell · Suite", 10.6, 11.8]]
       .forEach(([t, y, minH]) => addLabel(t, [M[0], y, -(M[1] + 0.25)], "fl", { minH }));
   }
   const VIS = { plot: ["aer", "str"], st: ["aer", "pla"], nb: ["aer"], dim: ["pla"], fl: ["aer", "str"] };
@@ -123,7 +123,7 @@ const VIEW = (function () {
     for (const L of labels) {
       let ok = still && vis.includes(L.cls) && (L.cls !== "fl" || ghostH >= L.minH), p;
       if (ok) {
-        p = M4.xform(vp, L.cls === "plot" ? [L.pos[0], 0.3 + Math.min(ghostH, 9.2) * 1.04, L.pos[2]] : L.pos);
+        p = M4.xform(vp, L.cls === "plot" ? [L.pos[0], 0.3 + Math.min(ghostH, HOUSE_H) * 1.03, L.pos[2]] : L.pos);
         ok = p[3] > 0 && p[2] < 1 && Math.abs(p[0]) < 1.05 && Math.abs(p[1]) < 1.05;
       }
       if (ok !== L.on) { L.on = ok; L.el.classList.toggle("hide", !ok); }
@@ -265,7 +265,7 @@ const VIEW = (function () {
         const t0 = performance.now();
         if (!cam) cam = currentCam(now);
         const vp = R.draw(cam, gA, opt); S.cam = cam; S.last = { cam, gA, opt };
-        placeLabels(vp, vis, S.ctx === "story" ? opt.ghostH : S.ghostA * 9.2, still);
+        placeLabels(vp, vis, S.ctx === "story" ? opt.ghostH : S.ghostA * HOUSE_H, still);
         if (S.ctx === "explore") { updateNorth(vp); updateScale(vp); }
         S.dirty = false;
         // very slow GPU: render fewer pixels

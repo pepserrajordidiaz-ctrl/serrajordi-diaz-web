@@ -247,8 +247,9 @@ const HOUSES = (() => {
   const strip = clipHalf(PLOT, d, c0 + 10), back = clipHalf(PLOT, [-d[0], -d[1]], -(c0 + 10)), mf = M[0] * f[0] + M[1] * f[1];
   return { houses: [clipHalf(strip, f, mf), clipHalf(strip, [-f[0], -f[1]], -mf)].map(ccw), back: ccw(back), f, d, A };
 })();
+const HOUSE_H = 12.0; // PB + P1 + P2 + altell (orientatiu)
 function buildGhost() {
-  const m = new Mesh(), H = 9.2, c = [1, 1, 1];
+  const m = new Mesh(), H = HOUSE_H, c = [1, 1, 1];
   const [A, B] = PLOT_FRONT, fl = Math.hypot(B[0] - A[0], B[1] - A[1]), f = [(B[0] - A[0]) / fl, (B[1] - A[1]) / fl];
   const d = [f[1], -f[0]], M = [(A[0] + B[0]) / 2, (A[1] + B[1]) / 2];
   const strip = clipHalf(PLOT, d, A[0] * d[0] + A[1] * d[1] + 10);

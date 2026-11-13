@@ -67,7 +67,7 @@ p{margin:0}
 .dl{display:grid;grid-template-columns:auto 1fr;gap:6px 16px;font:400 13px/1.4 var(--mono);margin:0}
 .dl dt{color:rgba(241,242,238,.6);margin:0}.dl dd{margin:0}
 .floors{display:grid;gap:0;margin:0;padding:0;list-style:none;border-top:1px solid rgba(241,242,238,.2)}
-.floors li{display:grid;grid-template-columns:44px 1fr;gap:12px;padding:10px 0;border-bottom:1px solid rgba(241,242,238,.2);opacity:.35;transition:opacity .5s}
+.floors li{display:grid;grid-template-columns:62px 1fr;gap:12px;padding:10px 0;border-bottom:1px solid rgba(241,242,238,.2);opacity:.35;transition:opacity .5s}
 .floors li.on{opacity:1}
 .floors b{font:700 18px/1.2 var(--display);font-stretch:80%;color:var(--accent)!important}
 .small{font:400 12px/1.5 var(--mono);color:rgba(241,242,238,.62)}
@@ -258,13 +258,14 @@ footer{padding-block:28px 40px;display:flex;flex-wrap:wrap;gap:12px 32px;justify
     </div></article>
     <article class="chapter" id="ch3" data-ch="3"><div class="card">
       <p class="k">03 · Les cases</p>
-      <h2>Dues cases, tres plantes</h2>
+      <h2>Dues cases, quatre nivells</h2>
       <ol class="floors" id="floors">
-        <li data-f="2"><b>P2</b><span>Dues habitacions tipus suite</span></li>
-        <li data-f="1"><b>P1</b><span>Sala d'estar, menjador i cuina, amb terrassa</span></li>
-        <li data-f="0"><b>PB</b><span>Garatge i sala polivalent</span></li>
+        <li data-f="3"><b>Altell</b><span>Suite</span></li>
+        <li data-f="2"><b>P2</b><span>Dues habitacions i un estudi</span></li>
+        <li data-f="1"><b>P1</b><span>Cuina i menjador</span></li>
+        <li data-f="0"><b>PB</b><span>Garatge</span></li>
       </ol>
-      <p>Cada casa fa uns 4,6 m de façana, amb 115 m² habitables i 35 m² de garatge.</p>
+      <p>Cada casa fa uns 4,6 m de façana.</p>
       <p class="small">Volum orientatiu: el projecte d'arquitectura és en redacció.</p>
     </div></article>
     <article class="chapter" id="ch4" data-ch="4"><div class="card">
@@ -919,8 +920,9 @@ const HOUSES = (() => {
   const strip = clipHalf(PLOT, d, c0 + 10), back = clipHalf(PLOT, [-d[0], -d[1]], -(c0 + 10)), mf = M[0] * f[0] + M[1] * f[1];
   return { houses: [clipHalf(strip, f, mf), clipHalf(strip, [-f[0], -f[1]], -mf)].map(ccw), back: ccw(back), f, d, A };
 })();
+const HOUSE_H = 12.0; // PB + P1 + P2 + altell (orientatiu)
 function buildGhost() {
-  const m = new Mesh(), H = 9.2, c = [1, 1, 1];
+  const m = new Mesh(), H = HOUSE_H, c = [1, 1, 1];
   const [A, B] = PLOT_FRONT, fl = Math.hypot(B[0] - A[0], B[1] - A[1]), f = [(B[0] - A[0]) / fl, (B[1] - A[1]) / fl];
   const d = [f[1], -f[0]], M = [(A[0] + B[0]) / 2, (A[1] + B[1]) / 2];
   const strip = clipHalf(PLOT, d, A[0] * d[0] + A[1] * d[1] + 10);
@@ -1190,7 +1192,7 @@ void main(){
  vec3 N=normalize(vNrm);
  float e=min(min(vUV.x,vP.x-vUV.x),min(vUV.y,vP.y-vUV.y));
  float line=1.-smoothstep(.03,.075,e);
- float fl=0.; if(abs(N.y)<.5){fl=(1.-smoothstep(.025,.06,abs(vUV.y-3.2)))+(1.-smoothstep(.025,.06,abs(vUV.y-6.2)));}
+ float fl=0.; if(abs(N.y)<.5){fl=(1.-smoothstep(.025,.06,abs(vUV.y-3.2)))+(1.-smoothstep(.025,.06,abs(vUV.y-6.2)))+(1.-smoothstep(.025,.06,abs(vUV.y-9.2)));}
  float k=max(line,fl*.8);
  vec3 c=mix(vec3(.97,.96,.93)*(.82+.18*max(dot(N,uSunDir),0.))*mix(.38,1.,uDay),vec3(.09,.12,.11),k);
  outC=vec4(c,(.26+.7*k)*uAlpha);
@@ -1444,7 +1446,7 @@ const VIEW = (function () {
   }
   {
     const [A, B] = PLOT_FRONT, M = [(A[0] + B[0]) / 2, (A[1] + B[1]) / 2];
-    [["PB · Garatge i sala", 1.7, 3.0], ["P1 · Sala, menjador i cuina", 4.7, 6.0], ["P2 · Dues suites", 7.7, 9.0]]
+    [["PB · Garatge", 1.7, 3.0], ["P1 · Cuina i menjador", 4.7, 6.0], ["P2 · 2 habitacions + estudi", 7.7, 9.0], ["Altell · Suite", 10.6, 11.8]]
       .forEach(([t, y, minH]) => addLabel(t, [M[0], y, -(M[1] + 0.25)], "fl", { minH }));
   }
   const VIS = { plot: ["aer", "str"], st: ["aer", "pla"], nb: ["aer"], dim: ["pla"], fl: ["aer", "str"] };
@@ -1453,7 +1455,7 @@ const VIEW = (function () {
     for (const L of labels) {
       let ok = still && vis.includes(L.cls) && (L.cls !== "fl" || ghostH >= L.minH), p;
       if (ok) {
-        p = M4.xform(vp, L.cls === "plot" ? [L.pos[0], 0.3 + Math.min(ghostH, 9.2) * 1.04, L.pos[2]] : L.pos);
+        p = M4.xform(vp, L.cls === "plot" ? [L.pos[0], 0.3 + Math.min(ghostH, HOUSE_H) * 1.03, L.pos[2]] : L.pos);
         ok = p[3] > 0 && p[2] < 1 && Math.abs(p[0]) < 1.05 && Math.abs(p[1]) < 1.05;
       }
       if (ok !== L.on) { L.on = ok; L.el.classList.toggle("hide", !ok); }
@@ -1595,7 +1597,7 @@ const VIEW = (function () {
         const t0 = performance.now();
         if (!cam) cam = currentCam(now);
         const vp = R.draw(cam, gA, opt); S.cam = cam; S.last = { cam, gA, opt };
-        placeLabels(vp, vis, S.ctx === "story" ? opt.ghostH : S.ghostA * 9.2, still);
+        placeLabels(vp, vis, S.ctx === "story" ? opt.ghostH : S.ghostA * HOUSE_H, still);
         if (S.ctx === "explore") { updateNorth(vp); updateScale(vp); }
         S.dirty = false;
         // very slow GPU: render fewer pixels
@@ -1619,8 +1621,8 @@ const VIEW = (function () {
     { eye: [-4.6, 1.65, -11.9], target: [1.4, 2.6, -1.5], up: U, fov: 60, vis: ["plot"] },        // in front of the plot, at eye height
     { eye: [30, 21, -25], target: [-3, 2, -5], up: U, fov: 40, vis: ["plot", "st", "nb"] },        // the street from above
     { eye: [2.0, 34, 10.5], target: [0.6, 0, -0.8], up: U, fov: 34, vis: ["dim"] },                // the plot, north up
-    { eye: [-4.5, 7, -30], target: [-0.3, 4.4, -6.8], up: U, fov: 32, vis: ["fl"] },              // the houses rise, seen from the front
-    { eye: [-3, 27, 18], target: [0.8, 2.2, -2.8], up: U, fov: 38, vis: [] }                           // the back faces south
+    { eye: [-4.5, 8, -31], target: [-0.3, 5.6, -6.8], up: U, fov: 37, vis: ["fl"] },              // the houses rise, seen from the front
+    { eye: [-3.5, 31, 21], target: [0.8, 3.2, -2.8], up: U, fov: 38, vis: [] }                           // the back faces south
   ];
   const ORBIT = [false, false, false, false]; V.K = K;
   let vh = 1, top0 = 0, wide = true, aspect = 1.6, lastP = -1, intro = null;
@@ -1643,10 +1645,10 @@ const VIEW = (function () {
     let moved = p !== lastP;
     if (moved) {
       lastP = p;
-      st.ghostA = smooth(2.3, 2.55, p); st.ghostH = 0.05 + 9.15 * smooth(2.45, 3.0, p);
+      st.ghostA = smooth(2.3, 2.55, p); st.ghostH = 0.05 + (HOUSE_H - 0.05) * smooth(2.45, 3.0, p);
       st.focus = 0.5 + 0.5 * smooth(0.1, 0.7, p); st.shift = wide ? 0.24 : 0; st.shiftY = wide ? 0 : 0.2;
       rail.forEach((a, i) => a.classList.toggle("on", i === k));
-      floors.forEach(li => li.classList.toggle("on", st.ghostH >= (+li.dataset.f + 1) * 3.0));
+      floors.forEach(li => li.classList.toggle("on", st.ghostH >= [3.0, 6.0, 9.0, 11.8][+li.dataset.f]));
     }
     let cam = camAt(p);
     if (intro) { const t = (now - intro.t0) / 3200; if (t >= 1 || p > 0.05) intro = null; else { cam = camPath(adj(intro.from), cam, Math.max(0, t)); moved = true; } }
@@ -1669,7 +1671,7 @@ const SUNSTUDY = (function () {
     const cv = document.createElement("canvas"); cv.width = cv.height = n; const g = cv.getContext("2d");
     g.fillStyle = "#000"; g.fillRect(0, 0, n, n);
     const items = PARTS.map(p => ({ pts: p.pts, h: (p.H ?? ((SHOPS.has(p.rc) ? 3.6 : 3.2) + (p.fl - 1) * 2.95)) + 0.5 }))
-      .concat(HOUSES.houses.map(q => ({ pts: q, h: 9.2 }))).sort((a, b) => a.h - b.h);
+      .concat(HOUSES.houses.map(q => ({ pts: q, h: HOUSE_H }))).sort((a, b) => a.h - b.h);
     for (const it of items) {
       const v = Math.min(255, Math.round(it.h * 8)); g.fillStyle = `rgb(${v},${v},${v})`; g.beginPath();
       it.pts.forEach(([E, N], i) => { const X = (E - x0) / cs, Y = (N - y0) / cs; if (i) g.lineTo(X, Y); else g.moveTo(X, Y); });
@@ -1690,7 +1692,7 @@ const SUNSTUDY = (function () {
     }
     return out;
   }
-  const T = { t: { pts: grid([HOUSES.back], 0.6, 0.3), y: 4.4 }, r: { pts: grid(HOUSES.houses, 0.8, 0.35), y: 9.45 } };
+  const T = { t: { pts: grid([HOUSES.back], 0.6, 0.3), y: 4.4 }, r: { pts: grid(HOUSES.houses, 0.8, 0.35), y: HOUSE_H + 0.25 } };
   function litFrac(set, az, el) {
     if (el <= horizon(az)) return 0;
     const dx = Math.sin(az * DEG), dn = Math.cos(az * DEG), tn = Math.tan(el * DEG), y = set.y, maxT = Math.min(80, (17.5 - y) / tn);
