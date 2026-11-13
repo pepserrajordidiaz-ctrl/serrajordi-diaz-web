@@ -176,6 +176,8 @@ void main(){
   float l=dot(c,vec3(.3,.59,.11));
   vec3 soft=mix(vec3(l),c,.35)*.42+vec3(.64,.62,.58)*.58;
   c=mix(c,soft,f*.84);
+  float edge=(m==13||m==14)?1.:smoothstep(31.,43.5,fd);   // the model has no hard edge: it melts into the same haze
+  c=mix(c,vec3(.62,.60,.56),edge);
  }
  float dist=length(vPos-uEye); float fog=1.-exp(-dist*uFogDen);
  vec3 fc=uFogCol+uSunCol*.07*pow(max(dot(-V,uSunDir),0.),8.);

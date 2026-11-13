@@ -23,7 +23,7 @@
     const i = Math.min(K.length - 2, Math.floor(p)), t = clamp((p - i - 0.1) / 0.8, 0, 1);
     return (ORBIT[i] ? camOrbit : camPath)(adj(K[i]), adj(K[i + 1]), t);
   }
-  if (!REDUCE && scrollY < 40) intro = { t0: performance.now() + 250, from: { eye: [-34, 120, 70], target: K[0].target, up: U, fov: 50 } };
+  if (!REDUCE && scrollY < 40) intro = { t0: performance.now() + 250, from: { eye: [-22, 74, 44], target: K[0].target, up: U, fov: 46 } };
   let sunMode = "set";
   V.onStory = (dt, now) => {
     const p = clamp((scrollY - top0) / vh, 0, K.length - 1), st = S.story;

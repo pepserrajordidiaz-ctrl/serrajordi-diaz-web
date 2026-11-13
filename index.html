@@ -1113,6 +1113,8 @@ void main(){
   float l=dot(c,vec3(.3,.59,.11));
   vec3 soft=mix(vec3(l),c,.35)*.42+vec3(.64,.62,.58)*.58;
   c=mix(c,soft,f*.84);
+  float edge=(m==13||m==14)?1.:smoothstep(31.,43.5,fd);   // the model has no hard edge: it melts into the same haze
+  c=mix(c,vec3(.62,.60,.56),edge);
  }
  float dist=length(vPos-uEye); float fog=1.-exp(-dist*uFogDen);
  vec3 fc=uFogCol+uSunCol*.07*pow(max(dot(-V,uSunDir),0.),8.);
@@ -1633,7 +1635,7 @@ const VIEW = (function () {
     const i = Math.min(K.length - 2, Math.floor(p)), t = clamp((p - i - 0.1) / 0.8, 0, 1);
     return (ORBIT[i] ? camOrbit : camPath)(adj(K[i]), adj(K[i + 1]), t);
   }
-  if (!REDUCE && scrollY < 40) intro = { t0: performance.now() + 250, from: { eye: [-34, 120, 70], target: K[0].target, up: U, fov: 50 } };
+  if (!REDUCE && scrollY < 40) intro = { t0: performance.now() + 250, from: { eye: [-22, 74, 44], target: K[0].target, up: U, fov: 46 } };
   let sunMode = "set";
   V.onStory = (dt, now) => {
     const p = clamp((scrollY - top0) / vh, 0, K.length - 1), st = S.story;
