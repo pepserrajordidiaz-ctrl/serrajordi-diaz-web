@@ -1,0 +1,1809 @@
+<!DOCTYPE html>
+<html lang="ca">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Serrajordi-Diaz · Anselm Clavé 30</title>
+<meta name="description" content="Dues cases adosades d'obra nova al carrer d'Anselm Clavé, 30, a Llinars del Vallès. Recorre el solar en 3D amb el sol real de cada hora.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@62..125,300..800&family=IBM+Plex+Mono:wght@400;500&family=Instrument+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+:root{
+  /* Layout: a scroll-driven site model (dark, full screen) that tells the story chapter by chapter, then light working sections: explorer, sun study, mortgage simulator, place and company. */
+  --paper:#F1F2EE;
+  --paper-2:#E5E7E1;
+  --ink:#141A18;
+  --night:#0E1412;
+  --muted:#59645F;
+  --rule:#C5CBC5;
+  --accent:#EDB91F;
+  --display:"Archivo","Arial Narrow",system-ui,sans-serif;
+  --body:"Instrument Sans",system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;
+  --mono:"IBM Plex Mono",ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;
+  --gut:clamp(16px,4vw,48px);
+  color-scheme:light;
+}
+*{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%;scroll-behavior:smooth}
+body{margin:0;background:var(--paper);color:var(--ink);font:400 16px/1.6 var(--body)}
+a{color:inherit}
+:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+h1,h2,h3{font-family:var(--display);font-weight:700;letter-spacing:-.01em;text-wrap:balance;margin:0}
+p{margin:0}
+.mono{font-family:var(--mono);font-variant-numeric:tabular-nums}
+.wrap{padding-inline:var(--gut);max-width:1440px;margin-inline:auto}
+.grid{display:grid;grid-template-columns:repeat(12,minmax(0,1fr));gap:24px clamp(16px,2.4vw,40px)}
+
+/* ---------- header over the story ---------- */
+.top{position:absolute;top:0;left:0;right:0;z-index:5;display:flex;align-items:center;justify-content:space-between;gap:20px;padding:18px var(--gut);color:var(--paper)}
+.brand{display:flex;align-items:baseline;gap:10px;text-decoration:none;white-space:nowrap}
+.brand b{font:800 19px/1 var(--display);font-stretch:72%;letter-spacing:.04em;text-transform:uppercase}
+.brand span{font:500 11px/1 var(--mono);letter-spacing:.14em;text-transform:uppercase;opacity:.75}
+.nav{display:flex;flex-wrap:wrap;align-items:center;gap:6px 20px}
+.nav a{font:500 13px/1 var(--body);text-decoration:none;opacity:.82;padding:6px 0}
+.nav a:hover{opacity:1}
+.cta{white-space:nowrap;font:600 13px/1 var(--body);background:var(--accent);color:var(--ink)!important;opacity:1!important;padding:11px 15px!important;text-decoration:none}
+
+/* ---------- story: sticky model + chapters ---------- */
+.story{position:relative;background:var(--night);color:var(--paper)}
+.sticky{position:sticky;top:0;height:100vh;height:100svh;overflow:hidden}
+.host{position:absolute;inset:0}
+.host canvas{position:absolute;inset:0;width:100%;height:100%;display:block}
+.sticky::after{content:"";position:absolute;inset:0;pointer-events:none;background:linear-gradient(180deg,rgba(14,20,18,.62),rgba(14,20,18,0) 120px),linear-gradient(90deg,rgba(14,20,18,.55),rgba(14,20,18,0) 46%),radial-gradient(ellipse at 60% 45%,transparent 55%,rgba(30,18,8,.28) 100%)}
+.chapters{position:relative;z-index:2;margin-top:-100vh;margin-top:-100svh}
+.chapter{min-height:100vh;min-height:100svh;display:flex;align-items:center;padding:96px var(--gut) 64px;pointer-events:none}
+.card{pointer-events:auto;max-width:430px;background:rgba(14,20,18,.74);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);border:1px solid rgba(241,242,238,.14);padding:26px 26px 24px;display:grid;gap:14px}
+.card .k{font:500 11.5px/1 var(--mono);letter-spacing:.14em;text-transform:uppercase;color:var(--accent)}
+.card h1{font-size:clamp(40px,5.4vw,78px);line-height:.92;font-stretch:76%;text-transform:uppercase}
+.card h2{font-size:clamp(30px,3.4vw,46px);line-height:.95;font-stretch:78%;text-transform:uppercase}
+.card p{font-size:16.5px;color:rgba(241,242,238,.86)}
+.card b{color:var(--paper)}
+.chips{display:flex;flex-wrap:wrap;gap:6px}
+.chips span{font:500 11.5px/1 var(--mono);border:1px solid rgba(241,242,238,.28);padding:7px 9px}
+.cue{font:500 12px/1 var(--mono);letter-spacing:.1em;text-transform:uppercase;display:flex;align-items:center;gap:10px;color:rgba(241,242,238,.7)}
+.cue i{width:1px;height:34px;background:var(--accent);animation:cue 1.8s ease-in-out infinite}
+@keyframes cue{0%{transform:scaleY(.2);transform-origin:top}50%{transform:scaleY(1);transform-origin:top}51%{transform-origin:bottom}100%{transform:scaleY(.2);transform-origin:bottom}}
+.dl{display:grid;grid-template-columns:auto 1fr;gap:6px 16px;font:400 13px/1.4 var(--mono);margin:0}
+.dl dt{color:rgba(241,242,238,.6);margin:0}.dl dd{margin:0}
+.floors{display:grid;gap:0;margin:0;padding:0;list-style:none;border-top:1px solid rgba(241,242,238,.2)}
+.floors li{display:grid;grid-template-columns:44px 1fr;gap:12px;padding:10px 0;border-bottom:1px solid rgba(241,242,238,.2);opacity:.35;transition:opacity .5s}
+.floors li.on{opacity:1}
+.floors b{font:700 18px/1.2 var(--display);font-stretch:80%;color:var(--accent)!important}
+.small{font:400 12px/1.5 var(--mono);color:rgba(241,242,238,.62)}
+.clock{font:500 30px/1 var(--mono);font-variant-numeric:tabular-nums;color:var(--accent)}
+.rail{position:absolute;right:var(--gut);top:50%;transform:translateY(-50%);z-index:3;display:grid;gap:14px;list-style:none;margin:0;padding:14px 14px 14px 16px;background:rgba(14,20,18,.62);backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);border:1px solid rgba(241,242,238,.12)}
+.rail a{display:flex;align-items:center;justify-content:flex-end;gap:10px;text-decoration:none;font:500 11px/1 var(--mono);letter-spacing:.1em;text-transform:uppercase;color:rgba(241,242,238,.62)}
+.rail a:hover{color:var(--paper)}
+.rail a i{width:18px;height:2px;background:currentColor;transition:width .35s}
+.rail a.on{color:var(--paper)}.rail a.on i{width:38px;background:var(--accent)}
+.labels{position:absolute;inset:0;pointer-events:none;z-index:1}
+.lbl{position:absolute;left:0;top:0;white-space:nowrap;will-change:transform}
+.lbl.plot{font:600 13px/1.25 var(--body);background:var(--ink);color:var(--paper);padding:8px 11px 9px;border-left:6px solid var(--accent);margin-top:-34px}
+.lbl.plot em{display:block;font:400 11.5px/1.3 var(--mono);font-style:normal;opacity:.8}
+.lbl.plot::after{content:"";position:absolute;left:50%;top:100%;width:1px;height:34px;background:var(--ink)}
+.lbl.nb{font:500 10.5px/1 var(--mono);color:var(--ink);background:rgba(241,242,238,.88);padding:4px 6px}
+.lbl.st{font:600 11px/1 var(--mono);letter-spacing:.18em;text-transform:uppercase;color:rgba(23,32,29,.8)}
+.lbl.dim{font:500 12px/1 var(--mono);background:var(--accent);color:var(--ink);padding:4px 7px}
+.lbl.fl{font:600 12px/1.2 var(--body);background:rgba(241,242,238,.94);color:var(--ink);padding:6px 9px;border-left:4px solid var(--accent)}
+.lbl.hide{display:none}
+</style>
+<style>
+/* ---------- light sections ---------- */
+section.block{padding-block:clamp(56px,8vw,112px);border-bottom:1px solid var(--rule)}
+.eyebrow{grid-column:1/-1;font:500 12px/1 var(--mono);letter-spacing:.12em;text-transform:uppercase;color:var(--muted);display:flex;justify-content:space-between;border-top:1px solid var(--ink);padding-top:12px}
+.block h2{grid-column:1/span 7;font-size:clamp(32px,4vw,58px);line-height:.96;font-stretch:78%;text-transform:uppercase}
+.lede{grid-column:8/span 5;font-size:17px;max-width:46ch;align-self:end}
+.lede .s{display:block;margin-top:10px;font:400 12.5px/1.5 var(--mono);color:var(--muted)}
+
+/* explorer */
+.frame{grid-column:1/-1;border:1px solid var(--ink);background:#cfd8dc}
+.stage{position:relative;height:clamp(440px,68vh,780px);overflow:hidden;touch-action:pan-y;cursor:grab;user-select:none}
+.stage.dragging{cursor:grabbing}
+.hint{position:absolute;left:14px;top:14px;z-index:2;font:400 12px/1.4 var(--mono);color:var(--ink);background:rgba(241,242,238,.86);padding:7px 9px;max-width:320px;transition:opacity .4s}
+.hint.gone{opacity:0}
+.bar{display:grid;grid-template-columns:auto 1fr auto;align-items:start;gap:14px 20px;padding:14px;background:var(--paper);border-top:1px solid var(--ink)}
+.views{display:grid;gap:8px;align-content:start}
+.row{display:flex;gap:6px;flex-wrap:wrap;align-items:center}
+.seg{display:inline-flex;border:1px solid var(--ink)}
+.seg button{font:500 13px/1 var(--body);border:0;background:transparent;color:var(--ink);padding:11px 14px;cursor:pointer;border-right:1px solid var(--rule)}
+.seg button:last-child{border-right:0}
+.seg button[aria-pressed="true"]{background:var(--ink);color:var(--paper)}
+.btn{font:500 12.5px/1 var(--body);color:var(--ink);background:var(--paper);border:1px solid var(--ink);padding:9px 12px;cursor:pointer;display:inline-flex;align-items:center;gap:7px}
+.btn[aria-pressed="true"]{background:var(--ink);color:var(--paper)}
+.btn .sw{width:9px;height:9px;border:1px solid currentColor}
+.btn[aria-pressed="true"] .sw{background:var(--accent);border-color:var(--accent)}
+.walk:not(.on){display:none}
+.walk .btn{min-width:44px;justify-content:center;font-size:15px}
+.sun{border:1px solid var(--ink);padding:10px 12px 12px;display:grid;gap:8px}
+.chip{font:500 11.5px/1 var(--mono);border:1px solid var(--rule);background:transparent;color:var(--ink);padding:6px 8px;cursor:pointer}
+.chip[aria-pressed="true"]{border-color:var(--ink);background:var(--accent)}
+.sun label{font:500 11px/1 var(--mono);letter-spacing:.08em;text-transform:uppercase;color:var(--muted);margin-right:4px}
+.sun input[type=range]{flex:1;min-width:150px;accent-color:var(--ink)}
+.sunread{font:400 12px/1.3 var(--mono)}
+.play{font:500 12px/1 var(--body);border:1px solid var(--ink);background:var(--paper);padding:6px 9px;cursor:pointer}
+.tb{border:1px solid var(--ink);display:grid;grid-template-columns:auto auto;font:400 11px/1.35 var(--mono);min-width:280px}
+.tb div{padding:6px 9px;border-bottom:1px solid var(--rule)}
+.tb div:nth-child(even){color:var(--muted);text-transform:uppercase;letter-spacing:.06em;border-right:1px solid var(--rule)}
+.tb .ttl{grid-column:1/-1;display:flex;justify-content:space-between;align-items:center}
+.tb .ttl b{font:700 14px/1.1 var(--display);font-stretch:80%;text-transform:uppercase}
+.north{width:30px;height:30px}
+.scale{display:none;align-items:center;gap:6px}
+.scale i{display:block;height:6px;border:1px solid var(--ink);border-top:0;width:60px;background:linear-gradient(90deg,var(--ink) 50%,transparent 50%)}
+.plan .scale{display:inline-flex}
+.note{grid-column:1/-1;font:400 12.5px/1.5 var(--mono);color:var(--muted)}
+
+/* sun study */
+.tabs{grid-column:1/-1;display:flex;gap:6px;flex-wrap:wrap}
+.heat{grid-column:1/span 8;overflow-x:auto}
+.hm{display:grid;grid-template-columns:44px repeat(16,minmax(26px,1fr));gap:3px;min-width:560px;font:400 11px/1 var(--mono)}
+.hm .hd{color:var(--muted);text-align:center;padding-bottom:4px}
+.hm .mo{color:var(--muted);align-self:center}
+.hm button{height:30px;border:0;padding:0;cursor:pointer;background:var(--paper-2);position:relative}
+.hm button.night{background:repeating-linear-gradient(45deg,transparent 0 3px,rgba(20,26,24,.08) 3px 4px);cursor:default}
+.hm button:hover:not(.night),.hm button:focus-visible{outline:2px solid var(--ink);outline-offset:0;z-index:1}
+.legend{display:flex;align-items:center;gap:8px;font:400 11.5px/1 var(--mono);color:var(--muted);margin-top:12px}
+.legend i{display:block;width:140px;height:8px;background:linear-gradient(90deg,#E5E7E1,#F3D27A,#E89A1A,#B85C0C)}
+.sunside{grid-column:9/span 4;display:grid;gap:14px;align-content:start}
+.big{font:700 clamp(44px,5vw,72px)/.9 var(--display);font-stretch:74%;font-variant-numeric:tabular-nums}
+.tip{min-height:3.2em;font:400 13px/1.5 var(--mono);color:var(--ink);border-left:3px solid var(--accent);padding-left:10px}
+
+/* mortgage */
+.calc{grid-column:1/span 7;display:grid;gap:18px}
+.field{display:grid;gap:8px}
+.field .lab{display:flex;justify-content:space-between;font:500 12px/1 var(--mono);letter-spacing:.06em;text-transform:uppercase;color:var(--muted)}
+.field .lab output{font:600 15px/1 var(--mono);color:var(--ink);letter-spacing:0;text-transform:none}
+.field input[type=range]{width:100%;accent-color:var(--ink)}
+.result{grid-column:8/span 5;background:var(--ink);color:var(--paper);padding:26px;display:grid;gap:12px;align-content:start}
+.result .big{color:var(--accent)}
+.result .row2{display:flex;justify-content:space-between;gap:12px;border-top:1px solid rgba(241,242,238,.18);padding-top:10px;font:400 13px/1.4 var(--mono)}
+.result .s{font:400 12px/1.5 var(--mono);color:rgba(241,242,238,.6)}
+
+/* place + company */
+.facts{grid-column:1/-1;display:grid;grid-template-columns:repeat(4,minmax(0,1fr));border-top:1px solid var(--ink)}
+.fact{padding:18px 18px 22px 0;border-right:1px solid var(--rule);display:grid;gap:8px;align-content:start}
+.fact+.fact{padding-left:18px}.fact:last-child{border-right:0}
+.fact b{font:700 clamp(32px,3.6vw,52px)/1 var(--display);font-stretch:74%;font-variant-numeric:tabular-nums}
+.fact>span{font-size:14.5px;color:var(--muted);max-width:26ch}
+.fact b.sm{font-size:clamp(26px,2.8vw,42px);white-space:nowrap;align-self:end}
+.princ{grid-column:1/-1;display:grid;grid-template-columns:repeat(4,minmax(0,1fr));border-top:1px solid var(--ink)}
+.pr{padding:18px 20px 18px 0;display:grid;gap:10px;align-content:start;transition:background .3s}
+.pr+.pr{padding-left:20px;border-left:1px solid var(--rule)}
+.pr:hover{background:var(--paper-2)}
+.pr .ods{font:500 11.5px/1 var(--mono);letter-spacing:.08em;display:inline-flex;align-items:center;gap:8px}
+.pr .ods::before{content:"";width:10px;height:10px;background:var(--accent)}
+.pr h3{font-size:22px;font-stretch:82%;text-transform:uppercase;line-height:1.05}
+.pr p{font-size:15.5px;color:var(--muted)}
+.src{grid-column:1/-1;font:400 12px/1.5 var(--mono);color:var(--muted)}
+footer{padding-block:28px 40px;display:flex;flex-wrap:wrap;gap:12px 32px;justify-content:space-between;font:400 12.5px/1.5 var(--mono);color:var(--muted)}
+
+.viewer:fullscreen{display:flex;flex-direction:column;background:var(--paper)}
+.viewer:fullscreen .stage{flex:1;height:auto}
+@media (max-width:1100px){.bar{grid-template-columns:1fr 1fr}.bar .sun{grid-column:1/-1;grid-row:1}}
+@media (max-width:860px){
+  .block h2,.lede,.heat,.sunside,.calc,.result{grid-column:1/-1}
+  .facts,.princ{grid-template-columns:repeat(2,minmax(0,1fr))}
+  .fact:nth-child(2){border-right:0}.fact:nth-child(3){padding-left:0}.fact:nth-child(n+3){border-top:1px solid var(--rule)}
+  .pr:nth-child(3){padding-left:0;border-left:0}.pr:nth-child(n+3){border-top:1px solid var(--rule)}
+  .bar{grid-template-columns:1fr}.bar .sun{grid-row:auto}
+  .nav a:not(.cta){display:none}
+  .chapter{align-items:flex-end}
+  .card{max-width:none;padding:20px}
+  .rail{display:none}
+  .sticky::after{background:linear-gradient(0deg,rgba(14,20,18,.6),rgba(14,20,18,0) 50%)}
+  .stage{height:clamp(380px,62vh,620px)}
+  .tb{min-width:0}
+}
+@media (max-width:480px){
+  .brand span{display:none}.brand b{font-size:17px}
+  .facts,.princ{grid-template-columns:1fr}
+  .fact,.fact+.fact,.pr,.pr+.pr{border-right:0;border-left:0;padding-left:0;border-top:1px solid var(--rule)}
+}
+.hintline{font:400 12px/1.5 var(--mono);color:var(--muted)}
+.poster{position:absolute;inset:0;width:100%;height:100%;display:block}
+.fallback{position:absolute;inset:0;display:grid;place-items:center;padding:24px;text-align:center;font:400 14px/1.5 var(--mono);color:var(--paper)}
+.stage .fallback{color:var(--ink)}
+.rv{opacity:0;transform:translateY(22px);transition:opacity .8s cubic-bezier(.2,.7,.2,1),transform .8s cubic-bezier(.2,.7,.2,1)}
+.rv.in{opacity:1;transform:none}
+.hm button.sel{box-shadow:inset 0 0 0 2px var(--ink)}
+.hm .mo.on{color:var(--ink);font-weight:600}
+.sunside .mono{font:500 12px/1 var(--mono);letter-spacing:.1em;text-transform:uppercase;color:var(--muted)}
+.result .mono{font:500 12px/1 var(--mono);letter-spacing:.1em;text-transform:uppercase;color:rgba(241,242,238,.7)}
+.tabs .chip{font-size:12.5px;padding:9px 12px}
+@media (prefers-reduced-motion:reduce){*{transition:none!important;animation:none!important}html{scroll-behavior:auto}}
+</style>
+</head>
+<body>
+<header class="top">
+  <a class="brand" href="#inici" aria-label="Serrajordi-Diaz Investments, inici"><b>Serrajordi-Diaz</b><span>Investments</span></a>
+  <nav class="nav" aria-label="Seccions">
+    <a href="#sol">Hores de sol</a>
+    <a href="#quota">La teva quota</a>
+    <a href="#llinars">Llinars</a>
+    <a href="#empresa">L'empresa</a>
+    <a class="cta" href="#explora">Explora en 3D</a>
+  </nav>
+</header>
+
+<main>
+<section class="story" id="inici" aria-label="Recorregut pel solar">
+  <div class="sticky">
+    <div class="host" id="storyHost"></div>
+    <ol class="rail" id="rail">
+      <li><a href="#ch0" data-i="0">Inici<i></i></a></li>
+      <li><a href="#ch1" data-i="1">El carrer<i></i></a></li>
+      <li><a href="#ch2" data-i="2">El solar<i></i></a></li>
+      <li><a href="#ch3" data-i="3">Les cases<i></i></a></li>
+      <li><a href="#ch4" data-i="4">La llum<i></i></a></li>
+    </ol>
+  </div>
+  <div class="chapters">
+    <article class="chapter" id="ch0" data-ch="0"><div class="card">
+      <p class="k">Primera promoció · Llinars del Vallès</p>
+      <h1>Una casa al centre de Llinars</h1>
+      <p>Dues cases adosades d'obra nova al carrer d'Anselm Clavé, 30. Baixa i t'ensenyem el lloc tal com és, amb el sol real de cada hora.</p>
+      <p class="cue"><i></i>Fes scroll</p>
+    </div></article>
+    <article class="chapter" id="ch1" data-ch="1"><div class="card">
+      <p class="k">01 · El carrer</p>
+      <h2>Carrer d'Anselm Clavé</h2>
+      <p>Un carrer de plataforma única al centre del poble, amb botigues i despatxos a peu de carrer. La façana de les cases mirarà al carrer, cap al nord.</p>
+      <div class="chips"><span>Plataforma única</span><span>Comerç de proximitat</span><span>Rodalies R2 Nord</span></div>
+    </div></article>
+    <article class="chapter" id="ch2" data-ch="2"><div class="card">
+      <p class="k">02 · El solar</p>
+      <h2>126 m² amb forma pròpia</h2>
+      <p>Aquest és el solar real, amb la geometria del Cadastre: no és un rectangle perfecte, té un graó en un costat. Avui és buit.</p>
+      <dl class="dl"><dt>Façana</dt><dd>9,22 m</dd><dt>Fondària</dt><dd>≈ 13,5 m</dd><dt>Superfície</dt><dd>126 m²</dd><dt>Cadastre</dt><dd>0400003DG5100S</dd></dl>
+    </div></article>
+    <article class="chapter" id="ch3" data-ch="3"><div class="card">
+      <p class="k">03 · Les cases</p>
+      <h2>Dues cases, tres plantes</h2>
+      <ol class="floors" id="floors">
+        <li data-f="2"><b>P2</b><span>Dues habitacions tipus suite</span></li>
+        <li data-f="1"><b>P1</b><span>Sala d'estar, menjador i cuina, amb terrassa</span></li>
+        <li data-f="0"><b>PB</b><span>Garatge i sala polivalent</span></li>
+      </ol>
+      <p>Cada casa fa uns 4,6 m de façana, amb 115 m² habitables i 35 m² de garatge.</p>
+      <p class="small">Volum orientatiu: el projecte d'arquitectura és en redacció.</p>
+    </div></article>
+    <article class="chapter" id="ch4" data-ch="4"><div class="card">
+      <p class="k">04 · La llum</p>
+      <h2>El pati mira al sud</h2>
+      <p class="clock" id="clock">—</p>
+      <p>Al juny, la terrassa del darrere té sol directe unes <b id="sJun">…</b> al dia; al desembre, unes <b id="sDec">…</b>. La coberta en té <b id="sRoof">…</b> de mitjana: bona per a plaques solars.</p>
+      <p class="small">Càlcul amb el sol real de Llinars i les ombres dels edificis veïns segons el Cadastre.</p>
+    </div></article>
+  </div>
+</section>
+
+<section class="block" id="explora">
+ <div class="wrap grid">
+  <p class="eyebrow"><span>05 · Explora-ho tu</span><span>Maqueta 3D</span></p>
+  <h2>Camina pel carrer, mira el solar des de dalt</h2>
+  <p class="lede">Tria la vista, el dia i l'hora. Activa el volum previst per veure com encaixen les cases amb els veïns.<span class="s">Arrossega per girar · fletxes per caminar</span></p>
+  <div class="frame viewer" id="viewer">
+   <div class="stage" id="stage">
+    <div class="host" id="exploreHost"></div>
+    <p class="hint" id="hint">Arrossega per mirar al voltant · fletxes o botons per caminar pel carrer</p>
+   </div>
+   <div class="bar">
+    <div class="views">
+     <div class="seg" role="group" aria-label="Vista">
+      <button id="mAer" aria-pressed="false">Aèria</button>
+      <button id="mStr" aria-pressed="true">A peu de carrer</button>
+      <button id="mPla" aria-pressed="false">Planta</button>
+     </div>
+     <div class="row">
+      <button class="btn" id="tVol" aria-pressed="false"><i class="sw"></i>Volum previst</button>
+      <button class="btn" id="tLbl" aria-pressed="true"><i class="sw"></i>Etiquetes</button>
+      <button class="btn" id="tFull" aria-label="Pantalla completa">⤢</button>
+     </div>
+     <div class="row walk on" id="walk">
+      <button class="btn" id="wL" aria-label="Camina a l'esquerra">◀</button>
+      <button class="btn" id="wF" aria-label="Avança">▲</button>
+      <button class="btn" id="wB" aria-label="Retrocedeix">▼</button>
+      <button class="btn" id="wR" aria-label="Camina a la dreta">▶</button>
+     </div>
+    </div>
+    <div class="sun" role="group" aria-label="Posició del sol">
+     <div class="row" id="days">
+      <label>Dia</label>
+      <button class="chip" data-d="03-20">20 març</button>
+      <button class="chip" data-d="06-21" aria-pressed="true">21 juny</button>
+      <button class="chip" data-d="09-22">22 set.</button>
+      <button class="chip" data-d="12-21">21 des.</button>
+      <button class="chip" data-d="today">Avui</button>
+     </div>
+     <div class="row">
+      <label for="hr">Hora</label>
+      <input type="range" id="hr" min="0" max="1440" step="5" value="1125">
+      <button class="play" id="play" aria-pressed="false">Mou el sol</button>
+     </div>
+     <p class="sunread" id="sunread" aria-live="polite">—</p>
+    </div>
+    <div class="tb" id="tb">
+     <div class="ttl"><b>Anselm Clavé, 30</b><svg class="north" id="north" viewBox="-15 -15 30 30" aria-label="Nord"><circle r="13.5" fill="none" stroke="#141A18"/><path d="M0-11 5 6 0 2-5 6Z" fill="#141A18"/></svg></div>
+     <div>Emplaçament</div><div>08450 Llinars del Vallès</div>
+     <div>Parcel·la</div><div>126 m² · 0400003DG5100S</div>
+     <div>Orientació</div><div>façana nord · pati sud</div>
+     <div>Vista</div><div id="tbView">A peu de carrer <span class="scale"><i></i>10 m</span></div>
+    </div>
+   </div>
+  </div>
+  <p class="note">Maqueta feta amb la geometria oficial de la Direcció General del Cadastre (parcel·les, edificis i plantes) i referències del carrer actual. Façanes i detalls són aproximats. El sol es calcula per a Llinars del Vallès (41,6389° N · 2,4034° E).</p>
+ </div>
+</section>
+
+<section class="block" id="sol">
+ <div class="wrap grid">
+  <p class="eyebrow"><span>06 · Hores de sol</span><span>Calculat amb les ombres reals</span></p>
+  <h2>Quan hi toca el sol, mes a mes</h2>
+  <p class="lede">Cada casella és una hora del dia 21 de cada mes. Com més intens el color, més part de l'espai té sol directe. Passa-hi per sobre per veure el detall, i fes-hi clic per veure aquell moment a la maqueta.<span class="s">Inclou l'ombra dels edificis veïns i de les cases noves</span></p>
+  <div class="tabs" role="tablist" aria-label="Espai que es mesura">
+   <button class="chip" role="tab" id="tabT" data-k="t" aria-pressed="true" aria-selected="true">Terrassa del darrere · planta 1</button>
+   <button class="chip" role="tab" id="tabR" data-k="r" aria-pressed="false" aria-selected="false">Coberta · plaques solars</button>
+  </div>
+  <div class="heat">
+   <div class="hm" id="hm" role="grid" aria-label="Sol directe per mes i hora"></div>
+   <div class="legend"><span>Ombra</span><i></i><span>Sol a tot l'espai</span></div>
+  </div>
+  <aside class="sunside" aria-live="polite">
+   <p class="mono" id="sideLab">21 de juny</p>
+   <p class="big"><span id="sideBig">…</span></p>
+   <p id="sideTxt">hores de sol directe al dia</p>
+   <p class="tip" id="sideTip">Passa per sobre d'una casella per veure-la.</p>
+  </aside>
+ </div>
+</section>
+
+<section class="block" id="quota">
+ <div class="wrap grid">
+  <p class="eyebrow"><span>07 · La teva quota</span><span>Simulador orientatiu</span></p>
+  <h2>Quant pagaries al mes?</h2>
+  <p class="lede">Mou les barres i mira com canvia la quota de la hipoteca. És una estimació: cada banc fixa les seves condicions.<span class="s">Preu previst per casa: 360.000 € + IVA (10 %)</span></p>
+  <div class="calc">
+   <div class="field">
+    <div class="lab"><label for="qEnt">Entrada</label><output id="oEnt">20 %</output></div>
+    <input type="range" id="qEnt" min="10" max="50" step="1" value="20">
+   </div>
+   <div class="field">
+    <div class="lab"><label for="qAny">Termini</label><output id="oAny">30 anys</output></div>
+    <input type="range" id="qAny" min="10" max="40" step="1" value="30">
+   </div>
+   <div class="field">
+    <div class="lab"><label for="qTin">Tipus d'interès (TIN)</label><output id="oTin">3,00 %</output></div>
+    <input type="range" id="qTin" min="1" max="6" step="0.05" value="3">
+    <p class="hintline">Referència: l'interès mitjà de les hipoteques noves sobre habitatges va ser del 3,01 % al juliol del 2026 (INE).</p>
+   </div>
+  </div>
+  <div class="result">
+   <p class="mono">Quota mensual</p>
+   <p class="big" id="qQuota">—</p>
+   <div class="row2"><span>Preu amb IVA</span><b id="qPreu">396.000 €</b></div>
+   <div class="row2"><span>Préstec</span><b id="qLoan">—</b></div>
+   <div class="row2"><span>Entrada</span><b id="qDown">—</b></div>
+   <div class="row2"><span>Ingressos nets aconsellats</span><b id="qInc">—</b></div>
+   <p class="s">Perquè la quota no passi del 35 % dels ingressos nets mensuals. No inclou l'impost d'actes jurídics documentats ni les despeses de notaria, registre i gestoria.</p>
+  </div>
+ </div>
+</section>
+
+<section class="block" id="llinars">
+ <div class="wrap grid">
+  <p class="eyebrow"><span>08 · Viure a Llinars</span><span>Vallès Oriental</span></p>
+  <h2>Al centre del poble, a 40 km de Barcelona</h2>
+  <p class="lede">Llinars és entre el Montseny i la Serralada Litoral, amb estació de Rodalies i accés a la C-35 i l'AP-7. El carrer d'Anselm Clavé és al centre, amb comerços a peu de carrer a molts dels edificis veïns.</p>
+  <div class="facts">
+   <div class="fact"><b><span data-count="40">40</span> km</b><span>fins a Barcelona</span></div>
+   <div class="fact"><b>≈<span data-count="45">45</span> min</b><span>en tren fins a Passeig de Gràcia, amb la R2 Nord</span></div>
+   <div class="fact"><b><span data-count="10956" data-sep="1">10.956</span></b><span>habitants l'1 de gener de 2025</span></div>
+   <div class="fact"><b class="sm">C&#8209;35 · AP&#8209;7</b><span>carreteres que passen pel municipi</span></div>
+  </div>
+  <p class="src">Fonts: INE (padró a 1/1/2025) · Rodalies de Catalunya (línia R2 Nord) · Direcció General del Cadastre.</p>
+ </div>
+</section>
+
+<section class="block" id="empresa">
+ <div class="wrap grid">
+  <p class="eyebrow"><span>09 · L'empresa</span><span>Promotora familiar</span></p>
+  <h2>Una promotora familiar de Llinars</h2>
+  <p class="lede">Serrajordi-Diaz Investments neix d'una família del poble per fer petites promocions d'habitatge assequible i funcional al Vallès Oriental. Cada casa es presentarà amb renders realistes de com es pot moblar, perquè vegis com hi viuràs abans que s'acabi l'obra.</p>
+  <div class="princ">
+   <div class="pr"><span class="ods">ODS 11</span><h3>Habitatge a l'abast</h3><p>Preus ajustats i cases pensades per a l'ús de cada dia.</p></div>
+   <div class="pr"><span class="ods">ODS 8</span><h3>Economia km0</h3><p>Contractem empreses i professionals del territori perquè la inversió es quedi al poble.</p></div>
+   <div class="pr"><span class="ods">ODS 7</span><h3>Energia neta</h3><p>Habitatges de consum d'energia gairebé nul, amb factures baixes.</p></div>
+   <div class="pr"><span class="ods">ODS 12</span><h3>Materials que duren</h3><p>Construcció ben executada, sense luxes que encareixin la casa.</p></div>
+  </div>
+ </div>
+</section>
+</main>
+
+<footer class="wrap">
+  <span>Serrajordi-Diaz Investments · Promotora familiar · Llinars del Vallès</span>
+  <span>Dades de parcel·les i edificis: Direcció General del Cadastre · Maqueta i web: novembre del 2026</span>
+</footer>
+<script>
+// ---------- math ----------
+const DEG = Math.PI / 180;
+const clamp = (v, a, b) => Math.min(b, Math.max(a, v));
+const lerp = (a, b, t) => a + (b - a) * t;
+const ease = t => t < 0.5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2;
+function rng(seed) { let s = seed >>> 0; return () => { s += 0x6D2B79F5; let t = s; t = Math.imul(t ^ (t >>> 15), t | 1); t ^= t + Math.imul(t ^ (t >>> 7), t | 61); return ((t ^ (t >>> 14)) >>> 0) / 4294967296; }; }
+const V3 = {
+  sub: (a, b) => [a[0] - b[0], a[1] - b[1], a[2] - b[2]],
+  add: (a, b) => [a[0] + b[0], a[1] + b[1], a[2] + b[2]],
+  scale: (a, s) => [a[0] * s, a[1] * s, a[2] * s],
+  dot: (a, b) => a[0] * b[0] + a[1] * b[1] + a[2] * b[2],
+  cross: (a, b) => [a[1] * b[2] - a[2] * b[1], a[2] * b[0] - a[0] * b[2], a[0] * b[1] - a[1] * b[0]],
+  norm: a => { const l = Math.hypot(a[0], a[1], a[2]) || 1; return [a[0] / l, a[1] / l, a[2] / l]; },
+  lerp: (a, b, t) => [lerp(a[0], b[0], t), lerp(a[1], b[1], t), lerp(a[2], b[2], t)]
+};
+const M4 = {
+  mul(a, b) {
+    const o = new Float32Array(16);
+    for (let c = 0; c < 4; c++) for (let r = 0; r < 4; r++) {
+      o[c * 4 + r] = a[r] * b[c * 4] + a[4 + r] * b[c * 4 + 1] + a[8 + r] * b[c * 4 + 2] + a[12 + r] * b[c * 4 + 3];
+    }
+    return o;
+  },
+  persp(fovy, asp, n, f) {
+    const t = 1 / Math.tan(fovy / 2), o = new Float32Array(16);
+    o[0] = t / asp; o[5] = t; o[10] = (f + n) / (n - f); o[11] = -1; o[14] = 2 * f * n / (n - f);
+    return o;
+  },
+  ortho(l, r, b, t, n, f) {
+    const o = new Float32Array(16);
+    o[0] = 2 / (r - l); o[5] = 2 / (t - b); o[10] = -2 / (f - n);
+    o[12] = -(r + l) / (r - l); o[13] = -(t + b) / (t - b); o[14] = -(f + n) / (f - n); o[15] = 1;
+    return o;
+  },
+  lookAt(e, c, up) {
+    const z = V3.norm(V3.sub(e, c)), x = V3.norm(V3.cross(up, z)), y = V3.cross(z, x), o = new Float32Array(16);
+    o[0] = x[0]; o[4] = x[1]; o[8] = x[2];
+    o[1] = y[0]; o[5] = y[1]; o[9] = y[2];
+    o[2] = z[0]; o[6] = z[1]; o[10] = z[2];
+    o[12] = -V3.dot(x, e); o[13] = -V3.dot(y, e); o[14] = -V3.dot(z, e); o[15] = 1;
+    return o;
+  },
+  inv(m) {
+    const a = m, o = new Float32Array(16);
+    const b00 = a[0] * a[5] - a[1] * a[4], b01 = a[0] * a[6] - a[2] * a[4], b02 = a[0] * a[7] - a[3] * a[4];
+    const b03 = a[1] * a[6] - a[2] * a[5], b04 = a[1] * a[7] - a[3] * a[5], b05 = a[2] * a[7] - a[3] * a[6];
+    const b06 = a[8] * a[13] - a[9] * a[12], b07 = a[8] * a[14] - a[10] * a[12], b08 = a[8] * a[15] - a[11] * a[12];
+    const b09 = a[9] * a[14] - a[10] * a[13], b10 = a[9] * a[15] - a[11] * a[13], b11 = a[10] * a[15] - a[11] * a[14];
+    let d = b00 * b11 - b01 * b10 + b02 * b09 + b03 * b08 - b04 * b07 + b05 * b06; d = 1 / d;
+    o[0] = (a[5] * b11 - a[6] * b10 + a[7] * b09) * d; o[1] = (a[2] * b10 - a[1] * b11 - a[3] * b09) * d;
+    o[2] = (a[13] * b05 - a[14] * b04 + a[15] * b03) * d; o[3] = (a[10] * b04 - a[9] * b05 - a[11] * b03) * d;
+    o[4] = (a[6] * b08 - a[4] * b11 - a[7] * b07) * d; o[5] = (a[0] * b11 - a[2] * b08 + a[3] * b07) * d;
+    o[6] = (a[14] * b02 - a[12] * b05 - a[15] * b01) * d; o[7] = (a[8] * b05 - a[10] * b02 + a[11] * b01) * d;
+    o[8] = (a[4] * b10 - a[5] * b08 + a[7] * b06) * d; o[9] = (a[1] * b08 - a[0] * b10 - a[3] * b06) * d;
+    o[10] = (a[12] * b04 - a[13] * b02 + a[15] * b00) * d; o[11] = (a[9] * b02 - a[8] * b04 - a[11] * b00) * d;
+    o[12] = (a[5] * b07 - a[4] * b09 - a[6] * b06) * d; o[13] = (a[0] * b09 - a[1] * b07 + a[2] * b06) * d;
+    o[14] = (a[13] * b01 - a[12] * b03 - a[14] * b00) * d; o[15] = (a[8] * b03 - a[9] * b01 + a[10] * b00) * d;
+    return o;
+  },
+  xform(m, p) {
+    const x = p[0], y = p[1], z = p[2];
+    const w = m[3] * x + m[7] * y + m[11] * z + m[15];
+    return [(m[0] * x + m[4] * y + m[8] * z + m[12]) / w, (m[1] * x + m[5] * y + m[9] * z + m[13]) / w, (m[2] * x + m[6] * y + m[10] * z + m[14]) / w, w];
+  }
+};
+
+// ---------- site frame ----------
+// Street axis bearing fitted from the cadastral reference points of nos. 30, 32 and 38 (and 27-33 opposite).
+// World: +x along the street (bearing 84°, ENE), +z into the plot (towards its back, ≈ south), +y up.
+const SITE = { lat: 41.638901, lon: 2.403449, bearing: 90 };
+const UX = [Math.sin(SITE.bearing * DEG), Math.cos(SITE.bearing * DEG)]; // (E,N) of +x
+const VZ = [UX[1], -UX[0]];                                               // (E,N) of +z
+const enToWorld = (e, n) => [e * UX[0] + n * UX[1], e * VZ[0] + n * VZ[1]];
+const NORTH = (() => { const w = enToWorld(0, 1); return [w[0], 0, w[1]]; })();
+
+// ---------- sun (NOAA-style approximation, accurate to a fraction of a degree) ----------
+function sunPos(ms, lat, lon) {
+  const n = ms / 86400000 + 2440587.5 - 2451545.0;
+  const L = (280.460 + 0.9856474 * n) % 360;
+  const g = ((357.528 + 0.9856003 * n) % 360) * DEG;
+  const lam = (L + 1.915 * Math.sin(g) + 0.020 * Math.sin(2 * g)) * DEG;
+  const eps = (23.439 - 0.0000004 * n) * DEG;
+  const ra = Math.atan2(Math.cos(eps) * Math.sin(lam), Math.cos(lam));
+  const dec = Math.asin(Math.sin(eps) * Math.sin(lam));
+  const gmst = ((18.697374558 + 24.06570982441908 * n) % 24 + 24) % 24;
+  const H = (gmst * 15 + lon) * DEG - ra;
+  const phi = lat * DEG;
+  const el = Math.asin(Math.sin(phi) * Math.sin(dec) + Math.cos(phi) * Math.cos(dec) * Math.cos(H));
+  const azS = Math.atan2(Math.sin(H), Math.cos(H) * Math.sin(phi) - Math.tan(dec) * Math.cos(phi));
+  return { az: ((azS / DEG + 180) % 360 + 360) % 360, el: el / DEG };
+}
+function lastSundayUTC(y, m) { const d = new Date(Date.UTC(y, m + 1, 0)); return Date.UTC(y, m, d.getUTCDate() - d.getUTCDay(), 1); }
+function madridOffsetH(y, ms) { return (ms >= lastSundayUTC(y, 2) && ms < lastSundayUTC(y, 9)) ? 2 : 1; }
+function localToUTC(y, mo, d, minutes) {
+  const guess = Date.UTC(y, mo, d, 12);
+  return Date.UTC(y, mo, d, 0, minutes) - madridOffsetH(y, guess) * 3600000;
+}
+function dayInfo(y, mo, d) {
+  let rise = null, set = null;
+  for (let t = 0; t <= 1440; t += 5) {
+    const e = sunPos(localToUTC(y, mo, d, t), SITE.lat, SITE.lon).el;
+    if (e > -0.6) { if (rise === null) rise = t; set = t; }
+  }
+  return { rise: rise ?? 360, set: set ?? 1080 };
+}
+const COMPASS = ["N", "NNE", "NE", "ENE", "E", "ESE", "SE", "SSE", "S", "SSO", "SO", "OSO", "O", "ONO", "NO", "NNO"];
+const compass = az => COMPASS[Math.round(az / 22.5) % 16];
+const hhmm = m => String(Math.floor(m / 60)).padStart(2, "0") + ":" + String(Math.round(m % 60)).padStart(2, "0");
+// ---------- site data from the Cadastre (INSPIRE CP/BU, EPSG:25831) ----------
+// Coordinates are metres east/north of UTM 450316 E, 4609858 N. World frame: x = east, z = south, y = up.
+const PLOT_EN = [[-4.85,1.78],[-4.17,1.91],[-5.01,6.30],[4.11,7.65],[5.21,1.58],[5.87,-2.05],[5.94,-2.41],[6.52,-5.61],[2.67,-6.27],[2.16,-6.36],[2.13,-5.58],[1.00,-5.82],[-2.61,-6.60],[-3.62,-3.39],[-4.23,-1.46],[-5.22,1.70]];
+const PLOT_FRONT = [[-5.01,6.30],[4.11,7.65]]; // edge on Carrer d'Anselm Clavé
+const PLOT_AREA = 126;
+const CP_TXT = `0300002|-49.3,-5.0;-49.5,-0.1;-46.5,-0.0;-41.9,0.1;-36.3,0.2;-36.1,-6.1;-35.4,-27.7;-35.2,-33.0;-35.0,-33.1;-35.0,-34.1;-36.0,-34.1;-36.1,-34.0;-40.6,-34.1;-45.2,-35.0;-48.3,-35.6;-48.5,-31.1;-48.5,-28.9;-48.6,-25.7;-48.8,-22.3;-49.0,-16.3;-49.3,-6.1
+0301614|-17.1,45.9;-17.6,51.8;-12.8,51.9;-7.0,52.2;-6.9,40.9;-11.9,40.2;-16.7,39.6;-20.7,39.0;-21.2,45.1;-19.1,45.5
+0301615|-6.8,27.8;-6.8,24.8;-14.8,23.4;-15.2,23.4;-15.3,24.0;-15.7,26.6;-16.7,39.6;-11.9,40.2;-6.9,40.9
+0301616|-6.8,24.8;-6.8,20.3;-6.7,12.7;-13.5,11.6;-13.9,15.2;-14.3,19.0;-14.4,19.4;-14.8,23.4
+0301617|-16.7,39.6;-15.7,26.6;-15.3,24.0;-15.2,23.4;-14.8,23.4;-14.4,19.4;-14.3,19.0;-13.9,15.2;-13.5,11.6;-23.9,9.9;-24.5,13.6;-25.4,18.9;-26.1,22.7;-26.4,24.7;-27.0,28.3;-29.2,41.6;-29.6,43.6;-21.2,45.1;-20.7,39.0
+0301618|-26.4,24.7;-26.1,22.7;-25.4,18.9;-24.5,13.6;-23.9,9.9;-29.0,9.1;-30.8,19.8;-31.4,23.4;-31.5,23.9;-32.1,27.5;-32.1,27.7;-27.0,28.6;-27.0,28.3
+0301619|-37.8,32.3;-39.0,39.7;-36.7,40.2;-34.3,40.6;-33.6,36.1;-33.1,33.2;-32.4,29.4;-32.1,27.5;-31.5,23.9;-31.4,23.4;-30.8,19.8;-29.0,9.1;-34.1,8.3;-35.8,18.9;-36.3,22.7;-36.5,23.4;-37.2,28.4
+0301620|-42.8,29.7;-44.2,38.7;-42.0,39.1;-39.0,39.7;-37.8,32.3;-37.2,28.4;-36.5,23.4;-36.3,22.7;-35.8,18.9;-34.1,8.3;-39.2,7.5;-40.9,18.1;-41.6,22.6;-42.0,24.8
+0301621|-48.4,24.3;-50.6,37.4;-45.6,38.4;-44.2,38.7;-42.8,29.7;-42.0,24.8;-41.6,22.6;-40.9,18.1;-39.2,7.5;-45.5,6.6;-45.7,7.6;-47.3,17.6;-47.7,19.9
+0301622|-53.3,23.5;-55.2,36.4;-50.6,37.4;-48.4,24.3;-47.7,19.9;-47.3,17.6;-45.7,7.6;-45.5,6.6;-50.8,6.7;-52.3,16.8;-52.8,19.9
+0301628|-32.1,27.7;-32.4,29.4;-33.1,33.2;-33.6,36.1;-34.3,40.6;-29.2,41.6;-27.0,28.6
+0400001|-25.0,-13.0;-25.5,3.0;-25.2,3.3;-25.1,3.5;-14.9,5.0;-14.6,5.0;-14.3,-1.3;-14.1,-3.6;-14.0,-6.5;-14.3,-6.5;-14.3,-9.8;-14.3,-11.0;-14.0,-18.2;-13.5,-18.2;-13.5,-18.3;-13.2,-23.6;-24.4,-23.8;-24.6,-23.8;-24.7,-21.8
+0400002|-14.3,-1.3;-14.6,5.0;-5.0,6.3;-4.2,1.9;-4.8,1.8;-5.2,1.7;-4.2,-1.5;-3.6,-3.4;-2.7,-6.4;-2.9,-6.4;-3.3,-6.4;-8.3,-6.4;-14.0,-6.5;-14.1,-3.6
+0400004|12.0,-4.0;12.0,-5.8;6.5,-6.1;6.5,-5.6;5.9,-2.4;5.9,-2.0;5.2,1.6;4.1,7.7;8.9,8.4;9.8,1.3;10.2,-2.1;10.5,-2.3
+0400006|26.5,-22.8;21.8,-22.9;21.6,-18.8;21.6,-17.8;21.4,-12.7;20.9,-12.7;20.9,-12.3;20.2,-6.3;19.9,-6.3;19.8,-5.1;19.8,-3.6;19.7,-1.5;19.3,9.9;25.0,10.9;25.3,4.7;25.6,-0.1;25.7,-0.8;25.8,-2.7;25.8,-3.7;25.9,-5.7;26.0,-5.9;26.0,-6.2;26.0,-6.8;26.1,-8.3;26.1,-9.0;26.4,-18.7
+0400007|29.8,-4.5;25.9,-4.9;25.9,-4.5;25.8,-4.2;25.8,-3.7;25.8,-2.7;25.7,-0.8;25.6,-0.1;25.3,4.7;25.0,10.9;30.3,11.8;30.7,5.3;31.1,0.5;31.2,-2.0;31.3,-3.1;31.3,-3.6;31.4,-4.3
+0400008|32.3,-10.6;32.3,-6.3;37.4,-5.1;37.6,-10.5;37.7,-13.5;38.0,-19.1;38.1,-22.6;32.6,-22.7;32.5,-19.2;32.4,-13.6
+0400009|36.6,12.9;37.4,4.8;37.4,4.7;37.0,4.6;33.1,4.1;32.3,12.2
+0400010|31.4,-4.8;31.3,-3.6;31.3,-3.1;31.2,-2.0;31.1,0.5;30.7,5.3;30.3,11.8;30.5,11.8;32.3,12.2;33.1,4.1;37.0,4.6;37.4,4.7;37.4,4.8;36.6,12.9;39.3,13.5;39.9,13.6;40.8,5.8;41.5,-1.4;41.9,-4.3;41.2,-4.4;37.4,-5.1;32.3,-6.3;32.2,-4.7
+0400019|44.2,3.1;48.3,3.7;49.3,-3.7;49.4,-4.0;49.5,-5.1;49.8,-6.9;51.6,-19.9;47.9,-20.7;47.5,-20.8;47.4,-20.8;45.4,-6.9;45.0,-3.9;44.1,3.1
+0400021|41.2,-4.4;41.9,-4.3;42.0,-7.3;42.5,-19.5;42.8,-21.7;38.1,-22.6;38.0,-19.1;37.7,-13.5;37.6,-10.5;37.4,-5.1
+0400022|31.4,-4.8;32.2,-4.7;32.3,-6.3;32.3,-10.6;32.4,-13.6;32.5,-19.2;32.6,-22.7;32.3,-22.7;26.9,-22.8;26.5,-22.8;26.4,-18.7;26.1,-9.0;26.0,-6.8;26.0,-5.9;25.9,-5.7;25.9,-5.4;25.9,-4.9;29.8,-4.5;31.4,-4.3;31.4,-4.5
+0400024|6.2,-9.3;6.2,-8.9;6.5,-8.9;6.7,-8.9;6.8,-6.1;12.0,-5.8;12.0,-9.0;12.2,-13.1;12.2,-15.9;12.3,-18.2;12.3,-23.1;12.0,-23.1;6.7,-23.2;6.5,-17.6;6.3,-13.0
+0400025|2.4,-12.8;2.8,-12.8;2.4,-9.0;2.2,-6.4;2.7,-6.3;6.5,-5.6;6.5,-6.1;6.8,-6.1;6.7,-8.9;6.5,-8.9;6.2,-8.9;6.2,-9.3;6.3,-13.0;6.5,-17.6;6.7,-23.2;6.5,-23.2;2.5,-23.3;2.2,-12.8
+0400026|2.4,-12.8;2.2,-12.8;2.5,-23.3;2.3,-23.3;2.0,-23.3;-2.1,-23.4;-2.4,-13.0;-2.5,-11.1;-2.6,-6.6;1.0,-5.8;2.1,-5.6;2.2,-6.4;2.4,-9.0;2.8,-12.8
+0400027|-2.7,-6.4;-2.6,-6.6;-2.5,-11.1;-2.4,-13.0;-2.1,-23.4;-2.4,-23.4;-7.8,-23.5;-8.2,-23.5;-8.5,-6.5;-8.3,-6.4;-8.0,-6.4;-3.3,-6.4;-2.9,-6.4
+0400028|-14.3,-9.8;-14.3,-6.5;-14.2,-6.5;-14.1,-6.5;-14.0,-6.5;-8.5,-6.5;-8.2,-23.5;-13.0,-23.6;-13.2,-23.6;-13.5,-18.3;-13.5,-18.2;-14.0,-18.2;-14.3,-11.0
+0400029|12.2,-13.1;12.0,-9.0;12.0,-5.8;12.0,-4.0;12.9,-4.0;14.6,-3.9;14.4,-1.8;14.4,-1.3;14.2,2.2;13.7,9.1;19.3,9.9;19.7,-1.5;19.8,-3.6;19.8,-5.1;19.9,-6.3;20.2,-6.3;20.9,-12.3;20.9,-12.7;21.4,-12.7;21.6,-17.8;21.6,-18.8;21.8,-22.9;12.3,-23.1;12.3,-18.2;12.2,-15.9
+0400030|44.1,3.1;45.0,-3.9;45.4,-6.9;47.4,-20.8;42.8,-21.7;42.5,-19.5;42.0,-7.3;41.9,-4.3;41.5,-1.4;41.1,2.7;40.8,5.8;39.9,13.6;46.8,14.9;47.7,8.3;47.9,6.8;48.2,4.5;48.2,4.3;48.3,3.7
+0400031|10.2,-2.1;9.8,1.3;8.9,8.4;13.7,9.1;14.2,2.2;14.4,-1.3;14.4,-1.8;14.6,-3.9;12.9,-4.0;12.0,-4.0;10.5,-2.3
+0400032|48.8,-0.1;48.5,2.5;48.3,3.7;48.2,4.5;47.9,6.8;47.7,8.3;46.8,14.9;49.8,15.5;51.8,5.3;52.2,3.2;52.5,1.7;52.7,0.7;49.1,-0.0
+0401606|32.0,46.3;31.8,47.2;35.4,48.2;37.3,48.7;39.7,39.2;40.0,38.2;43.9,22.8;38.5,21.5;34.5,36.8;33.0,42.4;32.9,42.9
+0401608|14.4,59.3;13.6,62.2;16.0,62.8;16.7,63.0;21.6,64.1;24.7,52.2;25.7,48.3;27.4,41.5;29.0,35.2;32.1,23.0;32.9,20.1;27.0,18.6;26.3,21.5;23.0,33.7;22.3,36.4;20.6,35.9;19.8,39.0;15.8,54.0
+0401609|-0.6,57.0;2.6,56.9;14.4,59.3;15.8,54.0;19.8,39.0;20.6,35.9;22.3,36.4;23.0,33.7;26.3,21.5;27.0,18.6;21.0,17.1;17.4,32.2;16.5,35.8;15.2,41.1;12.3,53.2;11.4,57.0;-0.6,55.1
+0401610|-0.6,51.1;-0.6,55.1;11.4,57.0;12.3,53.2;15.2,41.1;16.5,35.8;17.4,32.2;21.0,17.1;15.9,15.8;11.3,30.6;12.1,30.8;11.1,34.8;9.8,40.0;7.4,49.0;6.6,52.1
+0401611|-0.6,35.7;-0.6,42.1;-0.6,51.1;6.6,52.1;7.4,49.0;9.8,40.0;11.1,34.8;12.1,30.8;11.3,30.6;15.9,15.8;10.4,14.4;6.9,26.3;6.2,28.8;6.1,29.3;5.0,33.2;3.9,37.0
+0401612|-0.5,31.9;-0.6,35.7;3.9,37.0;5.0,33.2;6.1,29.3;6.2,28.8;6.9,26.3;10.4,14.4;-0.2,13.5;-0.4,24.0;-0.4,27.7;-0.4,29.0;-0.5,31.0
+0401614|31.8,47.2;32.0,46.3;32.9,42.9;33.0,42.4;34.5,36.8;38.5,21.5;32.9,20.1;32.1,23.0;29.0,35.2;27.4,41.5;25.7,48.3;31.1,49.7
+0499109|-2.4,-45.2;-2.6,-36.4;7.5,-34.6;7.5,-49.3;7.5,-62.5;-2.0,-62.5;-2.2,-53.9`;
+// building parts: cadastral parcel | floors above ground | footprint (E,N)
+const BP_TXT = `0300002|3|-48.8,-22.3;-49.0,-16.3;-49.3,-6.1;-46.3,-6.0;-46.5,-0.0;-41.9,0.1;-41.7,-6.3;-36.1,-6.1;-35.4,-27.7;-40.8,-27.9;-40.6,-34.1;-45.2,-35.0;-45.5,-28.8;-45.7,-22.3
+0300002|4|-36.1,-6.1;-41.7,-6.3;-41.9,0.1;-36.3,0.2
+0301615|3|-6.8,27.8;-6.8,24.8;-14.8,23.4;-15.2,23.4;-15.3,24.0;-15.7,26.6;-16.7,39.6;-11.9,40.2;-6.9,40.9
+0301616|2|-6.7,16.6;-6.7,16.0;-6.7,12.7;-13.5,11.6;-13.9,15.2;-14.0,15.7
+0301616|4|-10.3,19.9;-10.1,17.9;-12.8,17.6;-13.1,19.6
+0301616|3|-14.0,15.7;-14.3,19.0;-14.4,19.4;-14.8,23.4;-6.8,24.8;-6.8,20.3;-6.7,16.6
+0301617|3|-25.4,18.9;-26.1,22.7;-15.3,24.0;-15.2,23.4;-14.8,23.4;-14.4,19.4;-14.3,19.0;-17.9,18.5;-17.9,18.2;-18.7,18.1;-18.9,19.5;-19.6,19.4;-19.7,19.6
+0301617|3|-13.9,15.2;-13.5,11.6;-23.9,9.9;-24.5,13.6
+0301617|4|-24.5,13.6;-25.4,18.9;-19.7,19.6;-19.6,19.4;-18.9,19.5;-18.7,18.1;-17.9,18.2;-17.9,18.5;-14.3,19.0;-13.9,15.2
+0301618|3|-26.4,24.7;-26.1,22.7;-25.4,18.9;-24.5,13.6;-23.9,9.9;-29.0,9.1;-30.8,19.8;-31.4,23.4;-31.5,23.9
+0301619|2|-35.8,18.9;-36.3,22.7;-31.4,23.4;-30.8,19.8
+0301619|3|-30.8,19.8;-29.0,9.1;-34.1,8.3;-35.8,18.9
+0301620|2|-35.8,18.9;-34.1,8.3;-39.2,7.5;-40.9,18.1
+0301620|1|-40.9,18.1;-41.6,22.6;-36.5,23.4;-36.3,22.7;-35.8,18.9
+0301621|3|-42.0,24.8;-41.6,22.6;-40.9,18.1;-39.2,7.5;-45.5,6.6;-45.7,7.6;-43.4,8.0;-44.5,14.4;-43.7,14.5;-44.7,20.4;-43.8,20.6;-44.4,24.4
+0400001|3|-14.3,-10.6;-14.3,-11.0;-14.3,-11.0;-14.0,-18.2;-13.5,-18.2;-13.5,-18.3;-13.2,-23.6;-24.4,-23.8;-24.6,-23.8;-24.7,-21.8;-25.0,-13.0;-25.0,-11.3;-24.8,-11.3
+0400001|2|-25.0,-11.3;-25.2,-7.3;-24.9,-7.3;-16.1,-6.7;-14.5,-6.5;-14.3,-6.5;-14.3,-9.8;-14.3,-10.6;-24.8,-11.3
+0400002|1|-4.0,-2.1;-3.6,-3.4;-2.7,-6.4;-2.9,-6.4;-3.3,-6.4;-8.3,-6.4;-14.0,-6.5;-14.1,-3.6;-4.1,-2.2
+0400002|3|-14.1,-3.6;-14.3,-1.3;-14.6,5.0;-5.0,6.3;-4.2,1.9;-4.8,1.8;-5.2,1.7;-4.2,-1.5;-4.0,-2.1;-4.1,-2.2
+0400004|2|6.0,-2.9;6.0,-2.6;10.2,-2.1;10.5,-2.3
+0400004|3|6.0,-2.6;5.9,-2.4;5.9,-2.0;5.2,1.6;4.1,7.7;8.9,8.4;9.8,1.3;10.2,-2.1
+0400006|2|26.4,-18.7;26.5,-22.8;21.8,-22.9;21.6,-18.8
+0400006|3|21.6,-18.8;21.6,-17.8;21.4,-12.7;20.9,-12.7;20.9,-12.3;20.2,-6.3;26.0,-5.9;26.0,-6.2;26.0,-6.8;26.1,-8.3;26.1,-9.0;26.4,-18.7
+0400006|3|19.5,6.4;19.3,9.9;25.0,10.9;25.2,7.4
+0400006|4|19.5,3.4;19.5,6.4;25.2,7.4;25.3,4.7
+0400006|3|19.7,-1.5;19.5,3.4;25.3,4.7;25.6,-0.1;25.7,-0.8
+0400006|2|20.2,-6.3;19.9,-6.3;19.8,-5.1;19.8,-3.6;19.7,-1.5;25.7,-0.8;25.8,-2.7;25.8,-3.7;25.9,-5.7;26.0,-5.9
+0400007|3|25.6,-0.1;25.3,4.7;30.7,5.3;31.1,0.5
+0400007|4|25.3,4.7;25.0,10.9;30.3,11.8;30.7,5.3
+0400007|2|25.8,-2.7;25.7,-0.8;25.6,-0.1;31.1,0.5;31.2,-2.0
+0400008|3|32.4,-13.6;32.3,-10.6;37.6,-10.5;37.7,-13.5
+0400008|3|38.0,-19.1;38.1,-22.6;32.6,-22.7;32.5,-19.2
+0400008|1|32.3,-10.6;32.3,-6.3;37.4,-5.1;37.6,-10.5
+0400008|4|32.5,-19.2;32.4,-13.6;37.7,-13.5;38.0,-19.1
+0400009|2|36.6,12.9;37.4,4.8;37.4,4.7;37.0,4.6;33.1,4.1;32.3,12.2
+0400010|3|37.4,4.8;36.6,12.9;39.3,13.5;39.9,13.6;40.8,5.8;40.8,5.1;40.5,5.1
+0400010|2|31.1,0.3;31.1,0.5;30.7,5.3;30.3,11.8;30.5,11.8;32.3,12.2;33.1,4.1;37.0,4.6;37.1,0.9;31.3,0.3
+0400010|1|37.4,-5.1;32.3,-6.3;32.2,-4.7;31.4,-4.8;31.3,-3.6;31.3,-3.1;31.2,-2.0;31.1,0.3;31.3,0.3;37.1,0.9;37.1,0.8;37.3,-2.9;37.4,-4.7
+0400019|2|45.6,-8.3;45.6,-8.2;45.5,-7.5;45.4,-6.9;45.2,-5.1;47.3,-4.7;47.8,-7.9
+0400021|3|37.8,-14.7;37.7,-13.5;37.6,-10.5;41.7,-9.8;42.1,-9.7;42.3,-14.8;42.1,-14.8
+0400021|4|37.8,-14.7;42.1,-14.8;42.3,-14.8;42.5,-19.5;38.0,-19.3;38.0,-19.1
+0400021|3|38.0,-19.3;42.5,-19.5;42.8,-21.7;38.1,-22.6
+0400022|3|26.2,-11.9;26.1,-9.4;31.2,-9.3;32.3,-9.3;32.3,-10.6;32.3,-11.7
+0400022|4|26.3,-16.2;26.2,-11.9;32.3,-11.7;32.4,-13.6;32.4,-16.1
+0400022|3|32.4,-16.1;32.5,-19.2;32.6,-22.7;32.3,-22.7;26.9,-22.8;26.5,-22.8;26.4,-18.7;26.3,-16.2
+0400022|1|32.3,-9.3;31.2,-9.3;31.2,-7.4;32.3,-7.4
+0400024|3|6.3,-13.0;8.6,-13.1;8.8,-17.5;6.5,-17.6
+0400024|2|6.3,-13.0;6.2,-9.3;12.0,-9.0;12.2,-13.1;12.2,-15.9;12.3,-18.2;12.3,-23.1;12.0,-23.1;6.7,-23.2;6.5,-17.6;8.8,-17.5;8.6,-13.1
+0400025|3|2.4,-9.0;2.2,-6.4;2.7,-6.3;6.5,-5.6;6.5,-6.1;6.8,-6.1;6.7,-8.9;6.5,-8.9;6.2,-8.9;2.8,-9.0
+0400025|2|6.2,-8.9;6.2,-9.3;6.3,-13.0;6.5,-17.6;6.7,-23.2;6.5,-23.2;2.5,-23.3;2.2,-12.8;2.4,-12.8;2.8,-12.8;2.4,-9.0;2.8,-9.0
+0400026|1|-2.4,-13.5;-2.4,-13.0;1.6,-12.8;2.2,-12.8;2.2,-13.5
+0400026|2|2.2,-13.5;2.5,-23.3;2.3,-23.3;2.0,-23.3;-2.1,-23.4;-2.4,-13.5
+0400027|3|-4.9,-23.4;-7.8,-23.5;-8.2,-23.5;-8.2,-20.9;-8.4,-14.2;-8.1,-14.2;-5.8,-14.1;-5.7,-17.0;-5.1,-17.0;-5.0,-20.8
+0400027|3|-8.4,-14.2;-8.5,-6.5;-8.3,-6.4;-8.0,-6.4;-3.3,-6.4;-2.9,-6.4;-2.7,-6.4;-2.6,-6.6;-2.5,-11.1;-2.4,-13.0;-2.4,-14.0;-5.8,-14.1;-8.1,-14.2
+0400027|2|-4.9,-23.4;-5.0,-20.8;-5.1,-17.0;-5.7,-17.0;-5.8,-14.1;-2.4,-14.0;-2.2,-20.7;-2.1,-23.4;-2.4,-23.4
+0400028|3|-14.3,-9.8;-14.3,-6.5;-14.2,-6.5;-14.1,-6.5;-14.0,-6.5;-8.5,-6.5;-8.2,-23.5;-13.0,-23.6;-13.2,-23.6;-13.5,-18.3;-13.5,-18.2;-14.0,-18.2;-14.3,-11.0;-14.3,-11.0;-14.3,-10.6
+0400029|5|14.6,-3.9;14.4,-1.8;14.4,-1.3;14.2,2.2;13.7,9.1;19.3,9.9;19.7,-1.5;19.8,-3.6;17.1,-3.8;15.0,-3.9
+0400029|2|12.2,-15.9;12.2,-13.1;20.9,-12.7;21.4,-12.7;21.5,-15.8;15.6,-16.0
+0400029|3|12.2,-15.9;15.6,-16.0;21.5,-15.8;21.6,-17.8;21.6,-18.8;21.7,-19.4;16.2,-19.7;16.2,-18.2;12.3,-18.2
+0400029|2|21.7,-19.4;21.8,-22.9;12.3,-23.1;12.3,-18.2;16.2,-18.2;16.2,-19.7
+0400030|4|41.1,2.7;41.0,3.2;40.8,5.8;39.9,13.6;46.8,14.9;47.7,8.3;47.9,6.8;48.2,4.5;48.2,4.3;48.3,3.7;44.2,3.1;44.1,3.1
+0400030|2|42.2,-11.8;42.0,-7.3;41.9,-4.3;45.0,-3.9;45.4,-6.9;46.0,-11.3
+0400031|2|10.5,-2.3;10.2,-2.1;9.8,1.3;14.2,1.9;14.4,-1.3;14.4,-1.8
+0400031|3|9.8,1.3;8.9,8.4;13.7,9.1;14.2,2.2;14.2,1.9
+0401608|2|32.1,23.0;32.9,20.1;27.0,18.6;26.3,21.5
+0401608|3|26.3,21.5;23.0,33.7;29.0,35.2;32.1,23.0
+0401609|1|17.4,32.2;16.5,35.8;15.2,41.1;15.8,41.2;16.7,38.2;19.8,39.0;20.6,35.9;22.3,36.4;23.0,33.7
+0401609|2|23.0,33.7;26.3,21.5;27.0,18.6;21.0,17.1;17.4,32.2
+0401610|1|12.1,30.8;11.1,34.8;16.5,35.8;17.4,32.2
+0401610|2|17.4,32.2;21.0,17.1;15.9,15.8;11.3,30.6;12.1,30.8
+0401611|2|11.3,30.6;15.9,15.8;10.4,14.4;6.9,26.3;6.2,28.8;6.1,29.3
+0401612|2|-0.5,31.9;-0.6,35.7;3.9,37.0;5.0,33.2
+0401612|2|6.9,26.3;10.4,14.4;-0.2,13.5;-0.4,24.0;2.9,24.1;2.8,26.2
+0401614|3|32.9,42.9;33.0,42.4;34.5,36.8;38.5,21.5;32.9,20.1;32.1,23.0;29.0,35.2;27.4,41.5
+0499109|3|-2.2,-52.5;-2.3,-50.0;-2.3,-47.7;-2.4,-45.2;-2.6,-36.4;7.5,-34.6;7.5,-49.3;3.3,-49.5;3.0,-52.8
+0499110|3|7.5,-50.1;7.5,-49.3;7.5,-34.6;12.8,-33.7;12.7,-39.7;11.0,-39.7;11.0,-42.4;10.0,-42.4;10.0,-43.9;12.6,-44.0;12.5,-49.1;12.5,-50.2
+0499111|3|18.7,-49.5;12.5,-49.1;12.8,-33.7;18.5,-33.0
+0499107|3|-7.7,-50.9;-11.9,-50.9;-11.7,-38.3;-7.7,-37.3`;
+// year of construction (cadastral) and known shop ground floors
+const YEAR = {"0300002":1942,"0301615":1960,"0301616":1942,"0301617":1963,"0301618":1945,"0301619":1950,"0301620":1959,"0301621":1970,"0400001":1920,"0400002":1964,"0400003":1994,"0400004":1950,"0400006":2001,"0400007":1985,"0400008":1997,"0400009":1942,"0400010":1997,"0400019":1930,"0400021":2009,"0400022":2009,"0400024":1942,"0400025":1942,"0400026":1942,"0400027":1960,"0400028":1975,"0400029":1950,"0400030":1992,"0400031":1950,"0401608":1955,"0401609":1955,"0401610":1960,"0401611":1953,"0401612":1976,"0401614":1959,"0499109":1933,"0499110":1950,"0499111":1960,"0499107":1950};
+const SHOPS = new Set(["0400031","0400002","0301617","0301618","0301619","0301620","0301621","0300002"]);
+const NUMBERS = {"0400002":"núm. 32","0400004":"núm. 28","0400031":"núm. 26","0400029":"núm. 24","0400006":"núm. 22","0301617":"núm. 21","0301618":"núm. 25","0301619":"núm. 27"};
+const TREES = [[-22, 33, 2.8, 6.2], [-35, 34, 2.5, 5.8], [-40, 30, 2.4, 5.6], [8, 44, 3.0, 6.6], [-20, 40, 2.6, 6.0]];
+const DISC = { cx: 0.5, cz: -0.5, r: 44, base: -1.6 };
+const REAL_COL = {"0400002":"#E4D3A4","0400004":"#EADDB6","0400031":"#ECE9E1","0400029":"#EFEDE6","0301616":"#EFEEE9","0401612":"#F1F0EB","0301617":"#ECEAE3","0301618":"#E9E5DB","0401611":"#F0EEE8","0301619":"#EDEAE2"};
+const BROWN = new Set(["0301616","0301617","0301618","0301619","0401612","0401611"]);
+const LAMPS = [[-7.6, 7.0], [-24, 4.4], [14.5, 10.6]];
+const FLAGS = {"0400002":2,"0301616":1,"0401612":1,"0401611":1};
+const FLAT = new Set(["0400029","0400006","0400007","0400008","0400010","0400021","0400022","0400030","0499109","0499110","0499111"]);
+const BOLLARDS = (() => { const o = []; const a = [-25.5, 3.0], b = [-14.6, 5.0], L = Math.hypot(b[0]-a[0], b[1]-a[1]);
+  const f = [(b[0]-a[0])/L, (b[1]-a[1])/L], n = [-f[1], f[0]];
+  for (let s = 0.9; s < L; s += 1.8) o.push([a[0] + f[0]*s + n[0]*1.1, a[1] + f[1]*s + n[1]*1.1]); return o; })();
+// ---------- mesh builder (real cadastral footprints) ----------
+const FPV = 20;
+const Z4 = [0, 0, 0, 0];
+const hex2lin = h => [1, 3, 5].map(i => Math.pow(parseInt(h.slice(i, i + 2), 16) / 255, 2.2));
+class Mesh {
+  constructor() { this.v = []; this.i = []; this.n = 0; }
+  vert(p, n, uv, c, mat, P, Q) { this.v.push(p[0], p[1], p[2], n[0], n[1], n[2], uv[0], uv[1], c[0], c[1], c[2], mat, P[0], P[1], P[2], P[3], Q[0], Q[1], Q[2], Q[3]); return this.n++; }
+  poly(ps, n, uvs, c, mat, P = Z4, Q = Z4) {
+    let ord = ps.map((_, k) => k);
+    if (V3.dot(V3.cross(V3.sub(ps[1], ps[0]), V3.sub(ps[2], ps[0])), n) < 0) ord = ord.reverse();
+    const id = ord.map(k => this.vert(ps[k], n, uvs[k], c, mat, P, Q));
+    for (let k = 1; k < id.length - 1; k++) this.i.push(id[0], id[k], id[k + 1]);
+  }
+  tris(pts3, idx, n, c, mat, P = Z4, Q = Z4, uvf = p => [p[0], p[2]]) {
+    for (const [a, b, d] of idx) {
+      const t = [pts3[a], pts3[b], pts3[d]];
+      this.poly(t, n, t.map(uvf), c, mat, P, Q);
+    }
+  }
+  // box oriented along edge direction (ex,ez unit, horizontal), outward normal (nx,nz)
+  obox(o, e, nrm, w, h, d, c, mat, y0 = 0) {
+    const P = (s, t, y) => [o[0] + e[0] * s + nrm[0] * t, y0 + y, o[1] + e[1] * s + nrm[1] * t];
+    const N3 = [nrm[0], 0, nrm[1]], E3 = [e[0], 0, e[1]];
+    const f = (ps, n, a, b) => this.poly(ps, n, [[0, 0], [a, 0], [a, b], [0, b]], c, mat);
+    f([P(0, d, 0), P(w, d, 0), P(w, d, h), P(0, d, h)], N3, w, h);
+    f([P(0, 0, 0), P(w, 0, 0), P(w, 0, h), P(0, 0, h)], V3.scale(N3, -1), w, h);
+    f([P(0, 0, 0), P(0, d, 0), P(0, d, h), P(0, 0, h)], V3.scale(E3, -1), d, h);
+    f([P(w, 0, 0), P(w, d, 0), P(w, d, h), P(w, 0, h)], E3, d, h);
+    f([P(0, 0, h), P(w, 0, h), P(w, d, h), P(0, d, h)], [0, 1, 0], w, d);
+    f([P(0, 0, 0), P(w, 0, 0), P(w, d, 0), P(0, d, 0)], [0, -1, 0], w, d);
+  }
+}
+const COL = {
+  party: hex2lin("#BDB6AA"), slab: hex2lin("#D2CCC0"), metal: hex2lin("#2E3230"), flat: hex2lin("#B7B3AA"),
+  curb: hex2lin("#A9A49A"), trunk: hex2lin("#5B4733"),
+  leaf: [hex2lin("#5E7D43"), hex2lin("#6E8A4A"), hex2lin("#53703D"), hex2lin("#7A9152")],
+  mat: { 6: hex2lin("#76726D"), 7: hex2lin("#A19D96"), 8: hex2lin("#B79C76"), 9: hex2lin("#6F8A4D"), 10: hex2lin("#CDC5B6") },
+  pot: [hex2lin("#A65B3B"), hex2lin("#B86A45"), hex2lin("#8E4B33"), hex2lin("#C9C2B4")],
+  bloom: [hex2lin("#C93A43"), hex2lin("#E58CA6"), hex2lin("#F4F1EA"), hex2lin("#B4467F"), hex2lin("#E2553E"), hex2lin("#F0B23A")]
+};
+const FACADE = ["#E9E4D8", "#E6D6B8", "#DCC6A0", "#D9B9A4", "#D4D2CB", "#CBC4B6", "#E2DCCF", "#EDEBE4"];
+// ---- 2D helpers (E,N) ----
+const area2 = p => { let s = 0; for (let i = 0; i < p.length; i++) { const a = p[i], b = p[(i + 1) % p.length]; s += a[0] * b[1] - b[0] * a[1]; } return s / 2; };
+const ccw = p => area2(p) < 0 ? p.slice().reverse() : p;
+function inPoly(q, p) { let c = false; for (let i = 0, j = p.length - 1; i < p.length; j = i++) { const a = p[i], b = p[j]; if ((a[1] > q[1]) !== (b[1] > q[1]) && q[0] < (b[0] - a[0]) * (q[1] - a[1]) / (b[1] - a[1]) + a[0]) c = !c; } return c; }
+function earclip(p) {
+  const idx = p.map((_, i) => i), out = []; let guard = 0;
+  const cr = (a, b, c) => (b[0] - a[0]) * (c[1] - a[1]) - (b[1] - a[1]) * (c[0] - a[0]);
+  while (idx.length > 3 && guard++ < 5000) {
+    let cut = false;
+    for (let k = 0; k < idx.length; k++) {
+      const i0 = idx[(k + idx.length - 1) % idx.length], i1 = idx[k], i2 = idx[(k + 1) % idx.length];
+      const a = p[i0], b = p[i1], c = p[i2];
+      if (cr(a, b, c) <= 1e-9) continue;
+      let ok = true;
+      for (const j of idx) { if (j === i0 || j === i1 || j === i2) continue; const q = p[j]; if (cr(a, b, q) >= 0 && cr(b, c, q) >= 0 && cr(c, a, q) >= 0) { ok = false; break; } }
+      if (!ok) continue;
+      out.push([i0, i1, i2]); idx.splice(k, 1); cut = true; break;
+    }
+    if (!cut) break;
+  }
+  if (idx.length === 3) out.push([idx[0], idx[1], idx[2]]);
+  return out;
+}
+function clipHalf(p, n, c) { // keep dot(q,n) <= c
+  const out = [];
+  for (let i = 0; i < p.length; i++) {
+    const a = p[i], b = p[(i + 1) % p.length], da = a[0] * n[0] + a[1] * n[1] - c, db = b[0] * n[0] + b[1] * n[1] - c;
+    if (da <= 0) out.push(a);
+    if ((da < 0) !== (db < 0) && da !== db) { const t = da / (da - db); out.push([a[0] + (b[0] - a[0]) * t, a[1] + (b[1] - a[1]) * t]); }
+  }
+  return out;
+}
+const parseTxt = (txt, withFl) => txt.trim().split("\n").map(l => {
+  const s = l.split("|"); const pts = s[s.length - 1].split(";").map(q => q.split(",").map(Number));
+  return withFl ? { rc: s[0], fl: +s[1], pts: ccw(pts) } : { rc: s[0], pts: ccw(pts) };
+});
+const W3 = (p, y) => [p[0], y, -p[1]];
+const PARTS = parseTxt(BP_TXT, true);
+const PARCELS = parseTxt(CP_TXT, false).concat([{ rc: "0400003", pts: ccw(PLOT_EN), plot: true }]);
+const PLOT = ccw(PLOT_EN);
+const FOOT = [];
+const GARDEN = new Set(["0301617", "0301619", "0301620", "0401610", "0401611", "0301615", "0301614", "0401609"]);
+const hashRC = rc => { let h = 7; for (const ch of rc) h = (h * 31 + ch.charCodeAt(0)) % 9973; return h; };
+const inParcel = q => PARCELS.some(c => inPoly(q, c.pts));
+
+function addPart(m, part, k) {
+  const yr = YEAR[part.rc] || 1960, shop = SHOPS.has(part.rc) ? 1 : 0, seed = hashRC(part.rc);
+  const style = yr < 1958 ? 0 : yr < 1995 ? 1 : 2;
+  const col = hex2lin(REAL_COL[part.rc] || FACADE[style === 2 ? 7 : seed % 7]);
+  const gh = shop ? 3.6 : 3.2, fh = 2.95, H = gh + (part.fl - 1) * fh; part.H = H;
+  const p = part.pts, sh = BROWN.has(part.rc) ? 1 : seed % 3;
+  FOOT.push(p.map(q => [q[0], -q[1]]));
+  for (let i = 0; i < p.length; i++) {
+    const a = p[i], b = p[(i + 1) % p.length], dx = b[0] - a[0], dy = b[1] - a[1], L = Math.hypot(dx, dy);
+    if (L < 0.05) continue;
+    const n = [dy / L, -dx / L], mid = [(a[0] + b[0]) / 2 + n[0] * 0.3, (a[1] + b[1]) / 2 + n[1] * 0.3];
+    let y0 = 0, mat;
+    const other = PARTS.filter((o, j) => j !== k && inPoly(mid, o.pts));
+    if (other.length) { const h2 = Math.max(...other.map(o => o.Hpre)); if (h2 >= H - 0.1) continue; y0 = h2; mat = 3; }
+    else if (inPoly(mid, PLOT)) mat = 3;
+    else if (inParcel(mid)) mat = 2;
+    else mat = 1;
+    if (L < 1.3 && mat !== 3) mat = 3;
+    const nb = Math.max(1, Math.round(L / (style === 2 ? 3.3 : 2.6))), bw = L / nb;
+    const nW = [n[0], 0, -n[1]];
+    m.poly([W3(a, y0), W3(b, y0), W3(b, H), W3(a, H)], nW, [[0, y0], [L, y0], [L, H], [0, H]],
+      mat === 3 ? (part.rc === "0400002" && inPoly(mid, PLOT) ? hex2lin("#9C4036") : part.rc === "0400003" ? hex2lin("#D8B45E") : V3.lerp(COL.party, col, 0.35)) : col, mat, [gh, fh, part.fl, bw], [mat === 1 ? shop : 0, sh, seed + i, style + 10 * (FLAGS[part.rc] || 0)]);
+    const e = [dx / L, -dy / L], nn = [n[0], -n[1]];
+    const pitched = mat === 1 && style < 2 && part.fl <= 4 && !FLAT.has(part.rc) && L > 1.2;
+    if (pitched) addEave(m, a, b, n, L, H, p, col, seed);
+    if (mat === 1 && L > 3) m.obox([a[0] + (dx / L) * 0.18 + n[0] * 0.02, -(a[1] + (dy / L) * 0.18 + n[1] * 0.02)], [dx / L, -dy / L], [n[0], -n[1]], 0.09, H - 0.1, 0.09, hex2lin("#C8C4BA"), 0, 0);
+    if (mat !== 3 && H > 4 && !pitched) m.obox([a[0] - n[0] * 0.22, -(a[1] - n[1] * 0.22)], e, nn, L, 0.9, 0.22, col, 0, H);
+    if (mat === 1 && style < 2 && part.fl > 1 && L > 2.4) {
+      for (let f = 1; f < part.fl; f++) for (let q = 0; q < nb; q++) {
+        const y = gh + (f - 1) * fh, rr = rng(seed * 7 + q * 131 + f * 977), roll = (seed + f * 7 + q * 13) % 10;
+        if (style === 1 && q % 2 === 1) { // plain window: some have a flower box under the sill
+          if (roll < 3) {
+            const s0 = (q + 0.5) * bw - 0.55, o = [a[0] + (dx / L) * s0, -(a[1] + (dy / L) * s0)];
+            m.obox(o, e, nn, 1.1, 0.22, 0.22, COL.pot[Math.floor(rr() * 3)], 0, y + 0.6);
+            for (let k = 0; k < 4; k++) {
+              const t = 0.16 + k * 0.26, c = [o[0] + e[0] * t + nn[0] * 0.11, o[1] + e[1] * t + nn[1] * 0.11];
+              addSphere(m, c[0], y + 0.9, c[1], 0.16, COL.leaf, rr, 7, 5);
+              addBlooms(m, [c[0], y + 0.9, c[1]], 0.16, 3, rr);
+            }
+          }
+          continue;
+        }
+        const hw = (style === 0 ? 0.55 : 0.8) + 0.3, s0 = (q + 0.5) * bw - hw;
+        const o = [a[0] + (dx / L) * s0, -(a[1] + (dy / L) * s0)];
+        m.obox(o, e, nn, hw * 2, 0.14, 0.72, COL.slab, 0, y - 0.14);
+        m.obox([o[0] + nn[0] * 0.68, o[1] + nn[1] * 0.68], e, nn, hw * 2, 0.95, 0.04, COL.metal, 16, y);
+        if (roll < 5) { // pots on the balcony, most of them in flower
+          const n2 = roll < 2 ? 2 : 1;
+          for (let k = 0; k < n2; k++) {
+            const t = k ? hw * 1.45 : hw * 0.35, pp = [o[0] + e[0] * t + nn[0] * 0.3, o[1] + e[1] * t + nn[1] * 0.3], c = [pp[0] + e[0] * 0.17 + nn[0] * 0.15, pp[1] + e[1] * 0.17 + nn[1] * 0.15];
+            m.obox(pp, e, nn, 0.34, 0.3, 0.3, COL.pot[Math.floor(rr() * 4)], 0, y);
+            const r = 0.24 + rr() * 0.1; addSphere(m, c[0], y + 0.3 + r * 0.8, c[1], r, COL.leaf, rr, 9, 6);
+            if (rr() < 0.75) addBlooms(m, [c[0], y + 0.3 + r * 0.8, c[1]], r, 4 + Math.floor(rr() * 4), rr);
+          }
+        }
+      }
+    }
+    if (mat === 1 && !shop && L > 3 && seed % 3 === 0) { // a plant by the front door
+      const rr = rng(seed + i * 17), t = bw * 0.5 + 0.98, o = [a[0] + (dx / L) * t + n[0] * 0.06, -(a[1] + (dy / L) * t + n[1] * 0.06)];
+      if (t + 0.4 < L) {
+        m.obox(o, e, nn, 0.38, 0.46, 0.38, COL.pot[Math.floor(rr() * 4)], 0, 0.03);
+        const c = [o[0] + e[0] * 0.19 + nn[0] * 0.19, o[1] + e[1] * 0.19 + nn[1] * 0.19], r = 0.34;
+        addSphere(m, c[0], 0.49 + r * 0.85, c[1], r, COL.leaf, rr, 9, 6);
+        if (rr() < 0.6) addBlooms(m, [c[0], 0.49 + r * 0.85, c[1]], r, 6, rr);
+      }
+    }
+  }
+  const top = p.map(q => W3(q, H));
+  m.tris(top, earclip(p), [0, 1, 0], style === 0 ? hex2lin("#B08D72") : COL.flat, 5, Z4, [seed, 0, 0, 0]);
+}
+
+function addEave(m, a, b, n, L, H, poly, col, seed) {
+  let maxd = 0; for (const q of poly) maxd = Math.max(maxd, (a[0] - q[0]) * n[0] + (a[1] - q[1]) * n[1]);
+  const D = Math.min(3.4, Math.max(1.2, maxd * 0.45)), s = 0.32, rise = D * s, ov = 0.42, ye = H - ov * s;
+  const P = (q, k, y) => [q[0] + n[0] * k, y, -(q[1] + n[1] * k)];
+  const N = V3.norm([n[0] * s, 1, -n[1] * s]), sl = Math.hypot(D + ov, rise + ov * s);
+  const tile = V3.lerp(hex2lin("#A55E40"), [0.16, 0.11, 0.08], (seed % 7) / 30);
+  m.poly([P(a, ov, ye), P(b, ov, ye), P(b, -D, H + rise), P(a, -D, H + rise)], N, [[0, 0], [L, 0], [L, sl], [0, sl]], tile, 4, Z4, [seed, 0, 0, 0]);
+  m.poly([P(a, 0, ye - 0.04), P(b, 0, ye - 0.04), P(b, ov, ye - 0.04), P(a, ov, ye - 0.04)], [0, -1, 0], [[0, 0], [L, 0], [L, ov], [0, ov]], V3.scale(col, 0.82), 0);
+  m.poly([P(a, ov, ye - 0.04), P(b, ov, ye - 0.04), P(b, ov, ye + 0.06), P(a, ov, ye + 0.06)], [n[0], 0, -n[1]], [[0, 0], [L, 0], [L, .1], [0, .1]], tile, 0);
+  const e = [b[0] - a[0], 0, -(b[1] - a[1])], ex = V3.norm(e), pc = V3.lerp(COL.party, col, 0.35);
+  m.poly([P(a, 0, H), P(a, -D, H), P(a, -D, H + rise)], V3.scale(ex, -1), [[0, H], [D, H], [D, H + rise]], pc, 3);
+  m.poly([P(b, 0, H), P(b, -D, H), P(b, -D, H + rise)], ex, [[0, H], [D, H], [D, H + rise]], pc, 3);
+}
+function addBlooms(m, c, r, n, rnd) { // small flowers on the top half of a plant
+  const col = COL.bloom[Math.floor(rnd() * COL.bloom.length)];
+  for (let k = 0; k < n; k++) {
+    const th = rnd() * 1.2, ph = rnd() * Math.PI * 2, d = [Math.sin(th) * Math.cos(ph), Math.cos(th), Math.sin(th) * Math.sin(ph)];
+    addSphere(m, c[0] + d[0] * r * 0.92, c[1] + d[1] * r * 0.86, c[2] + d[2] * r * 0.92, 0.045 + rnd() * 0.035, [rnd() < 0.8 ? col : COL.bloom[Math.floor(rnd() * COL.bloom.length)]], rnd, 5, 3);
+  }
+}
+function addSphere(m, cx, cy, cz, r, cols, rnd, seg = 10, ring = 7) {
+  const pts = [];
+  for (let j = 0; j <= ring; j++) {
+    const th = j / ring * Math.PI, row = [];
+    for (let i = 0; i <= seg; i++) {
+      const ph = i / seg * Math.PI * 2, jit = 1 + (j > 0 && j < ring && i < seg ? (rnd() - 0.5) * 0.22 : 0);
+      const n = [Math.sin(th) * Math.cos(ph), Math.cos(th), Math.sin(th) * Math.sin(ph)];
+      row.push({ p: [cx + n[0] * r * jit, cy + n[1] * r * 0.92 * jit, cz + n[2] * r * jit], n });
+    }
+    row[seg] = row[0]; pts.push(row);
+  }
+  const c = cols[Math.floor(rnd() * cols.length)];
+  for (let j = 0; j < ring; j++) for (let i = 0; i < seg; i++) {
+    const a = pts[j][i], b = pts[j][i + 1], d = pts[j + 1][i], e = pts[j + 1][i + 1];
+    m.poly([a.p, b.p, e.p, d.p], V3.norm(V3.add(V3.add(a.n, b.n), V3.add(d.n, e.n))), [[0, 0], [1, 0], [1, 1], [0, 1]], V3.scale(c, 0.85 + rnd() * 0.3), 11);
+  }
+}
+
+function buildScene() {
+  const m = new Mesh(), rnd = rng(30);
+  const R = DISC.r + 6, cx = DISC.cx, cz = DISC.cz;
+  m.poly([[cx - R, 0, cz - R], [cx + R, 0, cz - R], [cx + R, 0, cz + R], [cx - R, 0, cz + R]], [0, 1, 0], [[0, 0], [1, 0], [1, 1], [0, 1]], COL.mat[6], 6);
+  for (const c of PARCELS) {
+    const mat = c.plot ? 8 : GARDEN.has(c.rc) ? 9 : 10, y = c.plot ? 0.06 : 0.07;
+    m.tris(c.pts.map(q => W3(q, y)), earclip(c.pts), [0, 1, 0], COL.mat[mat], mat);
+    for (let i = 0; i < c.pts.length; i++) {
+      const a = c.pts[i], b = c.pts[(i + 1) % c.pts.length], dx = b[0] - a[0], dy = b[1] - a[1], L = Math.hypot(dx, dy);
+      if (L < 0.05) continue;
+      const n = [dy / L, -dx / L], mid = [(a[0] + b[0]) / 2 + n[0] * 0.4, (a[1] + b[1]) / 2 + n[1] * 0.4];
+      if (inParcel(mid)) continue;
+      const a2 = [a[0] + n[0] * 1.05, a[1] + n[1] * 1.05], b2 = [b[0] + n[0] * 1.05, b[1] + n[1] * 1.05];
+      m.poly([W3(a, 0.03), W3(b, 0.03), W3(b2, 0.03), W3(a2, 0.03)], [0, 1, 0], [[0, 0], [1, 0], [1, 1], [0, 1]], COL.mat[7], 7);
+      const inner = [(a[0] + b[0]) / 2 - n[0] * 0.3, (a[1] + b[1]) / 2 - n[1] * 0.3];
+      if (!c.plot && L > 0.8 && !PARTS.some(o => inPoly(inner, o.pts))) {
+        const e = [dx / L, -dy / L], nn = [n[0], -n[1]];
+        m.obox([a[0] - n[0] * 0.25, -(a[1] - n[1] * 0.25)], e, nn, L, 2.3, 0.25, hex2lin("#9C9588"), 19, 0.03);
+      }
+    }
+  }
+  PARTS.forEach(p => { p.Hpre = (SHOPS.has(p.rc) ? 3.6 : 3.2) + (p.fl - 1) * 2.95; });
+  PARTS.forEach((p, k) => addPart(m, p, k));
+  for (const [bx, bn] of BOLLARDS) { m.obox([bx - 0.055, -bn - 0.055], [1, 0], [0, 1], 0.11, 0.85, 0.11, hex2lin("#1E2120"), 0, 0.03); m.obox([bx - 0.075, -bn - 0.075], [1, 0], [0, 1], 0.15, 0.06, 0.15, hex2lin("#2A2E2C"), 0, 0.88); }
+  for (const [x, nN] of LAMPS) {
+    const z = -nN, dk = hex2lin("#1E2120");
+    m.obox([x - 0.07, z - 0.07], [1, 0], [0, 1], 0.14, 3.6, 0.14, dk, 0, 0);
+    m.obox([x - 0.2, z - 0.2], [1, 0], [0, 1], 0.4, 0.5, 0.4, hex2lin("#E2DCC8"), 22, 3.6);
+    m.obox([x - 0.26, z - 0.26], [1, 0], [0, 1], 0.52, 0.12, 0.52, dk, 0, 4.1);
+  }
+  for (const [x, n, r, h] of TREES) { // trunk and a loose crown of leaf clusters
+    const tr = rng(Math.round(x * 13 + n * 7) >>> 0);
+    m.obox([x - 0.15, -n - 0.15], [1, 0], [0, 1], 0.3, h - r * 0.55, 0.3, COL.trunk, 12);
+    addSphere(m, x, h, -n, r * 0.74, COL.leaf, tr);
+    for (let k = 0; k < 7; k++) { const a = tr() * Math.PI * 2, d = r * (0.32 + tr() * 0.4); addSphere(m, x + Math.cos(a) * d, h + (tr() - 0.35) * r * 0.75, -n + Math.sin(a) * d, r * (0.36 + tr() * 0.24), COL.leaf, tr, 9, 6); }
+  }
+  const S = 160, sk = hex2lin("#222A27");
+  for (let k = 0; k < S; k++) {
+    const a0 = k / S * Math.PI * 2, a1 = (k + 1) / S * Math.PI * 2, P = a => [DISC.cx + Math.cos(a) * DISC.r, DISC.cz + Math.sin(a) * DISC.r];
+    const [x0, z0] = P(a0), [x1, z1] = P(a1), n = [Math.cos((a0 + a1) / 2), 0, Math.sin((a0 + a1) / 2)];
+    m.poly([[x0, DISC.base, z0], [x1, DISC.base, z1], [x1, 0.2, z1], [x0, 0.2, z0]], n, [[0, 0], [1, 0], [1, 1], [0, 1]], sk, 13);
+  }
+  const T = 5000;
+  m.poly([[-T, DISC.base, -T], [T, DISC.base, -T], [T, DISC.base, T], [-T, DISC.base, T]], [0, 1, 0], [[0, 0], [1, 0], [1, 1], [0, 1]], hex2lin("#D9DCD5"), 14);
+  return { m };
+}
+
+// planned volume: two houses, 10 m deep from the façade, split at the middle of the frontage
+const HOUSES = (() => {
+  const [A, B] = PLOT_FRONT, fl = Math.hypot(B[0] - A[0], B[1] - A[1]), f = [(B[0] - A[0]) / fl, (B[1] - A[1]) / fl];
+  const d = [f[1], -f[0]], M = [(A[0] + B[0]) / 2, (A[1] + B[1]) / 2], c0 = A[0] * d[0] + A[1] * d[1];
+  const strip = clipHalf(PLOT, d, c0 + 10), back = clipHalf(PLOT, [-d[0], -d[1]], -(c0 + 10)), mf = M[0] * f[0] + M[1] * f[1];
+  return { houses: [clipHalf(strip, f, mf), clipHalf(strip, [-f[0], -f[1]], -mf)].map(ccw), back: ccw(back), f, d, A };
+})();
+function buildGhost() {
+  const m = new Mesh(), H = 9.2, c = [1, 1, 1];
+  const [A, B] = PLOT_FRONT, fl = Math.hypot(B[0] - A[0], B[1] - A[1]), f = [(B[0] - A[0]) / fl, (B[1] - A[1]) / fl];
+  const d = [f[1], -f[0]], M = [(A[0] + B[0]) / 2, (A[1] + B[1]) / 2];
+  const strip = clipHalf(PLOT, d, A[0] * d[0] + A[1] * d[1] + 10);
+  const houses = [clipHalf(strip, f, M[0] * f[0] + M[1] * f[1]), clipHalf(strip, [-f[0], -f[1]], -(M[0] * f[0] + M[1] * f[1]))];
+  for (const h of houses.map(ccw)) {
+    for (let i = 0; i < h.length; i++) {
+      const a = h[i], b = h[(i + 1) % h.length], L = Math.hypot(b[0] - a[0], b[1] - a[1]); if (L < 0.05) continue;
+      const n = [(b[1] - a[1]) / L, 0, (b[0] - a[0]) / L];
+      m.poly([W3(a, 0.08), W3(b, 0.08), W3(b, H), W3(a, H)], n, [[0, 0], [L, 0], [L, H], [0, H]], c, 17, [L, H, 0, 0]);
+    }
+    m.tris(h.map(q => W3(q, H)), earclip(h), [0, 1, 0], c, 17, [100, 100, 0, 0], Z4, () => [50, 50]);
+  }
+  return m;
+}
+// ---------- shaders ----------
+const GLSL_COMMON = `
+float h21(vec2 p){p=fract(p*vec2(123.34,456.21));p+=dot(p,p+45.32);return fract(p.x*p.y);}
+float vnoise(vec2 p){vec2 i=floor(p),f=fract(p);f=f*f*(3.-2.*f);
+ return mix(mix(h21(i),h21(i+vec2(1,0)),f.x),mix(h21(i+vec2(0,1)),h21(i+vec2(1,1)),f.x),f.y);}
+float fbm(vec2 p){float s=0.,a=.5;for(int i=0;i<4;i++){s+=a*vnoise(p);p=p*2.03+17.1;a*=.5;}return s;}
+vec3 aces(vec3 x){return clamp((x*(2.51*x+.03))/(x*(2.43*x+.59)+.14),0.,1.);}
+vec3 grade(vec3 c){vec3 g=pow(aces(c),vec3(1./2.2)); g=mix(g,g*g*(3.-2.*g),.12);
+ g=g*vec3(1.03,1.,.95)+vec3(.014,.01,.004); float l=dot(g,vec3(.299,.587,.114)); return mix(vec3(l),g,.97);}
+`;
+const VS_SCENE = `#version 300 es
+layout(location=0) in vec3 aPos; layout(location=1) in vec3 aNrm; layout(location=2) in vec2 aUV;
+layout(location=3) in vec3 aCol; layout(location=4) in float aMat; layout(location=5) in vec4 aP; layout(location=6) in vec4 aQ;
+uniform mat4 uVP, uLVP;
+out vec3 vPos; out vec3 vNrm; out vec3 vCol; out vec2 vUV; out vec4 vL;
+flat out float vMat; flat out vec4 vP; flat out vec4 vQ;
+void main(){vPos=aPos;vNrm=aNrm;vUV=aUV;vCol=aCol;vMat=aMat;vP=aP;vQ=aQ;vL=uLVP*vec4(aPos,1.);gl_Position=uVP*vec4(aPos,1.);}
+`;
+const FS_SCENE = `#version 300 es
+precision highp float; precision highp sampler2DShadow;
+in vec3 vPos; in vec3 vNrm; in vec3 vCol; in vec2 vUV; in vec4 vL;
+flat in float vMat; flat in vec4 vP; flat in vec4 vQ;
+uniform vec3 uEye, uSunDir, uSunCol, uSkyCol, uGndCol, uFogCol;
+uniform float uFogDen, uExposure, uGlow, uLamp;
+uniform vec4 uDisc, uAOr; uniform vec2 uPoly[16]; uniform int uPolyN;
+uniform sampler2DShadow uShadow; uniform sampler2D uAO;
+out vec4 outC;
+${GLSL_COMMON}
+const vec2 PD[12]=vec2[12](vec2(-.326,-.406),vec2(-.840,-.074),vec2(-.696,.457),vec2(-.203,.621),vec2(.962,-.195),vec2(.473,-.480),
+ vec2(.519,.767),vec2(.185,-.893),vec2(.507,.064),vec2(.896,.412),vec2(-.322,-.933),vec2(-.792,-.598));
+float shadowAt(vec3 n){
+ vec3 p=vL.xyz/vL.w*.5+.5;
+ if(p.x<0.||p.x>1.||p.y<0.||p.y>1.||p.z>1.)return 1.;
+ float ndl=max(dot(n,uSunDir),0.); float bias=.0004+.0016*(1.-ndl);
+ vec2 ts=1./vec2(textureSize(uShadow,0)); float s=0., a=6.2832*h21(gl_FragCoord.xy*.37+.5);
+ mat2 rot=mat2(cos(a),sin(a),-sin(a),cos(a));
+ for(int i=0;i<12;i++)s+=texture(uShadow,vec3(p.xy+rot*PD[i]*ts*4.2,p.z-bias));
+ return s/12.;
+}
+vec3 shutterCol(float s){return s<.5?vec3(.075,.14,.083):(s<1.5?vec3(.15,.085,.045):vec3(.60,.55,.45));}
+vec3 facade(vec3 base,vec2 uv,bool front,out float glass,out float aoF,out float lampF){
+ float gh=vP.x,fh=vP.y,fl=vP.z,bw=vP.w,shop=vQ.x,sh=vQ.y,seed=vQ.z,fg=floor(vQ.w/10.+.01),style=vQ.w-fg*10.;
+ glass=0.; lampF=0.; float H=gh+(fl-1.)*fh;
+ float bay=floor(uv.x/bw), bx=uv.x-bay*bw-bw*.5, r=h21(vec2(bay,seed));
+ // mineral paint over render: broad tonal drift, trowel texture and fine grain
+ vec3 col=base*(.86+.12*fbm(uv*.35+seed)+.06*fbm(uv*2.3+seed*1.7)+.035*(h21(floor(uv*80.))-.5));
+ col*=1.-.09*smoothstep(.45,.85,fbm(uv*vec2(.6,.25)+seed*.3));
+ // rain streaks under the cornice and under every sill
+ float st=vnoise(vec2(uv.x*2.6+seed,uv.y*.35));
+ col*=1.-.16*smoothstep(H-2.2,H-.3,uv.y)*st;
+ // dirt and splash near the pavement
+ col*=mix(.74,1.,smoothstep(.0,1.4,uv.y+.4*fbm(uv*3.)));
+ // stone plinth with joints
+ if(uv.y<.85){vec2 b=vec2(uv.x/.62+step(1.,mod(floor(uv.y/.28),2.))*.5,uv.y/.28);
+  vec3 sb=fg>.5&&fg<1.5?vec3(.085,.08,.075):base*.62;
+  col=sb*(.86+.22*h21(floor(b)+seed))*(.9+.15*fbm(uv*6.));
+  if(min(fract(b.x),fract(b.y))<.05)col*=.72;}
+ if(fg>1.5&&front&&uv.y<gh)col=vec3(.12,.12,.13)*(.7+.6*h21(floor(uv*55.)))*(.92+.1*fbm(uv*2.));
+ // cornice band
+ if(uv.y>H-.42&&uv.y<H-.12)col=base*1.04*(.92+.1*fbm(uv*4.)); if(uv.y>H-.5&&uv.y<H-.42)col*=.68;
+ if(uv.y<gh){
+  if(front&&shop>.5&&bay>0.){
+   float wx=bw*.5-.28;
+   bool shut=fg>1.5||h21(vec2(bay,seed+5.))<.55;
+   if(abs(bx)<wx&&uv.y>(shut?.06:.55)&&uv.y<gh-.6){ if(shut){col=vec3(.56,.56,.53)*(.7+.3*smoothstep(.08,.5,fract(uv.y*9.)))*(.88+.16*fbm(uv*4.)); col=mix(col,vec3(.36,.2,.1),.5*smoothstep(.72,.86,fbm(uv*2.3+seed)));} else glass=1.;}
+   else if(abs(bx)<wx+.07&&uv.y>.5&&uv.y<gh-.55)col=vec3(.045,.05,.05)*(.8+.4*fbm(uv*12.));
+   if(uv.y>gh-.55&&uv.y<gh-.2&&abs(bx)<wx+.07)col=vec3(.07,.08,.08)+.05*r;
+  }else if(front&&bay<.5){
+   if(abs(bx)<.62&&uv.y<2.4){col=vec3(.17,.11,.065)*(.75+.3*fbm(vec2(uv.x*2.,uv.y*28.)))*(fract(bx*2.6)<.05?.65:1.);
+    if(abs(bx-.42)<.03&&abs(uv.y-1.05)<.04)col=vec3(.5,.42,.25);}
+   else if(abs(bx)<.75&&uv.y<2.55)col=base*.58;
+  }else if(front&&r<.35&&shop<.5){
+   if(abs(bx)<1.2&&uv.y<2.45)col=vec3(.28,.28,.27)*(.82+.18*smoothstep(.15,.5,fract(uv.y*7.)))*(.85+.25*fbm(uv*3.));
+  }else{
+   if(abs(bx)<.55&&uv.y>1.05&&uv.y<2.3){glass=1.; if(front&&fract(bx*4.5)<.1)glass=0.;}
+  }
+ }else{
+  float f=floor((uv.y-gh)/fh), fy=uv.y-gh-f*fh;
+  bool bal=front&&(style<.5||(style<1.5&&mod(bay,2.)<.5));
+  float ww=style>1.5?2.0:(bal?1.1:1.3), y0=bal?.02:.95, y1=style>1.5?2.4:2.25;
+  if(!front){ww=.95;y0=1.0;y1=2.15;}
+  if(uv.y<H-.5){
+   if(fg>1.5&&front&&abs(bx)<ww*.5+.55){vec2 k=vec2(uv.x/.29+step(1.,mod(floor(uv.y/.075),2.))*.5,uv.y/.075);
+    col=vec3(.42,.15,.08)*(.78+.32*h21(floor(k)))*mix(min(fract(k.x),fract(k.y))<.13?.72:1.,1.,smoothstep(.3,.8,fwidth(k.y)));}
+   if(abs(bx)<ww*.5&&fy>y0&&fy<y1){
+    float cov=h21(vec2(bay*7.+f,seed+3.)); cov=(cov<.4||style>1.5)?0.:cov*.8;
+    float wy=(fy-y0)/(y1-y0);
+    if(wy>1.-cov){col=shutterCol(sh)*(.62+.38*smoothstep(.15,.55,fract(fy*15.)))*(.82+.3*fbm(uv*5.));}
+    else glass=1.;
+    if(style>1.5&&abs(bx)<.025){glass=0.;col=vec3(.06);}
+    if(glass>.5&&style<1.5&&(abs(bx)<.025||abs(wy-.68)<.012)){glass=0.;col=vec3(.78,.77,.72);} 
+    if(wy>1.-cov-.04&&wy<1.-cov&&cov>0.)col*=.45;
+   }else if(abs(bx)<ww*.5+.08&&fy>y0-.08&&fy<y1+.1){
+    col=style>1.5?vec3(.06):vec3(.80,.79,.74)*(.88+.15*fbm(uv*9.));
+    if(fy>y1&&fy<y1+.1)col=base*.82;}
+   if(!bal&&abs(bx)<ww*.5+.16&&fy>y0-.14&&fy<y0-.06)col=base*.8;
+   if(abs(bx)<ww*.5+.1&&fy<y0-.14&&fy>y0-1.4)col*=1.-.12*(1.-smoothstep(y0-1.4,y0-.14,fy))*vnoise(vec2(uv.x*6.,seed));
+   if(fy<.05)col*=.9;
+  }
+ }
+ aoF=mix(.55,1.,smoothstep(0.,1.8,uv.y));
+ if(glass>.5){
+  float wr=h21(vec2(bay*3.1+floor(uv.y/2.95),seed+9.));
+  vec3 inside=vec3(.016,.018,.021)*(.7+.6*wr);
+  if(wr>.45&&abs(bx)>(1.-wr)*.5)inside=mix(vec3(.34,.30,.25),vec3(.36,.26,.22),step(.7,wr))*(.78+.22*sin(uv.x*38.))*.6;
+  if(wr>.9)inside+=vec3(.10,.06,.025);
+  lampF=step(.62,h21(vec2(bay*5.3+floor(uv.y/2.95),seed+21.)));
+  col=inside;
+ }
+ return col;
+}
+void main(){
+ int m=int(vMat+.5);
+ if(m!=13&&m!=14&&length(vPos.xz-uDisc.xy)>uDisc.z)discard;
+ vec3 N=normalize(vNrm);
+ if(!gl_FrontFacing){
+  if(m==11||m==21)N=-N;
+  else{ vec3 cut=vec3(.62,.63,.6)*(.9+.1*N.y); outC=vec4(grade(cut*uExposure*.95),1.); return; }
+ }
+ vec3 V=normalize(uEye-vPos); vec3 alb=vCol; float ao=1., glass=0., spec=0., emis=0., lampF=0., lampE=0.;
+ vec2 xz=vPos.xz;
+ if(m==1||m==2){alb=facade(vCol,vUV,m==1,glass,ao,lampF);}
+ else if(m==3){alb=vCol*(.78+.2*fbm(vUV*.5+vQ.x)+.08*fbm(vUV*3.))*(1.-.07*step(.5,fract(vUV.y/2.95+.1)));
+  float pt=smoothstep(.58,.66,fbm(vUV*.22+vQ.x*.1));
+  vec2 b=vec2(vUV.x/.29+step(1.,mod(floor(vUV.y/.075),2.))*.5,vUV.y/.075); float fw=fwidth(b.y);
+  vec3 br=vec3(.40,.19,.11)*(.8+.35*h21(floor(b)))*mix(min(fract(b.x),fract(b.y))<.12?.7:1.,1.,smoothstep(.3,.8,fw));
+  alb=mix(alb,br,pt*.9); alb*=1.-.15*vnoise(vec2(vUV.x*2.,vUV.y*.3))*smoothstep(2.,6.,vUV.y);
+  ao=mix(.6,1.,smoothstep(0.,2.,vUV.y));}
+ else if(m==4){vec2 t=vec2(vUV.x/.21,vUV.y/.38); vec2 id=floor(t);
+  alb=vCol*(.78+.32*h21(id+vQ.x))*(.82+.18*abs(sin(t.x*3.1416)))*(fract(t.y)<.14?.72:1.);
+  alb=mix(alb,vec3(.20,.20,.16),.25*smoothstep(.55,.8,fbm(vUV*.5+vQ.x)));}
+ else if(m==5){ if(vCol.r>vCol.b*1.2){ vec2 t=vec2(xz.x/.22,xz.y/.42); t.x+=.5*step(1.,mod(floor(t.y),2.)); vec2 id=floor(t);
+   alb=vec3(.40,.16,.08)*(.72+.45*h21(id+vQ.x))*(.78+.22*abs(sin(t.x*3.1416)))*(fract(t.y)<.16?.65:1.);
+   alb=mix(alb,vec3(.16,.15,.10),.35*smoothstep(.5,.8,fbm(xz*.4+vQ.x)));}
+  else { vec2 t=xz/.3; alb=mix(vCol,vec3(.42,.25,.16),step(.55,h21(vec2(vQ.x)))*.7)*(.82+.22*h21(floor(t)))*(min(fract(t.x),fract(t.y))<.06?.78:1.)*(1.-.15*smoothstep(.55,.8,fbm(xz*.3)));}}
+ else if(m==6){alb=vCol*(.74+.34*fbm(xz*1.6))*(.94+.12*(h21(floor(xz*70.))-.5));
+  float pa=fbm(floor(xz*.6)*.7+3.); if(pa>.6)alb*=.8;
+  float cr=abs(vnoise(xz*.9+7.)-.5); alb*=mix(.8,1.,smoothstep(.004,.014,cr));
+  alb*=1.-.18*smoothstep(.62,.8,fbm(xz*.5+11.)); spec=.03;}
+ else if(m==7){vec2 t=xz/vec2(.3,.15); t.x+=.5*step(1.,mod(floor(t.y),2.)); vec2 q=fract(t); alb=vCol*(.82+.2*h21(floor(t)))*(min(q.x*2.,q.y)<.08?.72:1.);
+  alb*=1.-.2*smoothstep(.55,.8,fbm(xz*.7+5.)); alb*=.92+.1*fbm(xz*3.); alb=mix(alb,vec3(.18,.17,.15),.6*step(.995,h21(floor(xz*9.))));}
+ else if(m==8){alb=vCol*(.74+.4*fbm(xz*1.3))*(.86+.28*h21(floor(xz*25.)));
+  float gr=smoothstep(.5,.7,fbm(xz*.9+2.));
+  alb=mix(alb,mix(vec3(.19,.24,.08),vec3(.40,.35,.15),fbm(xz*3.1+1.)),.85*gr);
+  vec2 fc=xz*4.2, fi=floor(fc); vec2 fo=vec2(h21(fi),h21(fi+3.7))-.5; float fdd=length(fract(fc)-.5-fo*.55);
+  float hue=h21(fi+5.3), fl=(1.-smoothstep(.12,.17,fdd))*step(.55,h21(fi+9.1))*gr;
+  alb=mix(alb,hue<.45?vec3(.90,.72,.16):(hue<.78?vec3(.93,.91,.86):vec3(.58,.42,.78)),fl);
+  float d=1e9; for(int i=0;i<16;i++){ if(i>=uPolyN)break; int j=i+1==uPolyN?0:i+1; vec2 a=uPoly[i],ba=uPoly[j]-a,pa=xz-a; float h=clamp(dot(pa,ba)/dot(ba,ba),0.,1.); d=min(d,length(pa-ba*h)); }
+  float band=1.-smoothstep(.13,.2,d); alb=mix(alb,vec3(.85,.48,.02),band); emis=band*uGlow;}
+ else if(m==19){vec2 t=vec2(vUV.x/.4+.5*step(1.,mod(floor(vUV.y/.2),2.)),vUV.y/.2); alb=vCol*(.8+.22*h21(floor(t)+vQ.x))*(.88+.18*fbm(vUV*3.));
+  if(min(fract(t.x)*2.,fract(t.y))<.06)alb*=.78; alb*=mix(.72,1.,smoothstep(0.,.9,vUV.y)); alb*=1.-.12*vnoise(vec2(vUV.x*3.,vUV.y*.4));}
+ else if(m==20){alb=vCol*(.66+.34*smoothstep(.08,.45,fract(vUV.y*8.)))*(.85+.25*fbm(vUV*2.5)); spec=.1;}
+ else if(m==18){alb=vCol*(.8+.25*fbm(vec2(xz.x+xz.y,vUV.y)*3.));}
+ else if(m==9){alb=mix(vCol,vec3(.32,.28,.14),.45*smoothstep(.45,.75,fbm(xz*.35)))*(.8+.35*fbm(xz*1.1));}
+ else if(m==10){vec2 t=xz/.5; alb=vCol*(.88+.14*fbm(xz*.8))*(min(fract(t.x),fract(t.y))<.04?.85:1.);}
+ else if(m==11){alb=vCol*(.7+.5*fbm(vPos.xz*1.6+vPos.y*1.3)); ao=.55+.45*(N.y*.5+.5);}
+ else if(m==13){alb=vCol*(.85+.15*smoothstep(-1.6,.1,vPos.y));}
+ else if(m==16){if(abs(N.y)<.5&&vUV.y>.07&&vUV.y<.88&&fract(vUV.x/.11)>.24)discard; spec=.25;}
+ else if(m==22){lampE=uLamp*2.6;}
+ if(m>=6&&m<=10){vec2 a=(xz-uAOr.xy)/uAOr.z; if(a.x>0.&&a.y>0.&&a.x<1.&&a.y<1.)ao*=mix(.42,1.,texture(uAO,a).r);}
+ float ndl=max(dot(N,uSunDir),0.); if(m==11)ndl=max(dot(N,uSunDir)*.6+.4,0.);
+ float sh=ndl>0.?shadowAt(N):0.;
+ vec3 amb=mix(uGndCol,uSkyCol,N.y*.5+.5);
+ vec3 c=alb*(uSunCol*ndl*sh+amb*ao);
+ if(glass>.5||spec>0.){
+  vec3 R=reflect(-V,N); float fr=.04+.96*pow(1.-max(dot(N,V),0.),5.);
+  vec3 env=mix(uFogCol*1.05,uSkyCol*1.6,smoothstep(-.05,.5,R.y));
+  float k=glass>.5?mix(.16,.85,fr):spec*fr;
+  c+=env*k*(glass>.5?.9:1.)*mix(.6,1.,sh);
+  c+=uSunCol*pow(max(dot(R,uSunDir),0.),220.)*sh*(glass>.5?4.:spec*6.);
+ }
+ c+=vec3(1.,.62,.08)*emis*1.4;
+ c+=vec3(1.,.64,.32)*(lampF*glass*uLamp*1.5+lampE);
+ float dist=length(vPos-uEye); float fog=1.-exp(-dist*uFogDen);
+ vec3 fc=uFogCol+uSunCol*.07*pow(max(dot(-V,uSunDir),0.),8.);
+ c=mix(c,fc,clamp(fog,0.,.55));
+ vec3 g=grade(c*uExposure);
+ outC=vec4(g+(h21(gl_FragCoord.xy*.731+3.1)-.5)*.018,1.);
+}
+`;
+const VS_SKY = `#version 300 es
+out vec2 vN;
+void main(){vec2 p=vec2(float((gl_VertexID<<1)&2),float(gl_VertexID&2));vN=p*2.-1.;gl_Position=vec4(vN,1.,1.);}
+`;
+const FS_SKY = `#version 300 es
+precision highp float;
+in vec2 vN; uniform mat4 uInvVP; uniform vec3 uEye,uSunDir,uSunCol,uFogCol,uSkyCol; uniform float uExposure;
+uniform vec4 uAxes; // world x axis and z axis expressed in (E,N)
+out vec4 outC;
+${GLSL_COMMON}
+float gs(float a,float c,float w){float d=mod(a-c+540.,360.)-180.;return exp(-d*d/(2.*w*w));}
+float ridge(float a){
+ float e=.65+4.5*gs(a,7.,15.)+1.0*gs(a,12.,4.)+.8*gs(a,353.,5.)+1.7*gs(a,40.,14.);
+ e+=1.7*gs(a,86.,11.)+2.2*gs(a,111.,13.)+1.9*gs(a,160.,22.)+1.3*gs(a,203.,17.)+1.0*gs(a,316.,20.);
+ return e+.45*(vnoise(vec2(a*.33,1.))-.5)+.2*(vnoise(vec2(a*1.9,7.))-.5);
+}
+void main(){
+ vec4 w=uInvVP*vec4(vN,1.,1.); vec3 d=normalize(w.xyz/w.w-uEye);
+ float se=uSunDir.y, cs=dot(d,uSunDir);
+ vec3 zen=mix(vec3(.035,.06,.14),vec3(.13,.30,.62),smoothstep(-.05,.35,se));
+ vec3 hor=mix(vec3(.50,.38,.34),vec3(.70,.78,.86),smoothstep(0.,.45,se));
+ hor=mix(hor,vec3(1.,.58,.30),(1.-smoothstep(0.,.3,se))*pow(max(cs,0.),3.)*.85);
+ float h=d.y;
+ vec3 c=mix(hor,zen,pow(clamp(h,0.,1.),.5));
+ c+=uSunCol*(.05*pow(max(cs,0.),6.)+.22*pow(max(cs,0.),180.));
+ c+=vec3(1.,.93,.82)*smoothstep(.99955,.9999,cs)*18.*step(-.02,h);
+ if(h>0.){
+  vec2 cu=d.xz/(h+.12);
+  float n=fbm(cu*.42+vec2(3.1,7.7))*.7+fbm(cu*1.35+vec2(9.2,1.3))*.3;
+  float dens=smoothstep(.5,.76,n)*smoothstep(.015,.2,h)*.82;
+  vec3 hd=normalize(vec3(d.x,0.,d.z)+1e-4), sd=normalize(vec3(uSunDir.x,0.,uSunDir.z)+1e-4);
+  float tw=dot(hd,sd)*.5+.5;
+  vec3 cc=mix(uSkyCol*1.5+vec3(.26),vec3(.86,.86,.88),.55)*(.82+.18*smoothstep(.45,.8,n))+uSunCol*(.04+.13*tw*tw);
+  c=mix(c,cc,dens);
+ }
+ float E=d.x*uAxes.x+d.z*uAxes.z, Nn=d.x*uAxes.y+d.z*uAxes.w;
+ float az=mod(degrees(atan(E,Nn))+360.,360.), el=degrees(asin(clamp(h,-1.,1.)));
+ float m=ridge(az);
+ if(el<m&&el>-.6){
+  vec3 mt=mix(vec3(.25,.30,.30),vec3(.36,.40,.42),smoothstep(1.,5.5,m))*(uSkyCol*1.1+.25);
+  float t=clamp(el/max(m,.1),0.,1.);
+  c=mix(mix(mt,uFogCol,.5),mt,t*.55);
+  c=mix(c,hor,.25);
+ }
+ if(h<-.004)c=mix(c,uFogCol,smoothstep(-.004,-.03,h));
+ outC=vec4(grade(c*uExposure),1.);
+}
+`;
+const VS_DEPTH = `#version 300 es
+layout(location=0) in vec3 aPos; layout(location=1) in vec3 aNrm; layout(location=2) in vec2 aUV; layout(location=4) in float aMat;
+uniform mat4 uLVP; flat out float vMat; out vec2 vXZ; out vec2 vUV; out float vNy; out float vY;
+void main(){vMat=aMat;vXZ=aPos.xz;vUV=aUV;vNy=aNrm.y;vY=aPos.y;gl_Position=uLVP*vec4(aPos,1.);}
+`;
+const FS_DEPTH = `#version 300 es
+precision highp float; flat in float vMat; in vec2 vXZ; in vec2 vUV; in float vNy; in float vY; uniform vec4 uDisc; uniform float uClipH;
+void main(){int m=int(vMat+.5); if(vY>uClipH)discard; if(m!=13&&m!=14&&length(vXZ-uDisc.xy)>uDisc.z)discard;
+ if(m==16&&abs(vNy)<.5&&vUV.y>.07&&vUV.y<.88&&fract(vUV.x/.11)>.24)discard;}
+`;
+const FS_GHOST = `#version 300 es
+precision highp float;
+in vec3 vPos; in vec3 vNrm; in vec3 vCol; in vec2 vUV; in vec4 vL; flat in float vMat; flat in vec4 vP; flat in vec4 vQ;
+uniform vec3 uSunDir; uniform float uAlpha, uGhostH, uDay; out vec4 outC;
+void main(){
+ if(vPos.y>uGhostH+.02)discard;
+ vec3 N=normalize(vNrm);
+ float e=min(min(vUV.x,vP.x-vUV.x),min(vUV.y,vP.y-vUV.y));
+ float line=1.-smoothstep(.03,.075,e);
+ float fl=0.; if(abs(N.y)<.5){fl=(1.-smoothstep(.025,.06,abs(vUV.y-3.2)))+(1.-smoothstep(.025,.06,abs(vUV.y-6.2)));}
+ float k=max(line,fl*.8);
+ vec3 c=mix(vec3(.97,.96,.93)*(.82+.18*max(dot(N,uSunDir),0.))*mix(.38,1.,uDay),vec3(.09,.12,.11),k);
+ outC=vec4(c,(.26+.7*k)*uAlpha);
+}
+`;
+// ---------- renderer ----------
+function compile(gl, vs, fs) {
+  const mk = (t, s) => {
+    const sh = gl.createShader(t); gl.shaderSource(sh, s); gl.compileShader(sh);
+    if (!gl.getShaderParameter(sh, gl.COMPILE_STATUS)) throw new Error("shader: " + gl.getShaderInfoLog(sh));
+    return sh;
+  };
+  const p = gl.createProgram();
+  gl.attachShader(p, mk(gl.VERTEX_SHADER, vs)); gl.attachShader(p, mk(gl.FRAGMENT_SHADER, fs)); gl.linkProgram(p);
+  if (!gl.getProgramParameter(p, gl.LINK_STATUS)) throw new Error("link: " + gl.getProgramInfoLog(p));
+  const u = {}, n = gl.getProgramParameter(p, gl.ACTIVE_UNIFORMS);
+  for (let i = 0; i < n; i++) { const a = gl.getActiveUniform(p, i); u[a.name] = gl.getUniformLocation(p, a.name); }
+  return { p, u };
+}
+function upload(gl, mesh) {
+  const vao = gl.createVertexArray(); gl.bindVertexArray(vao);
+  const vb = gl.createBuffer(); gl.bindBuffer(gl.ARRAY_BUFFER, vb); gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(mesh.v), gl.STATIC_DRAW);
+  const ib = gl.createBuffer(); gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER, ib); gl.bufferData(gl.ELEMENT_ARRAY_BUFFER, new Uint32Array(mesh.i), gl.STATIC_DRAW);
+  for (const [loc, size, off] of [[0, 3, 0], [1, 3, 3], [2, 2, 6], [3, 3, 8], [4, 1, 11], [5, 4, 12], [6, 4, 16]]) {
+    gl.enableVertexAttribArray(loc); gl.vertexAttribPointer(loc, size, gl.FLOAT, false, FPV * 4, off * 4);
+  }
+  gl.bindVertexArray(null);
+  return { vao, count: mesh.i.length };
+}
+function bakeAO(gl) {
+  const size = 1024, half = DISC.r + 4, x0 = DISC.cx - half, z0 = DISC.cz - half, span = half * 2, s = size / span;
+  const src = document.createElement("canvas"); src.width = src.height = size;
+  const t = src.getContext("2d"); t.fillStyle = "#fff"; t.fillRect(0, 0, size, size); t.fillStyle = "#000";
+  for (const poly of FOOT) { t.beginPath(); poly.forEach(([x, z], i) => i ? t.lineTo((x - x0) * s, (z - z0) * s) : t.moveTo((x - x0) * s, (z - z0) * s)); t.closePath(); t.fill(); }
+  const out = document.createElement("canvas"); out.width = out.height = size;
+  const g = out.getContext("2d"); g.fillStyle = "#fff"; g.fillRect(0, 0, size, size);
+  g.filter = "blur(9px)"; g.drawImage(src, 0, 0); g.filter = "none";
+  g.globalCompositeOperation = "multiply"; g.filter = "blur(3px)"; g.drawImage(src, 0, 0); g.filter = "none";
+  const tex = gl.createTexture(); gl.bindTexture(gl.TEXTURE_2D, tex);
+  gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGBA, gl.RGBA, gl.UNSIGNED_BYTE, out);
+  gl.generateMipmap(gl.TEXTURE_2D);
+  gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MIN_FILTER, gl.LINEAR_MIPMAP_LINEAR);
+  gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MAG_FILTER, gl.LINEAR);
+  gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_S, gl.CLAMP_TO_EDGE); gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_T, gl.CLAMP_TO_EDGE);
+  return { tex, rect: [x0, z0, span, 0] };
+}
+function makeShadow(gl, size) {
+  const tex = gl.createTexture(); gl.bindTexture(gl.TEXTURE_2D, tex);
+  gl.texStorage2D(gl.TEXTURE_2D, 1, gl.DEPTH_COMPONENT24, size, size);
+  for (const [k, v] of [[gl.TEXTURE_MIN_FILTER, gl.LINEAR], [gl.TEXTURE_MAG_FILTER, gl.LINEAR], [gl.TEXTURE_WRAP_S, gl.CLAMP_TO_EDGE], [gl.TEXTURE_WRAP_T, gl.CLAMP_TO_EDGE],
+    [gl.TEXTURE_COMPARE_MODE, gl.COMPARE_REF_TO_TEXTURE], [gl.TEXTURE_COMPARE_FUNC, gl.LEQUAL]]) gl.texParameteri(gl.TEXTURE_2D, k, v);
+  const fb = gl.createFramebuffer(); gl.bindFramebuffer(gl.FRAMEBUFFER, fb);
+  gl.framebufferTexture2D(gl.FRAMEBUFFER, gl.DEPTH_ATTACHMENT, gl.TEXTURE_2D, tex, 0);
+  gl.drawBuffers([gl.NONE]); gl.readBuffer(gl.NONE);
+  gl.bindFramebuffer(gl.FRAMEBUFFER, null);
+  return { tex, fb, size };
+}
+const smooth = (a, b, x) => { const t = clamp((x - a) / (b - a), 0, 1); return t * t * (3 - 2 * t); };
+function lightFor(el) { // warm, soft light: golden low sun, generous sky and bounce so shadows stay open
+  const se = Math.sin(el * DEG), k = clamp((el - 1) / 40, 0, 1);
+  const col = V3.lerp([1.0, 0.50, 0.25], [1.0, 0.92, 0.80], Math.sqrt(k));
+  const I = 3.5 * clamp((el + 1.5) / 9, 0, 1) * (0.8 + 0.2 * clamp(el / 45, 0, 1));
+  const dim = clamp((el + 5) / 12, 0.2, 1);
+  return {
+    sun: V3.scale(col, I),
+    sky: V3.scale(V3.lerp([0.40, 0.33, 0.34], [0.40, 0.45, 0.56], k), dim),
+    gnd: V3.scale(V3.lerp([0.34, 0.24, 0.17], [0.40, 0.32, 0.24], k), dim),
+    fog: V3.lerp([0.62, 0.47, 0.42], [0.76, 0.80, 0.86], smooth(0, 0.45, se)),
+    exposure: el < 6 ? 1.12 : 0.98,
+    lamp: clamp((5 - el) / 8, 0, 1), day: clamp((el + 4) / 14, 0, 1)
+  };
+}
+function Renderer(canvas) {
+  const gl = canvas.getContext("webgl2", { antialias: true, alpha: false, powerPreference: "high-performance" });
+  if (!gl) throw new Error("webgl2");
+  const P = { scene: compile(gl, VS_SCENE, FS_SCENE), sky: compile(gl, VS_SKY, FS_SKY), depth: compile(gl, VS_DEPTH, FS_DEPTH), ghost: compile(gl, VS_SCENE, FS_GHOST) };
+  const built = buildScene();
+  const scene = upload(gl, built.m), ghost = upload(gl, buildGhost());
+  const ao = bakeAO(gl);
+  const small = Math.min(window.innerWidth, window.innerHeight) < 700;
+  const sh = makeShadow(gl, small ? 2048 : 4096);
+  const skyVao = gl.createVertexArray();
+  let lvp = null, sunDir = [0, 1, 0], L = lightFor(45);
+  const R = {
+    gl,
+    setSun(dir, el) { sunDir = dir; L = lightFor(el); this.shadowDirty = true; },
+    shadowDirty: true,
+    draw(cam, ghostA, opt = {}) {
+      const w = canvas.width, h = canvas.height;
+      const proj = M4.persp(cam.fov * DEG, w / h, 0.3, 12000), view = M4.lookAt(cam.eye, cam.target, cam.up);
+      proj[8] = -(opt.shift || 0); proj[9] = -(opt.shiftY || 0);
+      const vp = M4.mul(proj, view);
+      const gS = ghostA > 0.5, gH = opt.ghostH ?? 99;
+      if (gS !== this._gS || (gS && Math.abs(gH - this._gH) > 0.005)) { this.shadowDirty = true; this._gS = gS; this._gH = gH; }
+      if (this.shadowDirty) {
+        const c = [0, 0, 0], s = sunDir[1] > 0.04 ? sunDir : V3.norm([sunDir[0], 0.04, sunDir[2]]);
+        const e = V3.add(c, V3.scale(s, 220));
+        lvp = M4.mul(M4.ortho(-62, 62, -62, 62, 60, 420), M4.lookAt(e, c, Math.abs(s[1]) > 0.98 ? [0, 0, 1] : [0, 1, 0]));
+        gl.bindFramebuffer(gl.FRAMEBUFFER, sh.fb); gl.viewport(0, 0, sh.size, sh.size);
+        gl.enable(gl.DEPTH_TEST); gl.depthMask(true); gl.disable(gl.CULL_FACE); gl.clear(gl.DEPTH_BUFFER_BIT);
+        gl.useProgram(P.depth.p); gl.uniformMatrix4fv(P.depth.u.uLVP, false, lvp);
+        gl.uniform4f(P.depth.u.uDisc, DISC.cx, DISC.cz, DISC.r, 0); gl.uniform1f(P.depth.u.uClipH, 1e4);
+        gl.bindVertexArray(scene.vao); gl.drawElements(gl.TRIANGLES, scene.count, gl.UNSIGNED_INT, 0);
+        if (gS) { gl.uniform1f(P.depth.u.uClipH, gH); gl.bindVertexArray(ghost.vao); gl.drawElements(gl.TRIANGLES, ghost.count, gl.UNSIGNED_INT, 0); }
+        gl.bindFramebuffer(gl.FRAMEBUFFER, null); this.shadowDirty = false;
+      }
+      gl.viewport(0, 0, w, h); gl.clearColor(0.7, 0.75, 0.8, 1); gl.clear(gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT);
+      const sky = P.sky;
+      gl.disable(gl.DEPTH_TEST); gl.depthMask(false); gl.useProgram(sky.p);
+      gl.uniformMatrix4fv(sky.u.uInvVP, false, M4.inv(vp)); gl.uniform3fv(sky.u.uEye, cam.eye);
+      gl.uniform3fv(sky.u.uSunDir, sunDir); gl.uniform3fv(sky.u.uSunCol, L.sun); gl.uniform3fv(sky.u.uFogCol, L.fog); gl.uniform3fv(sky.u.uSkyCol, L.sky);
+      gl.uniform1f(sky.u.uExposure, L.exposure); gl.uniform4f(sky.u.uAxes, UX[0], UX[1], VZ[0], VZ[1]);
+      gl.bindVertexArray(skyVao); gl.drawArrays(gl.TRIANGLES, 0, 3);
+      gl.enable(gl.DEPTH_TEST); gl.depthMask(true); gl.depthFunc(gl.LEQUAL);
+      const S = P.scene; gl.useProgram(S.p);
+      gl.uniformMatrix4fv(S.u.uVP, false, vp); gl.uniformMatrix4fv(S.u.uLVP, false, lvp);
+      gl.uniform3fv(S.u.uEye, cam.eye); gl.uniform3fv(S.u.uSunDir, sunDir); gl.uniform3fv(S.u.uSunCol, L.sun);
+      gl.uniform3fv(S.u.uSkyCol, L.sky); gl.uniform3fv(S.u.uGndCol, L.gnd); gl.uniform3fv(S.u.uFogCol, L.fog);
+      gl.uniform1f(S.u.uFogDen, 0.001); gl.uniform1f(S.u.uExposure, L.exposure); gl.uniform1f(S.u.uGlow, 0.4); gl.uniform1f(S.u.uLamp, L.lamp);
+      gl.uniform4f(S.u.uDisc, DISC.cx, DISC.cz, DISC.r, 0); gl.uniform4fv(S.u.uAOr, ao.rect);
+      gl.uniform2fv(S.u["uPoly[0]"], new Float32Array(PLOT.flatMap(q => [q[0], -q[1]]))); gl.uniform1i(S.u.uPolyN, PLOT.length);
+      gl.activeTexture(gl.TEXTURE0); gl.bindTexture(gl.TEXTURE_2D, sh.tex); gl.uniform1i(S.u.uShadow, 0);
+      gl.activeTexture(gl.TEXTURE1); gl.bindTexture(gl.TEXTURE_2D, ao.tex); gl.uniform1i(S.u.uAO, 1);
+      gl.bindVertexArray(scene.vao); gl.drawElements(gl.TRIANGLES, scene.count, gl.UNSIGNED_INT, 0);
+      if (ghostA > 0.01) {
+        const G = P.ghost; gl.useProgram(G.p); gl.enable(gl.BLEND); gl.blendFunc(gl.SRC_ALPHA, gl.ONE_MINUS_SRC_ALPHA); gl.depthMask(false);
+        gl.uniformMatrix4fv(G.u.uVP, false, vp); if (G.u.uLVP) gl.uniformMatrix4fv(G.u.uLVP, false, lvp);
+        gl.uniform3fv(G.u.uSunDir, sunDir); gl.uniform1f(G.u.uAlpha, ghostA); gl.uniform1f(G.u.uDay, L.day); gl.uniform1f(G.u.uGhostH, opt.ghostH ?? 99);
+        gl.bindVertexArray(ghost.vao); gl.drawElements(gl.TRIANGLES, ghost.count, gl.UNSIGNED_INT, 0);
+        gl.depthMask(true); gl.disable(gl.BLEND);
+      }
+      gl.bindVertexArray(null);
+      return vp;
+    }
+  };
+  return R;
+}
+// ---------- app · viewer core (one WebGL canvas that moves between the story and the explorer) ----------
+const $ = id => document.getElementById(id);
+const REDUCE = matchMedia("(prefers-reduced-motion: reduce)").matches;
+const MONTHS = ["de gener", "de febrer", "de març", "d'abril", "de maig", "de juny", "de juliol", "d'agost", "de setembre", "d'octubre", "de novembre", "de desembre"];
+const easeOut3 = t => 1 - Math.pow(1 - t, 3), easeIn3 = t => t * t * t;
+// camera moves that stay out of the buildings: rise first then travel, or travel first then come down
+function camPath(a, b, t) {
+  const s = ease(clamp(t, 0, 1)), up = b.eye[1] >= a.eye[1];
+  const h = up ? easeIn3(s) : easeOut3(s), v = up ? easeOut3(s) : easeIn3(s);
+  return {
+    eye: [lerp(a.eye[0], b.eye[0], h), lerp(a.eye[1], b.eye[1], v), lerp(a.eye[2], b.eye[2], h)],
+    target: V3.lerp(a.target, b.target, s), up: V3.norm(V3.lerp(a.up, b.up, s)), fov: lerp(a.fov, b.fov, s)
+  };
+}
+const sph = c => { const d = V3.sub(c.eye, c.target), r = Math.hypot(d[0], d[1], d[2]); return { r, yaw: Math.atan2(d[0], d[2]), pitch: Math.asin(clamp(d[1] / r, -1, 1)) }; };
+function camOrbit(a, b, t) { // sweep around the site
+  const s = ease(clamp(t, 0, 1)), A = sph(a), B = sph(b);
+  const dy = ((B.yaw - A.yaw + 3 * Math.PI) % (2 * Math.PI)) - Math.PI;
+  const yaw = A.yaw + dy * s, pitch = lerp(A.pitch, B.pitch, s), r = Math.exp(lerp(Math.log(A.r), Math.log(B.r), s));
+  const tg = V3.lerp(a.target, b.target, s), cp = Math.cos(pitch);
+  return { eye: V3.add(tg, [Math.sin(yaw) * cp * r, Math.sin(pitch) * r, Math.cos(yaw) * cp * r]), target: tg, up: [0, 1, 0], fov: lerp(a.fov, b.fov, s) };
+}
+
+const VIEW = (function () {
+  const hosts = { story: $("storyHost"), explore: $("exploreHost") }, posters = {};
+  for (const k in hosts) { const p = document.createElement("canvas"); p.className = "poster"; p.setAttribute("aria-hidden", "true"); hosts[k].appendChild(p); posters[k] = p; hosts[k].dataset.k = k; }
+  const canvas = document.createElement("canvas"); canvas.id = "gl"; canvas.setAttribute("role", "img");
+  canvas.setAttribute("aria-label", "Maqueta 3D del carrer d'Anselm Clavé i del solar, amb el sol real de cada hora");
+  const layer = document.createElement("div"); layer.className = "labels"; layer.id = "labels";
+  hosts.story.append(canvas, layer);
+  const stage = $("stage"), hint = $("hint"), hr = $("hr"), read = $("sunread"), tb = $("tb");
+  const S = {
+    ctx: "story", pending: null, mode: "str", started: false, ok: true,
+    aer: { yaw: Math.PI + 0.35, pitch: 0.82, dist: 62, target: [0.6, 2, -0.5] },
+    str: { x: -0.5, z: -11.4, yaw: 0.05, pitch: 0.1, fov: 74 }, pla: { dist: 62 },
+    cam: null, anim: null, dirty: true, ghost: false, ghostA: 0, labels: true, auto: !REDUCE, playing: false,
+    day: "06-21", min: 1125, armed: false, q: 1, last: null,
+    story: { cam: null, ghostA: 0, ghostH: 0, vis: [], shift: 0, shiftY: 0 }
+  };
+  let R = null;
+  try { R = Renderer(canvas); } catch (e) {
+    console.error(e); S.ok = false;
+    for (const k in hosts) { const d = document.createElement("p"); d.className = "fallback"; d.textContent = "Aquest navegador no pot mostrar la maqueta 3D: cal WebGL 2. Prova-ho amb Chrome, Edge, Firefox o Safari actualitzats."; hosts[k].appendChild(d); }
+    canvas.remove(); hint.classList.add("gone");
+  }
+
+  // ----- sun -----
+  function dayParts() {
+    if (S.day === "today") { const now = Date.now(), l = new Date(now + madridOffsetH(new Date(now).getUTCFullYear(), now) * 3600000); return [l.getUTCFullYear(), l.getUTCMonth(), l.getUTCDate()]; }
+    const [m, d] = S.day.split("-").map(Number); return [new Date().getFullYear(), m - 1, d];
+  }
+  function applySun() {
+    const [y, mo, d] = dayParts(), sp = sunPos(localToUTC(y, mo, d, S.min), SITE.lat, SITE.lon), ch = Math.cos(sp.el * DEG);
+    const [wx, wz] = enToWorld(Math.sin(sp.az * DEG) * ch, Math.cos(sp.az * DEG) * ch);
+    if (R) R.setSun(V3.norm([wx, Math.sin(sp.el * DEG), wz]), sp.el); S.dirty = true;
+    read.textContent = `${d} ${MONTHS[mo]} · ${hhmm(S.min)} · ` + (sp.el > 0 ? `sol a ${Math.round(sp.el)}° d'alçada, direcció ${compass(sp.az)}` : "el sol és sota l'horitzó");
+    return sp;
+  }
+  function setDay(day) {
+    S.day = day; const [y, mo, d] = dayParts(), info = dayInfo(y, mo, d);
+    hr.min = info.rise - 10; hr.max = info.set + 10; S.min = clamp(S.min, +hr.min, +hr.max); hr.value = S.min;
+    document.querySelectorAll("#days .chip").forEach(c => c.setAttribute("aria-pressed", String(c.dataset.d === day)));
+    return applySun();
+  }
+  const setPlaying = on => { S.playing = on; $("play").setAttribute("aria-pressed", String(on)); $("play").textContent = on ? "Atura" : "Mou el sol"; };
+  document.querySelectorAll("#days .chip").forEach(c => c.addEventListener("click", () => setDay(c.dataset.d)));
+  hr.addEventListener("input", () => { S.min = +hr.value; applySun(); });
+  $("play").addEventListener("click", () => setPlaying(!S.playing));
+  if (!R) return { S, ok: false, setDay, applySun, showMoment() { location.hash = "#explora"; } };
+
+  // ----- explorer cameras -----
+  const HINTS = {
+    aer: "Arrossega per girar · Maj. + arrossega per desplaçar · fes clic i usa la roda per apropar-te",
+    str: "Arrossega per mirar al voltant · fletxes o botons per caminar pel carrer",
+    pla: "Planta amb el nord a dalt · fes clic i usa la roda per apropar-te"
+  };
+  function camFor(m) {
+    if (m === "aer") { const a = S.aer, cp = Math.cos(a.pitch); return { eye: V3.add(a.target, [Math.sin(a.yaw) * cp * a.dist, Math.sin(a.pitch) * a.dist, Math.cos(a.yaw) * cp * a.dist]), target: a.target.slice(), up: [0, 1, 0], fov: 40 }; }
+    if (m === "str") { const s = S.str, cp = Math.cos(s.pitch), e = [s.x, 1.65, s.z]; return { eye: e, target: V3.add(e, [Math.sin(s.yaw) * cp, Math.sin(s.pitch), Math.cos(s.yaw) * cp]), up: [0, 1, 0], fov: s.fov }; }
+    return { eye: [0.6, S.pla.dist, -0.5], target: [0.6, 0, -0.5], up: NORTH.slice(), fov: 30 };
+  }
+  function currentCam(now) {
+    const to = camFor(S.mode); if (!S.anim) return to;
+    const t = (now - S.anim.t0) / S.anim.dur; if (t >= 1) { S.anim = null; return to; }
+    return camPath(S.anim.from, to, t);
+  }
+  function showHint(txt, ms = 6000) { hint.textContent = txt || HINTS[S.mode]; hint.classList.remove("gone"); clearTimeout(S.ht); S.ht = setTimeout(() => hint.classList.add("gone"), ms); }
+  function go(m, dur = 1300) {
+    const c = S.cam || camFor(m);
+    S.anim = { from: { eye: c.eye.slice(), target: c.target.slice(), up: c.up.slice(), fov: c.fov }, t0: performance.now(), dur: REDUCE ? 1 : dur };
+    S.mode = m; S.dirty = true;
+    for (const [k, id] of [["aer", "mAer"], ["str", "mStr"], ["pla", "mPla"]]) $(id).setAttribute("aria-pressed", String(S.mode === k));
+    $("walk").classList.toggle("on", m === "str"); tb.classList.toggle("plan", m === "pla");
+    $("tbView").firstChild.textContent = { aer: "Maqueta aèria ", str: "A peu de carrer, a 1,65 m ", pla: "Planta " }[m];
+    if (S.ctx === "explore") showHint();
+  }
+  const setGhost = on => { S.ghost = on; $("tVol").setAttribute("aria-pressed", String(on)); S.dirty = true; };
+
+  // ----- labels -----
+  const labels = [];
+  const addLabel = (html, pos, cls, extra) => { const el = document.createElement("div"); el.className = "lbl hide " + cls; el.innerHTML = html; layer.appendChild(el); labels.push(Object.assign({ el, pos, cls, on: false }, extra)); };
+  addLabel("C/ Anselm Clavé, 30<em>Solar de 126 m² · aquí farem les cases</em>", [0.6, 0.3, -0.5], "plot");
+  addLabel("Carrer d'Anselm Clavé", [-21, 0.3, -7.2], "st");
+  for (const rc of Object.keys(NUMBERS)) {
+    const ps = PARTS.filter(p => p.rc === rc); if (!ps.length) continue;
+    const top = ps.reduce((a, b) => b.H > a.H ? b : a), c = top.pts.reduce((a, q) => [a[0] + q[0] / top.pts.length, a[1] + q[1] / top.pts.length], [0, 0]);
+    addLabel(NUMBERS[rc] + " · " + (top.fl > 1 ? "PB+" + (top.fl - 1) : "PB"), [c[0], top.H + 1.4, -c[1]], "nb");
+  }
+  {
+    const P = PLOT, merged = [], ang = s => Math.atan2(s[1][1] - s[0][1], s[1][0] - s[0][0]);
+    for (let i = 0; i < P.length; i++) { const sg = [P[i], P[(i + 1) % P.length]], l = merged[merged.length - 1];
+      if (l && Math.abs(((ang(l) - ang(sg) + 3 * Math.PI) % (2 * Math.PI)) - Math.PI) < 0.14) l[1] = sg[1]; else merged.push(sg); }
+    for (const [a, b] of merged) { const L = Math.hypot(b[0] - a[0], b[1] - a[1]); if (L < 2.2) continue; const mx = (a[0] + b[0]) / 2, my = (a[1] + b[1]) / 2, cx = 0.6, cy = 0.5, k = 1.4 / Math.hypot(cx - mx, cy - my); addLabel(L.toFixed(2).replace(".", ",") + " m", [mx + (cx - mx) * k, 0.3, -(my + (cy - my) * k)], "dim"); }
+  }
+  {
+    const [A, B] = PLOT_FRONT, M = [(A[0] + B[0]) / 2, (A[1] + B[1]) / 2];
+    [["PB · Garatge i sala", 1.7, 3.0], ["P1 · Sala, menjador i cuina", 4.7, 6.0], ["P2 · Dues suites", 7.7, 9.0]]
+      .forEach(([t, y, minH]) => addLabel(t, [M[0], y, -(M[1] + 0.25)], "fl", { minH }));
+  }
+  const VIS = { plot: ["aer", "str"], st: ["aer", "pla"], nb: ["aer"], dim: ["pla"], fl: ["aer", "str"] };
+  function placeLabels(vp, vis, ghostH, still) {
+    const w = canvas.clientWidth, h = canvas.clientHeight;
+    for (const L of labels) {
+      let ok = still && vis.includes(L.cls) && (L.cls !== "fl" || ghostH >= L.minH), p;
+      if (ok) {
+        p = M4.xform(vp, L.cls === "plot" ? [L.pos[0], 0.3 + Math.min(ghostH, 9.2) * 1.04, L.pos[2]] : L.pos);
+        ok = p[3] > 0 && p[2] < 1 && Math.abs(p[0]) < 1.05 && Math.abs(p[1]) < 1.05;
+      }
+      if (ok !== L.on) { L.on = ok; L.el.classList.toggle("hide", !ok); }
+      if (!ok) continue;
+      L.el.style.transform = `translate(${((p[0] * 0.5 + 0.5) * w).toFixed(1)}px,${((0.5 - p[1] * 0.5) * h).toFixed(1)}px) ` + (L.cls === "dim" || L.cls === "fl" ? "translate(-50%,-50%)" : "translate(-50%,-100%)");
+    }
+  }
+  function updateNorth(vp) {
+    const o = [0, 0, 6], c = M4.xform(vp, o), n = M4.xform(vp, V3.add(o, V3.scale(NORTH, 10)));
+    if (c[3] <= 0 || n[3] <= 0) return;
+    const ang = Math.atan2((n[0] - c[0]) * canvas.clientWidth, (n[1] - c[1]) * canvas.clientHeight);
+    $("north").style.transform = `rotate(${(ang / DEG).toFixed(1)}deg)`;
+  }
+  function updateScale(vp) {
+    if (S.mode !== "pla") return;
+    const a = M4.xform(vp, [0, 0, 6.3]), b = M4.xform(vp, [10, 0, 6.3]);
+    const px = Math.hypot((b[0] - a[0]) * canvas.clientWidth / 2, (b[1] - a[1]) * canvas.clientHeight / 2);
+    const m = px > 140 ? 5 : px < 45 ? 20 : 10, sc = $("tbView").querySelector(".scale");
+    sc.querySelector("i").style.width = (px * m / 10).toFixed(0) + "px"; sc.lastChild.textContent = m + " m";
+  }
+
+  // ----- explorer tools -----
+  $("tVol").addEventListener("click", () => setGhost(!S.ghost));
+  $("tLbl").addEventListener("click", () => { S.labels = !S.labels; $("tLbl").setAttribute("aria-pressed", String(S.labels)); S.dirty = true; });
+  $("tFull").addEventListener("click", () => { const v = $("viewer"); try { if (document.fullscreenElement) document.exitFullscreen(); else v.requestFullscreen().catch(() => {}); } catch (e) { } });
+  $("mAer").addEventListener("click", () => go("aer")); $("mStr").addEventListener("click", () => go("str", 1600)); $("mPla").addEventListener("click", () => go("pla"));
+  function walk(fw, st) {
+    const s = S.str, f = [Math.sin(s.yaw), Math.cos(s.yaw)], r = [-Math.cos(s.yaw), Math.sin(s.yaw)];
+    const nx = s.x + f[0] * fw + r[0] * st, nz = s.z + f[1] * fw + r[1] * st;
+    if (Math.hypot(nx - DISC.cx, nz - DISC.cz) < DISC.r - 3 && !inParcel([nx, -nz])) { s.x = nx; s.z = nz; } S.dirty = true;
+  }
+  $("wF").addEventListener("click", () => walk(2, 0)); $("wB").addEventListener("click", () => walk(-2, 0));
+  $("wL").addEventListener("click", () => walk(0, -2)); $("wR").addEventListener("click", () => walk(0, 2));
+  addEventListener("keydown", e => {
+    if (S.ctx !== "explore" || S.mode !== "str" || !S.armed) return;
+    const k = { ArrowUp: [1, 0], w: [1, 0], ArrowDown: [-1, 0], s: [-1, 0], ArrowLeft: [0, -1], a: [0, -1], ArrowRight: [0, 1], d: [0, 1] }[e.key];
+    if (k) { e.preventDefault(); walk(k[0] * 1.2, k[1] * 1.2); }
+  });
+
+  // ----- pointer, wheel and pinch (explorer only) -----
+  const ptrs = new Map(); let pinch0 = 0;
+  function rotate(dx, dy, pan) {
+    if (S.anim) return;
+    if (S.mode === "aer") {
+      const a = S.aer;
+      if (pan) {
+        const r = [Math.cos(a.yaw), 0, -Math.sin(a.yaw)], f = [-Math.sin(a.yaw), 0, -Math.cos(a.yaw)], k = a.dist * 0.0016;
+        a.target = V3.add(a.target, V3.add(V3.scale(r, -dx * k), V3.scale(f, dy * k)));
+        const d = Math.hypot(a.target[0], a.target[2] - 4); if (d > 30) { a.target[0] *= 30 / d; a.target[2] = 4 + (a.target[2] - 4) * 30 / d; }
+      } else { a.yaw -= dx * 0.0055; a.pitch = clamp(a.pitch + dy * 0.0045, 0.1, 1.45); }
+    } else if (S.mode === "str") { S.str.yaw += dx * 0.0042; S.str.pitch = clamp(S.str.pitch + dy * 0.0035, -0.6, 0.9); }
+    S.dirty = true;
+  }
+  function zoom(f) {
+    if (S.mode === "aer") S.aer.dist = clamp(S.aer.dist * f, 20, 180);
+    else if (S.mode === "str") S.str.fov = clamp(S.str.fov * f, 30, 95);
+    else S.pla.dist = clamp(S.pla.dist * f, 55, 260);
+    S.dirty = true;
+  }
+  const interact = () => { S.auto = false; hint.classList.add("gone"); };
+  stage.addEventListener("pointerdown", e => {
+    if (S.ctx !== "explore") return;
+    stage.setPointerCapture(e.pointerId); ptrs.set(e.pointerId, { x: e.clientX, y: e.clientY, pan: e.button === 2 || e.shiftKey });
+    S.armed = true; interact(); stage.classList.add("dragging");
+    if (ptrs.size === 2) { const [a, b] = [...ptrs.values()]; pinch0 = Math.hypot(a.x - b.x, a.y - b.y); }
+  });
+  stage.addEventListener("pointermove", e => {
+    const p = ptrs.get(e.pointerId); if (!p) return;
+    const dx = e.clientX - p.x, dy = e.clientY - p.y; p.x = e.clientX; p.y = e.clientY;
+    if (ptrs.size === 2) { const [a, b] = [...ptrs.values()], d = Math.hypot(a.x - b.x, a.y - b.y); if (pinch0 > 0 && d > 0) zoom(pinch0 / d); pinch0 = d; return; }
+    rotate(dx, dy, p.pan || e.shiftKey);
+  });
+  const end = e => { ptrs.delete(e.pointerId); if (ptrs.size < 2) pinch0 = 0; if (!ptrs.size) stage.classList.remove("dragging"); };
+  stage.addEventListener("pointerup", end); stage.addEventListener("pointercancel", end);
+  stage.addEventListener("pointerleave", () => { if (!document.fullscreenElement) S.armed = false; });
+  stage.addEventListener("contextmenu", e => e.preventDefault());
+  stage.addEventListener("wheel", e => {
+    if (S.ctx !== "explore") return;
+    if (!S.armed && !e.ctrlKey && !document.fullscreenElement) { showHint("Fes clic a la maqueta (o mantén Ctrl) per apropar-te amb la roda", 2200); return; }
+    e.preventDefault(); interact(); zoom(Math.exp(clamp(e.deltaY, -120, 120) * 0.0016));
+  }, { passive: false });
+
+  // ----- which host shows the model -----
+  function resize() {
+    const h = hosts[S.ctx], dpr = Math.min(window.devicePixelRatio || 1, S.ctx === "story" ? 1.5 : 2) * S.q;
+    const w = Math.max(1, Math.round(h.clientWidth * dpr)), hh = Math.max(1, Math.round(h.clientHeight * dpr));
+    if (canvas.width !== w || canvas.height !== hh) { canvas.width = w; canvas.height = hh; S.dirty = true; }
+  }
+  const ro = new ResizeObserver(es => { if (es.some(e => e.target === hosts[S.ctx])) resize(); });
+  ro.observe(hosts.story); ro.observe(hosts.explore);
+  document.addEventListener("fullscreenchange", () => { S.armed = !!document.fullscreenElement; resize(); });
+  const ratio = { story: 0, explore: 0 };
+  let visible = true;
+  function decide() {
+    const want = ratio.explore > 0.3 || (ratio.explore > 0 && ratio.story === 0) ? "explore" : ratio.story > 0 ? "story" : S.ctx;
+    if (want !== S.ctx) S.pending = want;
+    visible = ratio[S.ctx] > 0 || (S.pending && ratio[S.pending] > 0);
+    if (visible) S.dirty = true;
+  }
+  new IntersectionObserver(es => { for (const e of es) ratio[e.target.dataset.k] = e.isIntersecting ? e.intersectionRatio : 0; decide(); },
+    { threshold: [0, 0.02, 0.1, 0.2, 0.3, 0.4, 0.6, 0.8, 1] }).observe(hosts.story);
+  new IntersectionObserver(es => { for (const e of es) ratio[e.target.dataset.k] = e.isIntersecting ? e.intersectionRatio : 0; decide(); },
+    { threshold: [0, 0.02, 0.1, 0.2, 0.3, 0.4, 0.6, 0.8, 1] }).observe(hosts.explore);
+  function mount(k) {
+    if (S.last) { // freeze the last frame in the host we leave
+      R.draw(S.last.cam, S.last.gA, S.last.opt);
+      const p = posters[S.ctx]; p.width = Math.max(1, canvas.width >> 1); p.height = Math.max(1, canvas.height >> 1);
+      p.getContext("2d").drawImage(canvas, 0, 0, p.width, p.height);
+    }
+    hosts[k].append(canvas, layer); S.ctx = k; resize(); S.dirty = true;
+    if (k === "explore") { if (!S.started && !S.preset) S.min = api.gold; setDay(S.day); go(S.mode, S.started ? 1400 : 2400); S.started = true; showHint(); }
+    else { S.anim = null; S.armed = false; }
+  }
+
+  // ----- loop -----
+  let last = performance.now(), slow = 0;
+  const api = { S, ok: true, go, setDay, applySun, walk, setGhost, setPlaying, showHint, onStory: null, R, labels, gold: 1125 };
+  function frame(now) {
+    const dt = Math.min(64, now - last); last = now;
+    if (S.pending) { const k = S.pending; S.pending = null; if (k !== S.ctx) mount(k); }
+    if (visible) {
+      let cam, gA, opt, vis, still;
+      if (S.ctx === "story") {
+        if (api.onStory) api.onStory(dt, now);
+        const st = S.story; cam = st.cam || camFor("str"); gA = st.ghostA; opt = { shift: st.shift, shiftY: st.shiftY, ghostH: st.ghostH };
+        vis = st.vis; still = true;
+      } else {
+        if (S.auto && !S.anim && S.mode === "aer") { S.aer.yaw += dt * 0.00004; S.dirty = true; }
+        if (S.playing) { S.min += dt * 0.03; if (S.min > +hr.max) S.min = +hr.min; hr.value = S.min; applySun(); }
+        const tg = S.ghost ? 1 : 0;
+        if (Math.abs(S.ghostA - tg) > 0.002) { S.ghostA += (tg - S.ghostA) * Math.min(1, dt * 0.008); S.dirty = true; } else S.ghostA = tg;
+        cam = null; gA = S.ghostA; opt = { ghostH: 99 };
+        vis = S.labels ? Object.keys(VIS).filter(c => VIS[c].includes(S.mode) && (c !== "fl" || S.ghost)) : []; still = !S.anim;
+      }
+      if (S.dirty || S.anim) {
+        const t0 = performance.now();
+        if (!cam) cam = currentCam(now);
+        const vp = R.draw(cam, gA, opt); S.cam = cam; S.last = { cam, gA, opt };
+        placeLabels(vp, vis, S.ctx === "story" ? opt.ghostH : S.ghostA * 9.2, still);
+        if (S.ctx === "explore") { updateNorth(vp); updateScale(vp); }
+        S.dirty = false;
+        // very slow GPU: render fewer pixels
+        if (dt > 45 && performance.now() - t0 > 4) { if (++slow > 20 && S.q > 0.55) { S.q *= 0.8; slow = 0; resize(); } } else slow = Math.max(0, slow - 1);
+      }
+    }
+    requestAnimationFrame(frame);
+  }
+  setDay("06-21");
+  resize();
+  requestAnimationFrame(frame);
+  window.__maqueta = api;
+  return api;
+})();
+// ---------- story: the model follows the scroll, chapter by chapter ----------
+(function story() {
+  const V = VIEW, S = V.S, sec = $("inici"), stick = sec.querySelector(".sticky");
+  const rail = [...document.querySelectorAll("#rail a")], floors = [...document.querySelectorAll("#floors li")], clock = $("clock");
+  const U = [0, 1, 0];
+  const K = [
+    { eye: [-4.6, 1.65, -11.9], target: [1.4, 2.6, -1.5], up: U, fov: 60, vis: ["plot"] },        // in front of the plot, at eye height
+    { eye: [30, 21, -25], target: [-3, 2, -5], up: U, fov: 40, vis: ["plot", "st", "nb"] },        // the street from above
+    { eye: [2.0, 34, 10.5], target: [0.6, 0, -0.8], up: U, fov: 34, vis: ["dim"] },                // the plot, north up
+    { eye: [19, 15, -25], target: [0, 4.6, -2], up: U, fov: 36, vis: ["fl"] },                     // the houses rise
+    { eye: [-3, 27, 18], target: [0.8, 2.2, -2.8], up: U, fov: 38, vis: [] }                           // the back faces south
+  ];
+  const ORBIT = [false, false, false, true]; V.K = K;
+  let vh = 1, top0 = 0, wide = true, aspect = 1.6, lastP = -1, intro = null;
+  function measure() {
+    vh = stick.clientHeight || innerHeight; top0 = sec.getBoundingClientRect().top + scrollY;
+    wide = innerWidth > 860; aspect = (stick.clientWidth || innerWidth) / vh; lastP = -1;
+  }
+  measure(); addEventListener("resize", measure); new ResizeObserver(measure).observe(stick);
+  // narrow screens: open the vertical field of view so the scene still fits across
+  const adj = k => { if (aspect >= 1.15) return k; const f = Math.min(88, 2 * Math.atan(Math.tan(k.fov * DEG / 2) * clamp(1.2 / aspect, 1, 1.9)) / DEG); return Object.assign({}, k, { fov: f }); };
+  function camAt(p) {
+    const i = Math.min(K.length - 2, Math.floor(p)), t = clamp((p - i - 0.1) / 0.8, 0, 1);
+    return (ORBIT[i] ? camOrbit : camPath)(adj(K[i]), adj(K[i + 1]), t);
+  }
+  if (!REDUCE && scrollY < 40) intro = { t0: performance.now() + 250, from: { eye: [-34, 120, 70], target: K[0].target, up: U, fov: 50 } };
+  let sunMode = "set";
+  V.onStory = (dt, now) => {
+    const p = clamp((scrollY - top0) / vh, 0, K.length - 1), st = S.story;
+    const k = Math.round(p), near = Math.abs(p - k) < 0.3;
+    let moved = p !== lastP;
+    if (moved) {
+      lastP = p;
+      st.ghostA = smooth(2.3, 2.55, p); st.ghostH = 0.05 + 9.15 * smooth(2.45, 3.0, p);
+      st.shift = wide ? 0.24 : 0; st.shiftY = wide ? 0 : 0.2;
+      rail.forEach((a, i) => a.classList.toggle("on", i === k));
+      floors.forEach(li => li.classList.toggle("on", st.ghostH >= (+li.dataset.f + 1) * 3.0));
+    }
+    let cam = camAt(p);
+    if (intro) { const t = (now - intro.t0) / 3200; if (t >= 1 || p > 0.05) intro = null; else { cam = camPath(adj(intro.from), cam, Math.max(0, t)); moved = true; } }
+    st.cam = cam; st.vis = intro ? [] : near ? K[k].vis : [];
+    // light: warm late afternoon of 21 June; in the last chapter the day runs on its own
+    if (S.day !== "06-21") { S.day = "06-21"; V.setDay("06-21"); moved = true; }
+    if (p > 3.45 && !REDUCE) {
+      if (sunMode !== "run") { sunMode = "run"; if (S.min > 1250) S.min = 450; }
+      S.min += dt * 0.07; if (S.min > 1290) S.min = 450; V.applySun(); moved = true;
+    } else if (Math.abs(S.min - V.gold) > 0.5) { sunMode = "set"; S.min += (V.gold - S.min) * Math.min(1, dt * 0.006); V.applySun(); moved = true; }
+    const ct = "21 de juny · " + hhmm(S.min); if (clock.textContent !== ct) clock.textContent = ct;
+    if (moved) S.dirty = true;
+  };
+})();
+
+// ---------- sun study: direct sun on the back terrace and on the roof ----------
+const SUNSTUDY = (function () {
+  const x0 = -50, y0 = -50, cs = 0.25, n = 400, H = new Float32Array(n * n);
+  { // height map of every building (Cadastre) plus the two planned houses
+    const cv = document.createElement("canvas"); cv.width = cv.height = n; const g = cv.getContext("2d");
+    g.fillStyle = "#000"; g.fillRect(0, 0, n, n);
+    const items = PARTS.map(p => ({ pts: p.pts, h: (p.H ?? ((SHOPS.has(p.rc) ? 3.6 : 3.2) + (p.fl - 1) * 2.95)) + 0.5 }))
+      .concat(HOUSES.houses.map(q => ({ pts: q, h: 9.2 }))).sort((a, b) => a.h - b.h);
+    for (const it of items) {
+      const v = Math.min(255, Math.round(it.h * 8)); g.fillStyle = `rgb(${v},${v},${v})`; g.beginPath();
+      it.pts.forEach(([E, N], i) => { const X = (E - x0) / cs, Y = (N - y0) / cs; if (i) g.lineTo(X, Y); else g.moveTo(X, Y); });
+      g.closePath(); g.fill();
+    }
+    const d = g.getImageData(0, 0, n, n).data; for (let i = 0; i < n * n; i++) H[i] = d[i * 4] / 8;
+  }
+  const hAt = (E, N) => { const X = Math.floor((E - x0) / cs), Y = Math.floor((N - y0) / cs); return X < 0 || Y < 0 || X >= n || Y >= n ? 0 : H[Y * n + X]; };
+  const RIDGE = [[7, 4.5, 15], [12, 1.0, 4], [353, 0.8, 5], [40, 1.7, 14], [86, 1.7, 11], [111, 2.2, 13], [160, 1.9, 22], [203, 1.3, 17], [316, 1.0, 20]];
+  const gs = (a, c, w) => { const d = ((a - c + 540) % 360) - 180; return Math.exp(-d * d / (2 * w * w)); };
+  const horizon = az => 0.65 + RIDGE.reduce((s, [c, k, w]) => s + k * gs(az, c, w), 0); // the same mountain line as the sky of the model
+  function grid(polys, step, inset) {
+    const out = [];
+    for (const P of polys) {
+      let a = 1e9, b = -1e9, c = 1e9, d = -1e9; for (const [E, N] of P) { a = Math.min(a, E); b = Math.max(b, E); c = Math.min(c, N); d = Math.max(d, N); }
+      for (let E = a + inset; E <= b - inset + 1e-6; E += step) for (let N = c + inset; N <= d - inset + 1e-6; N += step)
+        if (inPoly([E, N], P) && [[inset, 0], [-inset, 0], [0, inset], [0, -inset]].every(([u, v]) => inPoly([E + u, N + v], P))) out.push([E, N]);
+    }
+    return out;
+  }
+  const T = { t: { pts: grid([HOUSES.back], 0.6, 0.3), y: 4.4 }, r: { pts: grid(HOUSES.houses, 0.8, 0.35), y: 9.45 } };
+  function litFrac(set, az, el) {
+    if (el <= horizon(az)) return 0;
+    const dx = Math.sin(az * DEG), dn = Math.cos(az * DEG), tn = Math.tan(el * DEG), y = set.y, maxT = Math.min(80, (17.5 - y) / tn);
+    let lit = 0;
+    for (const [E, N] of set.pts) {
+      let ok = 1; for (let t = 0.35; t < maxT; t += 0.25) if (hAt(E + dx * t, N + dn * t) > y + t * tn) { ok = 0; break; }
+      lit += ok;
+    }
+    return lit / set.pts.length;
+  }
+  // 12 months (day 21) × 96 quarter hours
+  const year = new Date().getFullYear(), data = { t: [], r: [] }, sunAt = [];
+  function month(m) {
+    const row = [];
+    for (let q = 0; q < 96; q++) { const mins = q * 15 + 7.5, sp = sunPos(localToUTC(year, m, 21, mins), SITE.lat, SITE.lon); row.push(sp); }
+    sunAt[m] = row;
+    for (const k of ["t", "r"]) data[k][m] = row.map(sp => sp.el > 0 ? litFrac(T[k], sp.az, sp.el) : -1);
+  }
+  const hours = (k, m) => data[k][m].reduce((s, f) => s + Math.max(0, f) * 0.25, 0);
+  const done = [];
+  function run(cb) { // a month at a time, so the page stays responsive
+    let m = 0;
+    const step = () => { month(m); done.push(m); cb(m); if (++m < 12) setTimeout(step, 0); };
+    setTimeout(step, 30);
+  }
+  return { run, data, sunAt, hours, T, horizon, hAt };
+})();
+
+// ---------- sun study: heat map ----------
+(function heat() {
+  const V = VIEW, hm = $("hm"), sideLab = $("sideLab"), sideBig = $("sideBig"), sideTxt = $("sideTxt"), tip = $("sideTip");
+  const MON3 = ["gen", "febr", "març", "abr", "maig", "juny", "jul", "ag", "set", "oct", "nov", "des"];
+  const H0 = 6, H1 = 21, cells = [], monthLbl = [];
+  let kind = "t", curM = new Date().getMonth();
+  hm.appendChild(Object.assign(document.createElement("span"), { className: "hd" }));
+  for (let h = H0; h <= H1; h++) hm.appendChild(Object.assign(document.createElement("span"), { className: "hd", textContent: String(h) }));
+  for (let m = 0; m < 12; m++) {
+    const lab = Object.assign(document.createElement("span"), { className: "mo", textContent: MON3[m] }); hm.appendChild(lab); monthLbl.push(lab);
+    for (let h = H0; h <= H1; h++) {
+      const b = document.createElement("button"); b.type = "button"; b.dataset.m = m; b.dataset.h = h; b.disabled = true;
+      b.setAttribute("aria-label", `21 ${MONTHS[m]}, de ${h}:00 a ${h + 1}:00`); hm.appendChild(b); cells.push(b);
+    }
+  }
+  const STOPS = [[0, [229, 231, 225]], [0.33, [243, 210, 122]], [0.66, [232, 154, 26]], [1, [184, 92, 12]]];
+  const col = v => { let i = 1; while (i < STOPS.length - 1 && v > STOPS[i][0]) i++; const [a, ca] = STOPS[i - 1], [b, cb] = STOPS[i], t = clamp((v - a) / (b - a), 0, 1); return `rgb(${ca.map((c, j) => Math.round(lerp(c, cb[j], t))).join(",")})`; };
+  const cellVal = (m, h) => { const r = SUNSTUDY.data[kind][m]; if (!r) return null; const q = r.slice(h * 4, h * 4 + 4); if (q.every(f => f < 0)) return -1; return q.reduce((s, f) => s + Math.max(0, f), 0) / 4; };
+  const fmtH = x => x.toFixed(1).replace(".", ",") + " h";
+  const PLACE = { t: "a la terrassa del darrere", r: "a la coberta" };
+  function paint(m) {
+    for (const b of cells) {
+      if (m !== undefined && +b.dataset.m !== m) continue;
+      const v = cellVal(+b.dataset.m, +b.dataset.h); if (v === null) continue;
+      b.disabled = v < 0; b.classList.toggle("night", v < 0); b.style.background = v < 0 ? "" : col(v);
+    }
+  }
+  function side(m) {
+    curM = m; monthLbl.forEach((l, i) => l.classList.toggle("on", i === m));
+    sideLab.textContent = "21 " + MONTHS[m];
+    if (!SUNSTUDY.data[kind][m]) return;
+    sideBig.textContent = fmtH(SUNSTUDY.hours(kind, m)); sideTxt.textContent = "de sol directe al dia " + PLACE[kind];
+  }
+  function cellTip(b) {
+    const m = +b.dataset.m, h = +b.dataset.h, v = cellVal(m, h);
+    if (v === null || v < 0) { tip.textContent = `21 ${MONTHS[m]}, de ${h}:00 a ${h + 1}:00 · el sol encara no ha sortit o ja s'ha post.`; return; }
+    const sp = SUNSTUDY.sunAt[m][h * 4 + 2];
+    tip.textContent = `21 ${MONTHS[m]}, de ${h}:00 a ${h + 1}:00 · sol directe a un ${Math.round(v * 100)} % de l'espai` + (sp.el > 0 ? ` · sol a ${Math.round(sp.el)}°, cap al ${compass(sp.az)}` : "") + ". Fes-hi clic per veure-ho en 3D.";
+  }
+  hm.addEventListener("pointerover", e => { const b = e.target.closest("button"); if (!b) return; side(+b.dataset.m); cellTip(b); });
+  hm.addEventListener("focusin", e => { const b = e.target.closest("button"); if (!b) return; side(+b.dataset.m); cellTip(b); });
+  hm.addEventListener("click", e => {
+    const b = e.target.closest("button"); if (!b || b.disabled || !V.ok) return;
+    cells.forEach(c => c.classList.toggle("sel", c === b));
+    const m = +b.dataset.m, h = +b.dataset.h, S = V.S;
+    S.preset = true; S.min = h * 60 + 30; V.setDay(String(m + 1).padStart(2, "0") + "-21"); V.setGhost(true); V.setPlaying(false);
+    if (kind === "t") Object.assign(S.aer, { yaw: 0.32, pitch: 0.62, dist: 44, target: [0.8, 3, -1] });
+    else Object.assign(S.aer, { yaw: 0.6, pitch: 0.95, dist: 46, target: [0.6, 6, -1.5] });
+    S.auto = false; S.mode = "aer";
+    $("explora").scrollIntoView({ behavior: REDUCE ? "auto" : "smooth", block: "start" });
+    setTimeout(() => { V.go("aer", 1600); V.showHint(`21 ${MONTHS[m]} a les ${h}:30, amb el volum previst de les cases`, 5000); }, 60);
+  });
+  document.querySelectorAll(".tabs .chip").forEach(t => t.addEventListener("click", () => {
+    kind = t.dataset.k;
+    document.querySelectorAll(".tabs .chip").forEach(o => { o.setAttribute("aria-pressed", String(o === t)); o.setAttribute("aria-selected", String(o === t)); });
+    paint(); side(curM); tip.textContent = "Passa per sobre d'una casella per veure-la.";
+  }));
+  side(curM);
+  SUNSTUDY.run(m => {
+    paint(m); if (m === curM) side(m);
+    if (m === 11) {
+      const d = SUNSTUDY, roof = d.data.r.reduce((s, r, i) => s + d.hours("r", i), 0) / 12;
+      $("sJun").textContent = fmtH(d.hours("t", 5)).replace(" h", " hores"); $("sDec").textContent = fmtH(d.hours("t", 11)).replace(" h", " hores");
+      $("sRoof").textContent = fmtH(roof).replace(" h", " hores") + " al dia";
+    }
+  });
+})();
+
+// ---------- mortgage simulator ----------
+(function quota() {
+  const PRICE = 396000, ent = $("qEnt"), any = $("qAny"), tin = $("qTin");
+  const eur = x => Math.round(x).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".") + " €";
+  function upd() {
+    const e = +ent.value / 100, n = +any.value * 12, r = +tin.value / 100 / 12, L = PRICE * (1 - e);
+    const P = r > 0 ? L * r / (1 - Math.pow(1 + r, -n)) : L / n;
+    $("oEnt").textContent = ent.value + " % · " + eur(PRICE * e); $("oAny").textContent = any.value + " anys";
+    $("oTin").textContent = (+tin.value).toFixed(2).replace(".", ",") + " %";
+    $("qQuota").textContent = eur(P) + "/mes"; $("qLoan").textContent = eur(L); $("qDown").textContent = eur(PRICE * e); $("qInc").textContent = eur(P / 0.35) + "/mes";
+    $("qPreu").textContent = eur(PRICE);
+  }
+  [ent, any, tin].forEach(i => i.addEventListener("input", upd)); upd();
+})();
+
+// ---------- reveal on scroll and counters ----------
+(function reveal() {
+  const els = document.querySelectorAll(".block h2, .block .lede, .block .frame, .heat, .sunside, .calc, .result, .facts, .princ, .tabs");
+  const count = el => {
+    const end = +el.dataset.count, sep = el.dataset.sep, t0 = performance.now(), dur = 1300;
+    const f = now => { const t = clamp((now - t0) / dur, 0, 1), v = Math.round(end * easeOut3(t)); el.textContent = sep ? v.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".") : String(v); if (t < 1) requestAnimationFrame(f); };
+    requestAnimationFrame(f);
+  };
+  if (REDUCE || !("IntersectionObserver" in window)) return;
+  const io = new IntersectionObserver(es => {
+    for (const e of es) if (e.isIntersecting) { e.target.classList.add("in"); e.target.querySelectorAll("[data-count]").forEach(count); io.unobserve(e.target); }
+  }, { rootMargin: "0px 0px -8% 0px", threshold: 0.12 });
+  els.forEach(el => { el.classList.add("rv"); io.observe(el); });
+})();
+</script>
+</body>
+</html>

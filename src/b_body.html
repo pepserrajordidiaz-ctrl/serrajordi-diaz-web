@@ -1,0 +1,121 @@
+<body>
+<header class="top">
+  <a class="brand" href="#inici" aria-label="Serrajordi-Diaz Investments, inici"><b>Serrajordi-Diaz</b><span>Investments</span></a>
+  <nav class="nav" aria-label="Seccions">
+    <a href="#sol">Hores de sol</a>
+    <a href="#quota">La teva quota</a>
+    <a href="#llinars">Llinars</a>
+    <a href="#empresa">L'empresa</a>
+    <a class="cta" href="#explora">Explora en 3D</a>
+  </nav>
+</header>
+
+<main>
+<section class="story" id="inici" aria-label="Recorregut pel solar">
+  <div class="sticky">
+    <div class="host" id="storyHost"></div>
+    <ol class="rail" id="rail">
+      <li><a href="#ch0" data-i="0">Inici<i></i></a></li>
+      <li><a href="#ch1" data-i="1">El carrer<i></i></a></li>
+      <li><a href="#ch2" data-i="2">El solar<i></i></a></li>
+      <li><a href="#ch3" data-i="3">Les cases<i></i></a></li>
+      <li><a href="#ch4" data-i="4">La llum<i></i></a></li>
+    </ol>
+  </div>
+  <div class="chapters">
+    <article class="chapter" id="ch0" data-ch="0"><div class="card">
+      <p class="k">Primera promoció · Llinars del Vallès</p>
+      <h1>Una casa al centre de Llinars</h1>
+      <p>Dues cases adosades d'obra nova al carrer d'Anselm Clavé, 30. Baixa i t'ensenyem el lloc tal com és, amb el sol real de cada hora.</p>
+      <p class="cue"><i></i>Fes scroll</p>
+    </div></article>
+    <article class="chapter" id="ch1" data-ch="1"><div class="card">
+      <p class="k">01 · El carrer</p>
+      <h2>Carrer d'Anselm Clavé</h2>
+      <p>Un carrer de plataforma única al centre del poble, amb botigues i despatxos a peu de carrer. La façana de les cases mirarà al carrer, cap al nord.</p>
+      <div class="chips"><span>Plataforma única</span><span>Comerç de proximitat</span><span>Rodalies R2 Nord</span></div>
+    </div></article>
+    <article class="chapter" id="ch2" data-ch="2"><div class="card">
+      <p class="k">02 · El solar</p>
+      <h2>126 m² amb forma pròpia</h2>
+      <p>Aquest és el solar real, amb la geometria del Cadastre: no és un rectangle perfecte, té un graó en un costat. Avui és buit.</p>
+      <dl class="dl"><dt>Façana</dt><dd>9,22 m</dd><dt>Fondària</dt><dd>≈ 13,5 m</dd><dt>Superfície</dt><dd>126 m²</dd><dt>Cadastre</dt><dd>0400003DG5100S</dd></dl>
+    </div></article>
+    <article class="chapter" id="ch3" data-ch="3"><div class="card">
+      <p class="k">03 · Les cases</p>
+      <h2>Dues cases, tres plantes</h2>
+      <ol class="floors" id="floors">
+        <li data-f="2"><b>P2</b><span>Dues habitacions tipus suite</span></li>
+        <li data-f="1"><b>P1</b><span>Sala d'estar, menjador i cuina, amb terrassa</span></li>
+        <li data-f="0"><b>PB</b><span>Garatge i sala polivalent</span></li>
+      </ol>
+      <p>Cada casa fa uns 4,6 m de façana, amb 115 m² habitables i 35 m² de garatge.</p>
+      <p class="small">Volum orientatiu: el projecte d'arquitectura és en redacció.</p>
+    </div></article>
+    <article class="chapter" id="ch4" data-ch="4"><div class="card">
+      <p class="k">04 · La llum</p>
+      <h2>El pati mira al sud</h2>
+      <p class="clock" id="clock">—</p>
+      <p>Al juny, la terrassa del darrere té sol directe unes <b id="sJun">…</b> al dia; al desembre, unes <b id="sDec">…</b>. La coberta en té <b id="sRoof">…</b> de mitjana: bona per a plaques solars.</p>
+      <p class="small">Càlcul amb el sol real de Llinars i les ombres dels edificis veïns segons el Cadastre.</p>
+    </div></article>
+  </div>
+</section>
+
+<section class="block" id="explora">
+ <div class="wrap grid">
+  <p class="eyebrow"><span>05 · Explora-ho tu</span><span>Maqueta 3D</span></p>
+  <h2>Camina pel carrer, mira el solar des de dalt</h2>
+  <p class="lede">Tria la vista, el dia i l'hora. Activa el volum previst per veure com encaixen les cases amb els veïns.<span class="s">Arrossega per girar · fletxes per caminar</span></p>
+  <div class="frame viewer" id="viewer">
+   <div class="stage" id="stage">
+    <div class="host" id="exploreHost"></div>
+    <p class="hint" id="hint">Arrossega per mirar al voltant · fletxes o botons per caminar pel carrer</p>
+   </div>
+   <div class="bar">
+    <div class="views">
+     <div class="seg" role="group" aria-label="Vista">
+      <button id="mAer" aria-pressed="false">Aèria</button>
+      <button id="mStr" aria-pressed="true">A peu de carrer</button>
+      <button id="mPla" aria-pressed="false">Planta</button>
+     </div>
+     <div class="row">
+      <button class="btn" id="tVol" aria-pressed="false"><i class="sw"></i>Volum previst</button>
+      <button class="btn" id="tLbl" aria-pressed="true"><i class="sw"></i>Etiquetes</button>
+      <button class="btn" id="tFull" aria-label="Pantalla completa">⤢</button>
+     </div>
+     <div class="row walk on" id="walk">
+      <button class="btn" id="wL" aria-label="Camina a l'esquerra">◀</button>
+      <button class="btn" id="wF" aria-label="Avança">▲</button>
+      <button class="btn" id="wB" aria-label="Retrocedeix">▼</button>
+      <button class="btn" id="wR" aria-label="Camina a la dreta">▶</button>
+     </div>
+    </div>
+    <div class="sun" role="group" aria-label="Posició del sol">
+     <div class="row" id="days">
+      <label>Dia</label>
+      <button class="chip" data-d="03-20">20 març</button>
+      <button class="chip" data-d="06-21" aria-pressed="true">21 juny</button>
+      <button class="chip" data-d="09-22">22 set.</button>
+      <button class="chip" data-d="12-21">21 des.</button>
+      <button class="chip" data-d="today">Avui</button>
+     </div>
+     <div class="row">
+      <label for="hr">Hora</label>
+      <input type="range" id="hr" min="0" max="1440" step="5" value="1125">
+      <button class="play" id="play" aria-pressed="false">Mou el sol</button>
+     </div>
+     <p class="sunread" id="sunread" aria-live="polite">—</p>
+    </div>
+    <div class="tb" id="tb">
+     <div class="ttl"><b>Anselm Clavé, 30</b><svg class="north" id="north" viewBox="-15 -15 30 30" aria-label="Nord"><circle r="13.5" fill="none" stroke="#141A18"/><path d="M0-11 5 6 0 2-5 6Z" fill="#141A18"/></svg></div>
+     <div>Emplaçament</div><div>08450 Llinars del Vallès</div>
+     <div>Parcel·la</div><div>126 m² · 0400003DG5100S</div>
+     <div>Orientació</div><div>façana nord · pati sud</div>
+     <div>Vista</div><div id="tbView">A peu de carrer <span class="scale"><i></i>10 m</span></div>
+    </div>
+   </div>
+  </div>
+  <p class="note">Maqueta feta amb la geometria oficial de la Direcció General del Cadastre (parcel·les, edificis i plantes) i referències del carrer actual. Façanes i detalls són aproximats. El sol es calcula per a Llinars del Vallès (41,6389° N · 2,4034° E).</p>
+ </div>
+</section>
