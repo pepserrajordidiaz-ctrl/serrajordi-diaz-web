@@ -35,7 +35,7 @@ const VIEW = (function () {
     str: { x: -0.5, z: -11.4, yaw: 0.05, pitch: 0.1, fov: 74 }, pla: { dist: 62 },
     cam: null, anim: null, dirty: true, ghost: false, ghostA: 0, labels: true, auto: !REDUCE, playing: false,
     day: "06-21", min: 1125, armed: false, q: 1, last: null,
-    story: { cam: null, ghostA: 0, ghostH: 0, vis: [], shift: 0, shiftY: 0 }
+    story: { cam: null, ghostA: 0, ghostH: 0, vis: [], shift: 0, shiftY: 0, focus: 1 }, focus: true, focusA: 0.4
   };
   let R = null;
   try { R = Renderer(canvas); } catch (e) {
@@ -147,6 +147,7 @@ const VIEW = (function () {
 
   // ----- explorer tools -----
   $("tVol").addEventListener("click", () => setGhost(!S.ghost));
+  $("tFoc").addEventListener("click", () => { S.focus = !S.focus; $("tFoc").setAttribute("aria-pressed", String(S.focus)); S.dirty = true; });
   $("tLbl").addEventListener("click", () => { S.labels = !S.labels; $("tLbl").setAttribute("aria-pressed", String(S.labels)); S.dirty = true; });
   $("tFull").addEventListener("click", () => { const v = $("viewer"); try { if (document.fullscreenElement) document.exitFullscreen(); else v.requestFullscreen().catch(() => {}); } catch (e) { } });
   $("mAer").addEventListener("click", () => go("aer")); $("mStr").addEventListener("click", () => go("str", 1600)); $("mPla").addEventListener("click", () => go("pla"));
@@ -248,14 +249,16 @@ const VIEW = (function () {
       let cam, gA, opt, vis, still;
       if (S.ctx === "story") {
         if (api.onStory) api.onStory(dt, now);
-        const st = S.story; cam = st.cam || camFor("str"); gA = st.ghostA; opt = { shift: st.shift, shiftY: st.shiftY, ghostH: st.ghostH };
+        const st = S.story; cam = st.cam || camFor("str"); gA = st.ghostA; opt = { shift: st.shift, shiftY: st.shiftY, ghostH: st.ghostH, focus: st.focus };
         vis = st.vis; still = true;
       } else {
         if (S.auto && !S.anim && S.mode === "aer") { S.aer.yaw += dt * 0.00004; S.dirty = true; }
         if (S.playing) { S.min += dt * 0.03; if (S.min > +hr.max) S.min = +hr.min; hr.value = S.min; applySun(); }
         const tg = S.ghost ? 1 : 0;
         if (Math.abs(S.ghostA - tg) > 0.002) { S.ghostA += (tg - S.ghostA) * Math.min(1, dt * 0.008); S.dirty = true; } else S.ghostA = tg;
-        cam = null; gA = S.ghostA; opt = { ghostH: 99 };
+        const fT = S.focus ? (S.mode === "str" ? 0.45 : 1) : 0;
+        if (Math.abs(S.focusA - fT) > 0.002) { S.focusA += (fT - S.focusA) * Math.min(1, dt * 0.006); S.dirty = true; } else S.focusA = fT;
+        cam = null; gA = S.ghostA; opt = { ghostH: 99, focus: S.focusA };
         vis = S.labels ? Object.keys(VIS).filter(c => VIS[c].includes(S.mode) && (c !== "fl" || S.ghost)) : []; still = !S.anim;
       }
       if (S.dirty || S.anim) {

@@ -32,7 +32,7 @@
     if (moved) {
       lastP = p;
       st.ghostA = smooth(2.3, 2.55, p); st.ghostH = 0.05 + 9.15 * smooth(2.45, 3.0, p);
-      st.shift = wide ? 0.24 : 0; st.shiftY = wide ? 0 : 0.2;
+      st.focus = 0.5 + 0.5 * smooth(0.1, 0.7, p); st.shift = wide ? 0.24 : 0; st.shiftY = wide ? 0 : 0.2;
       rail.forEach((a, i) => a.classList.toggle("on", i === k));
       floors.forEach(li => li.classList.toggle("on", st.ghostH >= (+li.dataset.f + 1) * 3.0));
     }

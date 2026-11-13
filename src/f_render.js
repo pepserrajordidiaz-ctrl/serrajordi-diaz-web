@@ -111,7 +111,7 @@ function Renderer(canvas) {
       gl.uniformMatrix4fv(S.u.uVP, false, vp); gl.uniformMatrix4fv(S.u.uLVP, false, lvp);
       gl.uniform3fv(S.u.uEye, cam.eye); gl.uniform3fv(S.u.uSunDir, sunDir); gl.uniform3fv(S.u.uSunCol, L.sun);
       gl.uniform3fv(S.u.uSkyCol, L.sky); gl.uniform3fv(S.u.uGndCol, L.gnd); gl.uniform3fv(S.u.uFogCol, L.fog);
-      gl.uniform1f(S.u.uFogDen, 0.001); gl.uniform1f(S.u.uExposure, L.exposure); gl.uniform1f(S.u.uGlow, 0.4); gl.uniform1f(S.u.uLamp, L.lamp);
+      gl.uniform1f(S.u.uFogDen, 0.001); gl.uniform1f(S.u.uExposure, L.exposure); gl.uniform1f(S.u.uGlow, 0.4); gl.uniform1f(S.u.uLamp, L.lamp); gl.uniform1f(S.u.uFocus, opt.focus || 0);
       gl.uniform4f(S.u.uDisc, DISC.cx, DISC.cz, DISC.r, 0); gl.uniform4fv(S.u.uAOr, ao.rect);
       gl.uniform2fv(S.u["uPoly[0]"], new Float32Array(PLOT.flatMap(q => [q[0], -q[1]]))); gl.uniform1i(S.u.uPolyN, PLOT.length);
       gl.activeTexture(gl.TEXTURE0); gl.bindTexture(gl.TEXTURE_2D, sh.tex); gl.uniform1i(S.u.uShadow, 0);

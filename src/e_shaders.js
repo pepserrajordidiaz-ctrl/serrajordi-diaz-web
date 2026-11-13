@@ -21,7 +21,7 @@ precision highp float; precision highp sampler2DShadow;
 in vec3 vPos; in vec3 vNrm; in vec3 vCol; in vec2 vUV; in vec4 vL;
 flat in float vMat; flat in vec4 vP; flat in vec4 vQ;
 uniform vec3 uEye, uSunDir, uSunCol, uSkyCol, uGndCol, uFogCol;
-uniform float uFogDen, uExposure, uGlow, uLamp;
+uniform float uFogDen, uExposure, uGlow, uLamp, uFocus;
 uniform vec4 uDisc, uAOr; uniform vec2 uPoly[16]; uniform int uPolyN;
 uniform sampler2DShadow uShadow; uniform sampler2D uAO;
 out vec4 outC;
@@ -171,6 +171,12 @@ void main(){
  }
  c+=vec3(1.,.62,.08)*emis*1.4;
  c+=vec3(1.,.64,.32)*(lampF*glass*uLamp*1.5+lampE);
+ { // focus on the plot: the surroundings fade into a soft, pale haze
+  float fd=length(vPos.xz-vec2(.6,-.5)), f=smoothstep(9.,30.,fd)*uFocus*(m==13||m==14?0.:1.);
+  float l=dot(c,vec3(.3,.59,.11));
+  vec3 soft=mix(vec3(l),c,.35)*.42+vec3(.64,.62,.58)*.58;
+  c=mix(c,soft,f*.84);
+ }
  float dist=length(vPos-uEye); float fog=1.-exp(-dist*uFogDen);
  vec3 fc=uFogCol+uSunCol*.07*pow(max(dot(-V,uSunDir),0.),8.);
  c=mix(c,fc,clamp(fog,0.,.55));
