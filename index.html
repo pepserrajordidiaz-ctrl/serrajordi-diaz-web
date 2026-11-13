@@ -1619,10 +1619,10 @@ const VIEW = (function () {
     { eye: [-4.6, 1.65, -11.9], target: [1.4, 2.6, -1.5], up: U, fov: 60, vis: ["plot"] },        // in front of the plot, at eye height
     { eye: [30, 21, -25], target: [-3, 2, -5], up: U, fov: 40, vis: ["plot", "st", "nb"] },        // the street from above
     { eye: [2.0, 34, 10.5], target: [0.6, 0, -0.8], up: U, fov: 34, vis: ["dim"] },                // the plot, north up
-    { eye: [19, 15, -25], target: [0, 4.6, -2], up: U, fov: 36, vis: ["fl"] },                     // the houses rise
+    { eye: [-4.5, 7, -30], target: [-0.3, 4.4, -6.8], up: U, fov: 32, vis: ["fl"] },              // the houses rise, seen from the front
     { eye: [-3, 27, 18], target: [0.8, 2.2, -2.8], up: U, fov: 38, vis: [] }                           // the back faces south
   ];
-  const ORBIT = [false, false, false, true]; V.K = K;
+  const ORBIT = [false, false, false, false]; V.K = K;
   let vh = 1, top0 = 0, wide = true, aspect = 1.6, lastP = -1, intro = null;
   function measure() {
     vh = stick.clientHeight || innerHeight; top0 = sec.getBoundingClientRect().top + scrollY;
