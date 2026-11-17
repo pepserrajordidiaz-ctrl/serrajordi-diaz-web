@@ -25,9 +25,9 @@ def clip(poly, keep):   # Sutherland–Hodgman against keep(p) -> signed value (
             t = fa/(fa-fb); out.append((a[0]+(b[0]-a[0])*t, a[1]+(b[1]-a[1])*t))
     return out
 def area(P): return abs(sum(P[i][0]*P[(i+1)%len(P)][1]-P[(i+1)%len(P)][0]*P[i][1] for i in range(len(P))))/2
-H2 = clip(clip(SITE, lambda p: 4.6-p[0]), lambda p: 10-p[1])            # casa 2 (west)
+H2 = clip(clip(SITE, lambda p: 4.6-p[0]), lambda p: 9.8-p[1])            # casa 2 (west)
 H1 = clip(clip(SITE, lambda p: p[0]-4.6), lambda p: 9.7-p[1])           # casa 1 (east)
-Y2 = clip(clip(SITE, lambda p: 4.6-p[0]), lambda p: p[1]-10)
+Y2 = clip(clip(SITE, lambda p: 4.6-p[0]), lambda p: p[1]-9.8)
 Y1 = clip(clip(SITE, lambda p: p[0]-4.6), lambda p: p[1]-9.7)
 
 INK, MUTE, RED, ACC = '#1C2321', '#7B837F', '#A63A2E', '#EDB91F'
@@ -207,7 +207,7 @@ def level_site():
     o.append(poly(SITE, fill='#FBF7EA', stroke=INK, stroke_width=0.6))
     o.append(poly(EAT, fill='url(#eat)', stroke=RED, stroke_width=0.5))
     for P in (H1, H2): o.append(poly(P, fill='none', stroke=INK, stroke_width=0.3, stroke_dasharray='2 1'))
-    o.append(line(4.6, 0, 4.6, 10, stroke=INK, stroke_width=0.3, stroke_dasharray='2 1'))
+    o.append(line(4.6, 0, 4.6, 9.8, stroke=INK, stroke_width=0.3, stroke_dasharray='2 1'))
     o.append(text(6.9, 5.0, 'CASA 1', size=3.4, weight=700)); o.append(text(2.3, 5.0, 'CASA 2', size=3.4, weight=700))
     o.append(text(6.9, 4.3, 'fondària 9,70 m', size=2.5, fill=MUTE)); o.append(text(2.3, 4.3, 'fondària 10,00 m', size=2.5, fill=MUTE))
     o.append(text(6.9, 7.2, f'Superfície útil ≈{G["area"]:.0f} m²'.replace('.', ','), size=2.8, weight=600))

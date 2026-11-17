@@ -250,24 +250,28 @@ function buildScene() {
 
 // planned volume: two houses, 10 m deep from the façade, split at the middle of the frontage
 const PSITE = ccw(SITE_EN), EAT = ccw(EAT_EN);
-// casa 2 (west, next to núm. 32) keeps 10 m; casa 1 (east, next to núm. 28) stops at 9,70 m, where the occupied corner starts
+// casa B (west) is 9,80 m deep; casa A (east, next to núm. 28) stops at 9,70 m, where the occupied corner starts.
+// Floors every 2,95 m; the àtic (8,85–11,80) leaves a 2,80 m terrace at the front and ≈2,05 m at the back.
 const HOUSES = (() => {
   const [A, B] = PLOT_FRONT, fl = Math.hypot(B[0] - A[0], B[1] - A[1]), f = [(B[0] - A[0]) / fl, (B[1] - A[1]) / fl];
   const d = [f[1], -f[0]], c0 = A[0] * d[0] + A[1] * d[1], mf = A[0] * f[0] + A[1] * f[1] + 4.6, nf = [-f[0], -f[1]], nd = [-d[0], -d[1]];
-  const h2 = clipHalf(clipHalf(PSITE, d, c0 + 10), f, mf), h1 = clipHalf(clipHalf(PSITE, d, c0 + 9.7), nf, -mf);
-  const y2 = clipHalf(clipHalf(PSITE, nd, -(c0 + 10)), f, mf), y1 = clipHalf(clipHalf(PSITE, nd, -(c0 + 9.7)), nf, -mf);
-  return { houses: [h2, h1].map(ccw), backs: [y2, y1].map(ccw), f, d, A };
+  const h2 = clipHalf(clipHalf(PSITE, d, c0 + 9.8), f, mf), h1 = clipHalf(clipHalf(PSITE, d, c0 + 9.7), nf, -mf);
+  const y2 = clipHalf(clipHalf(PSITE, nd, -(c0 + 9.8)), f, mf), y1 = clipHalf(clipHalf(PSITE, nd, -(c0 + 9.7)), nf, -mf);
+  const atic = (h, D) => clipHalf(clipHalf(h, nd, -(c0 + 2.8)), d, c0 + D - 2.05);
+  return { houses: [h2, h1].map(ccw), backs: [y2, y1].map(ccw), atics: [atic(h2, 9.8), atic(h1, 9.7)].map(ccw), f, d, A };
 })();
-const HOUSE_H = 12.0; // PB + P1 + P2 + altell (orientatiu)
+const HOUSE_H = 11.8, BODY_H = 8.85; // PB + P1 + P2 up to 8,85 m, àtic up to 11,80 m (orientatiu)
 function buildGhost() {
   const m = new Mesh(), H = HOUSE_H, c = [1, 1, 1];
-  for (const h of HOUSES.houses) {
+  const prism = (h, y0, y1) => {
+    const hh = y1 - y0;
     for (let i = 0; i < h.length; i++) {
       const a = h[i], b = h[(i + 1) % h.length], L = Math.hypot(b[0] - a[0], b[1] - a[1]); if (L < 0.05) continue;
       const n = [(b[1] - a[1]) / L, 0, (b[0] - a[0]) / L];
-      m.poly([W3(a, 0.08), W3(b, 0.08), W3(b, H), W3(a, H)], n, [[0, 0], [L, 0], [L, H], [0, H]], c, 17, [L, H, 0, 0]);
+      m.poly([W3(a, y0), W3(b, y0), W3(b, y1), W3(a, y1)], n, [[0, 0], [L, 0], [L, hh], [0, hh]], c, 17, [L, hh, 0, 0]);
     }
-    m.tris(h.map(q => W3(q, H)), earclip(h), [0, 1, 0], c, 17, [100, 100, 0, 0], Z4, () => [50, 50]);
-  }
+    m.tris(h.map(q => W3(q, y1)), earclip(h), [0, 1, 0], c, 17, [100, 100, 0, 0], Z4, () => [50, 50]);
+  };
+  HOUSES.houses.forEach(h => prism(h, 0.08, BODY_H)); HOUSES.atics.forEach(h => prism(h, BODY_H, H));
   return m;
 }

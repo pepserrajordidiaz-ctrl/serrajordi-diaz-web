@@ -113,7 +113,7 @@ const VIEW = (function () {
   { const c = EAT_EN.reduce((s, q) => [s[0] + q[0] / 4, s[1] + q[1] / 4], [0, 0]); addLabel("Ocupat pel veí<em>3,00 × 2,70 m · ≈8 m²</em>", [c[0] + HOUSES.f[0] * 1.2 + HOUSES.d[0] * 0.6, 0.3, -(c[1] + HOUSES.f[1] * 1.2 + HOUSES.d[1] * 0.6)], "eat"); }
   {
     const [A, B] = PLOT_FRONT, M = [(A[0] + B[0]) / 2, (A[1] + B[1]) / 2];
-    [["PB · Garatge i safareig", 1.7, 3.0], ["P1 · Sala, cuina i menjador", 4.7, 6.0], ["P2 · 2 habitacions + estudi", 7.7, 9.0], ["Altell · Suite", 10.6, 11.8]]
+    [["PB · Garatge i porxo", 1.5, 2.9], ["P1 · Cuina-menjador i estar", 4.4, 5.85], ["P2 · 2 dormitoris + estudi", 7.4, 8.8], ["Àtic · Suite i terrasses", 10.3, 11.7]]
       .forEach(([t, y, minH]) => addLabel(t, [M[0], y, -(M[1] + 0.25)], "fl", { minH }));
   }
   const VIS = { plot: ["aer", "str"], st: ["aer", "pla"], nb: ["aer"], dim: ["pla"], eat: ["aer", "pla"], fl: ["aer", "str"] };

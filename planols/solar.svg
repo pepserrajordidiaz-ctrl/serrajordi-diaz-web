@@ -9,12 +9,12 @@
 <polygon points="242.00,236.00 238.69,157.40 247.91,157.01 252.95,156.68 238.08,63.19 155.09,70.73 155.09,106.73 115.09,106.73 119.33,236.00" fill="#FBF7EA" stroke="#1C2321" stroke-width="0.6"/>
 <polygon points="115.09,106.73 155.09,106.73 155.09,70.73 115.09,70.73" fill="url(#eat)" stroke="#A63A2E" stroke-width="0.5"/>
 <polygon points="155.09,106.67 155.09,106.73 115.09,106.73 119.33,236.00 180.67,236.00 180.67,106.67" fill="none" stroke="#1C2321" stroke-width="0.3" stroke-dasharray="2 1"/>
-<polygon points="242.00,236.00 238.69,157.40 247.91,157.01 252.95,156.68 244.36,102.67 180.67,102.67 180.67,236.00" fill="none" stroke="#1C2321" stroke-width="0.3" stroke-dasharray="2 1"/>
-<line x1="180.67" y1="236.00" x2="180.67" y2="102.67" stroke="#1C2321" stroke-width="0.3" stroke-dasharray="2 1"/>
-<text x="150.00" y="169.33" font-size="3.4" font-weight="700" fill="#1C2321" text-anchor="middle" >CASA 1</text>
-<text x="211.33" y="169.33" font-size="3.4" font-weight="700" fill="#1C2321" text-anchor="middle" >CASA 2</text>
+<polygon points="242.00,236.00 238.69,157.40 247.91,157.01 252.95,156.68 244.78,105.33 180.67,105.33 180.67,236.00" fill="none" stroke="#1C2321" stroke-width="0.3" stroke-dasharray="2 1"/>
+<line x1="180.67" y1="236.00" x2="180.67" y2="105.33" stroke="#1C2321" stroke-width="0.3" stroke-dasharray="2 1"/>
+<text x="150.00" y="169.33" font-size="3.4" font-weight="700" fill="#1C2321" text-anchor="middle" >CASA A</text>
+<text x="211.33" y="169.33" font-size="3.4" font-weight="700" fill="#1C2321" text-anchor="middle" >CASA B</text>
 <text x="150.00" y="178.67" font-size="2.5" font-weight="400" fill="#7B837F" text-anchor="middle" >fondària 9,70 m</text>
-<text x="211.33" y="178.67" font-size="2.5" font-weight="400" fill="#7B837F" text-anchor="middle" >fondària 10,00 m</text>
+<text x="211.33" y="178.67" font-size="2.5" font-weight="400" fill="#7B837F" text-anchor="middle" >fondària 9,80 m</text>
 <text x="150.00" y="140.00" font-size="2.8" font-weight="600" fill="#1C2321" text-anchor="middle" >Superfície útil ≈111 m²</text>
 <text x="230.36" y="200.45" font-size="2.7" font-weight="600" fill="#1C2321" text-anchor="middle" >5,90 m</text>
 <text x="235.64" y="114.84" font-size="2.7" font-weight="600" fill="#1C2321" text-anchor="middle" >7,10 m</text>
@@ -45,7 +45,7 @@
 <text x="300" y="58" font-size="9" font-weight="700" fill="#1C2321">Solar i mides</text>
 <text x="300" y="68" font-size="3.2" fill="#1C2321">Mides preses al solar (novembre 2026). Línia</text>
 <text x="300" y="73" font-size="3.2" fill="#1C2321">discontínua grisa: límit segons el Cadastre.</text>
-<rect x="300" y="80.8" width="7" height="4.2" fill="#FFF3C4" stroke="#1C2321" stroke-width="0.5"/><text x="310" y="84" font-size="3" fill="#1C2321">Canvis a la casa 1 (17/11/2026)</text>
+<rect x="300" y="80.8" width="7" height="4.2" fill="#FFF3C4" stroke="#1C2321" stroke-width="0.5"/><text x="310" y="84" font-size="3" fill="#1C2321">Canvis a la casa A (17/11/2026)</text>
 <rect x="300" y="87.8" width="7" height="4.2" fill="url(#eat)" stroke="#A63A2E" stroke-width="0.5"/><text x="310" y="91" font-size="3" fill="#1C2321">Cantonada ocupada pel veí del darrere</text>
 <rect x="300" y="94.8" width="7" height="4.2" fill="none" stroke="#EDB91F" stroke-width="0.5"/><text x="310" y="98" font-size="3" fill="#1C2321">Solar útil, amb les mides preses al solar</text>
 <text x="300" y="262" font-size="3" fill="#1C2321">Escala 1:75 en DIN A3</text>

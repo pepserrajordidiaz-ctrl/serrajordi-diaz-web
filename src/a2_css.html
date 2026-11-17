@@ -109,9 +109,9 @@ footer{padding-block:28px 40px;display:flex;flex-wrap:wrap;gap:12px 32px;justify
   .facts,.princ{grid-template-columns:1fr}
   .fact,.fact+.fact,.pr,.pr+.pr{border-right:0;border-left:0;padding-left:0;border-top:1px solid var(--rule)}
 }
-.planfig{grid-column:1/span 8;margin:0;background:#fff;border:1px solid var(--rule)}
+.planfig{grid-column:1/-1;margin:0;background:#fff;border:1px solid var(--rule);overflow-x:auto}.planfig svg{min-width:760px}
 .planfig svg{display:none;width:100%;height:auto}.planfig svg.on{display:block}
-.planside{grid-column:9/span 4;display:grid;gap:14px;align-content:start}
+.planside{grid-column:1/-1;display:flex;gap:24px;align-items:center;justify-content:space-between;flex-wrap:wrap}.planside .pside p{margin:0;max-width:80ch}
 .pside{display:none}.pside.on{display:block}
 .pside h3{font:700 26px/1.1 var(--display);font-stretch:80%;margin:0 0 10px}
 .pside p{margin:0 0 12px;max-width:42ch}.pside ul{margin:0;padding:0;list-style:none;border-top:1px solid var(--rule)}
