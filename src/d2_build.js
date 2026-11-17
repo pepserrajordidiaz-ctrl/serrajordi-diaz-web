@@ -197,6 +197,14 @@ function buildScene() {
   const m = new Mesh(), rnd = rng(30);
   const R = DISC.r + 6, cx = DISC.cx, cz = DISC.cz;
   m.poly([[cx - R, 0, cz - R], [cx + R, 0, cz - R], [cx + R, 0, cz + R], [cx - R, 0, cz + R]], [0, 1, 0], [[0, 0], [1, 0], [1, 1], [0, 1]], COL.mat[6], 6);
+  { // corner of the plot occupied by the back neighbour, and the wall that closes it
+    m.tris(EAT.map(q => W3(q, 0.09)), earclip(EAT), [0, 1, 0], hex2lin("#B4463A"), 23);
+    const [E1, E2, E3] = EAT_EN, f = HOUSES.f, d = HOUSES.d;
+    for (const [a, b, n] of [[E1, E2, d], [E2, E3, f]]) {
+      const L = Math.hypot(b[0] - a[0], b[1] - a[1]);
+      m.obox([a[0], -a[1]], [(b[0] - a[0]) / L, -(b[1] - a[1]) / L], [n[0], -n[1]], L, 2.1, 0.2, hex2lin("#B9AE9C"), 19, 0.03);
+    }
+  }
   for (const c of PARCELS) {
     const mat = c.plot ? 8 : GARDEN.has(c.rc) ? 9 : 10, y = c.plot ? 0.06 : 0.07;
     m.tris(c.pts.map(q => W3(q, y)), earclip(c.pts), [0, 1, 0], COL.mat[mat], mat);
@@ -241,20 +249,19 @@ function buildScene() {
 }
 
 // planned volume: two houses, 10 m deep from the façade, split at the middle of the frontage
+const PSITE = ccw(SITE_EN), EAT = ccw(EAT_EN);
+// casa 2 (west, next to núm. 32) keeps 10 m; casa 1 (east, next to núm. 28) stops at 9,70 m, where the occupied corner starts
 const HOUSES = (() => {
   const [A, B] = PLOT_FRONT, fl = Math.hypot(B[0] - A[0], B[1] - A[1]), f = [(B[0] - A[0]) / fl, (B[1] - A[1]) / fl];
-  const d = [f[1], -f[0]], M = [(A[0] + B[0]) / 2, (A[1] + B[1]) / 2], c0 = A[0] * d[0] + A[1] * d[1];
-  const strip = clipHalf(PLOT, d, c0 + 10), back = clipHalf(PLOT, [-d[0], -d[1]], -(c0 + 10)), mf = M[0] * f[0] + M[1] * f[1];
-  return { houses: [clipHalf(strip, f, mf), clipHalf(strip, [-f[0], -f[1]], -mf)].map(ccw), back: ccw(back), f, d, A };
+  const d = [f[1], -f[0]], c0 = A[0] * d[0] + A[1] * d[1], mf = A[0] * f[0] + A[1] * f[1] + 4.6, nf = [-f[0], -f[1]], nd = [-d[0], -d[1]];
+  const h2 = clipHalf(clipHalf(PSITE, d, c0 + 10), f, mf), h1 = clipHalf(clipHalf(PSITE, d, c0 + 9.7), nf, -mf);
+  const y2 = clipHalf(clipHalf(PSITE, nd, -(c0 + 10)), f, mf), y1 = clipHalf(clipHalf(PSITE, nd, -(c0 + 9.7)), nf, -mf);
+  return { houses: [h2, h1].map(ccw), backs: [y2, y1].map(ccw), f, d, A };
 })();
 const HOUSE_H = 12.0; // PB + P1 + P2 + altell (orientatiu)
 function buildGhost() {
   const m = new Mesh(), H = HOUSE_H, c = [1, 1, 1];
-  const [A, B] = PLOT_FRONT, fl = Math.hypot(B[0] - A[0], B[1] - A[1]), f = [(B[0] - A[0]) / fl, (B[1] - A[1]) / fl];
-  const d = [f[1], -f[0]], M = [(A[0] + B[0]) / 2, (A[1] + B[1]) / 2];
-  const strip = clipHalf(PLOT, d, A[0] * d[0] + A[1] * d[1] + 10);
-  const houses = [clipHalf(strip, f, M[0] * f[0] + M[1] * f[1]), clipHalf(strip, [-f[0], -f[1]], -(M[0] * f[0] + M[1] * f[1]))];
-  for (const h of houses.map(ccw)) {
+  for (const h of HOUSES.houses) {
     for (let i = 0; i < h.length; i++) {
       const a = h[i], b = h[(i + 1) % h.length], L = Math.hypot(b[0] - a[0], b[1] - a[1]); if (L < 0.05) continue;
       const n = [(b[1] - a[1]) / L, 0, (b[0] - a[0]) / L];

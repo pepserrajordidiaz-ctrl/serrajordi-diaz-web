@@ -1,0 +1,139 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 420 297" font-family="Archivo, Helvetica, Arial, sans-serif" role="img" aria-label="Planta segona">
+<defs>
+<pattern id="eat" width="2.4" height="2.4" patternUnits="userSpaceOnUse" patternTransform="rotate(45)"><rect width="2.4" height="2.4" fill="#F6E1DD"/><rect width="1.0" height="2.4" fill="#E4A79E"/></pattern>
+<pattern id="deck" width="2.2" height="2.2" patternUnits="userSpaceOnUse"><rect width="2.2" height="2.2" fill="#F7F5EF"/><path d="M0 0H2.2" stroke="#D8D3C6" stroke-width="0.25"/></pattern>
+<marker id="arr" viewBox="0 0 6 6" refX="5" refY="3" markerWidth="4" markerHeight="4" orient="auto"><path d="M0 0L6 3L0 6z" fill="#1C2321"/></marker>
+</defs>
+<rect width="420" height="297" fill="#fff"/>
+<polygon points="248.71,176.07 239.49,176.46 242.00,236.00 119.07,236.00 116.42,153.79 114.80,104.62 114.58,99.74 113.18,56.40 165.25,55.21 172.15,55.02 171.02,65.37 186.39,64.41 235.53,61.17 242.59,105.48 246.86,132.13 253.75,175.74" fill="none" stroke="#7B837F" stroke-width="0.25" stroke-dasharray="1.2 1"/>
+<clipPath id="allp2"><polygon points="155.09,106.67 155.09,106.73 115.09,106.73 119.33,236.00 180.67,236.00 180.67,106.67"/><polygon points="242.00,236.00 238.69,157.40 247.91,157.01 252.95,156.68 244.36,102.67 180.67,102.67 180.67,236.00"/><polygon points="180.67,68.41 155.09,70.73 155.09,106.67 180.67,106.67"/><polygon points="244.36,102.67 238.08,63.19 180.67,68.41 180.67,102.67"/></clipPath><g clip-path="url(#allp2)">
+<clipPath id="c1p2"><polygon points="155.09,106.67 155.09,106.73 115.09,106.73 119.33,236.00 180.67,236.00 180.67,106.67"/></clipPath>
+<polygon points="155.09,106.67 155.09,106.73 115.09,106.73 119.33,236.00 180.67,236.00 180.67,106.67" fill="#fff"/>
+<clipPath id="c2p2"><polygon points="242.00,236.00 238.69,157.40 247.91,157.01 252.95,156.68 244.36,102.67 180.67,102.67 180.67,236.00"/></clipPath>
+<polygon points="242.00,236.00 238.69,157.40 247.91,157.01 252.95,156.68 244.36,102.67 180.67,102.67 180.67,236.00" fill="#fff"/>
+<polygon points="155.09,106.67 155.09,106.73 115.09,106.73 119.33,236.00 180.67,236.00 180.67,106.67" fill="none" stroke="#1C2321" stroke-width="5.33" clip-path="url(#c1p2)"/>
+<polygon points="242.00,236.00 238.69,157.40 247.91,157.01 252.95,156.68 244.36,102.67 180.67,102.67 180.67,236.00" fill="none" stroke="#1C2321" stroke-width="5.33" clip-path="url(#c2p2)"/>
+<rect x="164.40" y="137.33" width="14.67" height="53.33" fill="#fff" stroke="#1C2321" stroke-width="0.3"/>
+<line x1="179.07" y1="187.33" x2="164.40" y2="187.33" stroke="#7B837F" stroke-width="0.2"/>
+<line x1="179.07" y1="184.00" x2="164.40" y2="184.00" stroke="#7B837F" stroke-width="0.2"/>
+<line x1="179.07" y1="180.67" x2="164.40" y2="180.67" stroke="#7B837F" stroke-width="0.2"/>
+<line x1="179.07" y1="177.33" x2="164.40" y2="177.33" stroke="#7B837F" stroke-width="0.2"/>
+<line x1="179.07" y1="174.00" x2="164.40" y2="174.00" stroke="#7B837F" stroke-width="0.2"/>
+<line x1="179.07" y1="170.67" x2="164.40" y2="170.67" stroke="#7B837F" stroke-width="0.2"/>
+<line x1="179.07" y1="167.33" x2="164.40" y2="167.33" stroke="#7B837F" stroke-width="0.2"/>
+<line x1="179.07" y1="164.00" x2="164.40" y2="164.00" stroke="#7B837F" stroke-width="0.2"/>
+<line x1="179.07" y1="160.67" x2="164.40" y2="160.67" stroke="#7B837F" stroke-width="0.2"/>
+<line x1="179.07" y1="157.33" x2="164.40" y2="157.33" stroke="#7B837F" stroke-width="0.2"/>
+<line x1="179.07" y1="154.00" x2="164.40" y2="154.00" stroke="#7B837F" stroke-width="0.2"/>
+<line x1="179.07" y1="150.67" x2="164.40" y2="150.67" stroke="#7B837F" stroke-width="0.2"/>
+<line x1="179.07" y1="147.33" x2="164.40" y2="147.33" stroke="#7B837F" stroke-width="0.2"/>
+<line x1="179.07" y1="144.00" x2="164.40" y2="144.00" stroke="#7B837F" stroke-width="0.2"/>
+<line x1="179.07" y1="140.67" x2="164.40" y2="140.67" stroke="#7B837F" stroke-width="0.2"/>
+<line x1="171.73" y1="188.00" x2="171.73" y2="141.33" stroke="#1C2321" stroke-width="0.3" marker-end="url(#arr)"/>
+<rect x="123.07" y="203.33" width="21.33" height="26.67" fill="none" stroke="#7B837F" stroke-width="0.25"/>
+<rect x="134.53" y="204.93" width="8.27" height="5.07" fill="none" stroke="#7B837F" stroke-width="0.25"/>
+<rect x="124.67" y="204.93" width="8.27" height="5.07" fill="none" stroke="#7B837F" stroke-width="0.25"/>
+<line x1="144.40" y1="212.00" x2="123.07" y2="212.00" fill="none" stroke="#7B837F" stroke-width="0.25"/>
+<text x="154.40" y="213.07" font-size="3.1" font-weight="600" fill="#1C2321" text-anchor="middle" >Habitació 1</text>
+<text x="154.40" y="220.27" font-size="2.5" font-weight="400" fill="#7B837F" text-anchor="middle" >≈14 m²</text>
+<rect x="120.40" y="187.33" width="58.67" height="1.33" fill="#1C2321"/>
+<rect x="162.40" y="160.00" width="1.33" height="27.33" fill="#1C2321"/>
+<rect x="120.40" y="159.33" width="42.00" height="1.33" fill="#1C2321"/>
+<rect x="121.73" y="172.67" width="13.33" height="13.33" fill="none" stroke="#7B837F" stroke-width="0.25"/>
+<line x1="135.07" y1="186.00" x2="121.73" y2="172.67" fill="none" stroke="#7B837F" stroke-width="0.25"/>
+<line x1="135.07" y1="172.67" x2="121.73" y2="186.00" fill="none" stroke="#7B837F" stroke-width="0.25"/>
+<rect x="153.07" y="161.33" width="5.33" height="2.40" fill="none" stroke="#7B837F" stroke-width="0.25"/>
+<ellipse cx="155.73" cy="167.33" rx="2.53" ry="3.60" fill="none" stroke="#7B837F" stroke-width="0.25"/>
+<rect x="140.40" y="161.33" width="8.00" height="5.33" rx="0.6" fill="none" stroke="#7B837F" stroke-width="0.25"/>
+<text x="143.07" y="171.07" font-size="3.1" font-weight="600" fill="#1C2321" text-anchor="middle" >Bany</text>
+<text x="143.07" y="178.27" font-size="2.5" font-weight="400" fill="#7B837F" text-anchor="middle" >≈6 m²</text>
+<rect x="121.73" y="138.67" width="8.00" height="18.67" fill="none" stroke="#7B837F" stroke-width="0.25"/>
+<rect x="131.07" y="145.33" width="4.67" height="5.33" fill="none" stroke="#7B837F" stroke-width="0.25"/>
+<text x="148.40" y="146.40" font-size="3.1" font-weight="600" fill="#1C2321" text-anchor="middle" >Estudi obert</text>
+<text x="148.40" y="153.60" font-size="2.5" font-weight="400" fill="#7B837F" text-anchor="middle" >≈5 m²</text>
+<rect x="120.40" y="138.40" width="42.67" height="1.33" fill="#1C2321"/>
+<rect x="123.07" y="110.67" width="21.33" height="26.67" fill="none" stroke="#7B837F" stroke-width="0.25"/>
+<rect x="134.53" y="112.27" width="8.27" height="5.07" fill="none" stroke="#7B837F" stroke-width="0.25"/>
+<rect x="124.67" y="112.27" width="8.27" height="5.07" fill="none" stroke="#7B837F" stroke-width="0.25"/>
+<line x1="144.40" y1="119.33" x2="123.07" y2="119.33" fill="none" stroke="#7B837F" stroke-width="0.25"/>
+<text x="154.40" y="119.73" font-size="3.1" font-weight="600" fill="#1C2321" text-anchor="middle" >Habitació 2</text>
+<text x="154.40" y="126.93" font-size="2.5" font-weight="400" fill="#7B837F" text-anchor="middle" >≈12 m²</text>
+<rect x="182.27" y="137.33" width="14.67" height="53.33" fill="#fff" stroke="#1C2321" stroke-width="0.3"/>
+<line x1="182.27" y1="187.33" x2="196.93" y2="187.33" stroke="#7B837F" stroke-width="0.2"/>
+<line x1="182.27" y1="184.00" x2="196.93" y2="184.00" stroke="#7B837F" stroke-width="0.2"/>
+<line x1="182.27" y1="180.67" x2="196.93" y2="180.67" stroke="#7B837F" stroke-width="0.2"/>
+<line x1="182.27" y1="177.33" x2="196.93" y2="177.33" stroke="#7B837F" stroke-width="0.2"/>
+<line x1="182.27" y1="174.00" x2="196.93" y2="174.00" stroke="#7B837F" stroke-width="0.2"/>
+<line x1="182.27" y1="170.67" x2="196.93" y2="170.67" stroke="#7B837F" stroke-width="0.2"/>
+<line x1="182.27" y1="167.33" x2="196.93" y2="167.33" stroke="#7B837F" stroke-width="0.2"/>
+<line x1="182.27" y1="164.00" x2="196.93" y2="164.00" stroke="#7B837F" stroke-width="0.2"/>
+<line x1="182.27" y1="160.67" x2="196.93" y2="160.67" stroke="#7B837F" stroke-width="0.2"/>
+<line x1="182.27" y1="157.33" x2="196.93" y2="157.33" stroke="#7B837F" stroke-width="0.2"/>
+<line x1="182.27" y1="154.00" x2="196.93" y2="154.00" stroke="#7B837F" stroke-width="0.2"/>
+<line x1="182.27" y1="150.67" x2="196.93" y2="150.67" stroke="#7B837F" stroke-width="0.2"/>
+<line x1="182.27" y1="147.33" x2="196.93" y2="147.33" stroke="#7B837F" stroke-width="0.2"/>
+<line x1="182.27" y1="144.00" x2="196.93" y2="144.00" stroke="#7B837F" stroke-width="0.2"/>
+<line x1="182.27" y1="140.67" x2="196.93" y2="140.67" stroke="#7B837F" stroke-width="0.2"/>
+<line x1="189.60" y1="188.00" x2="189.60" y2="141.33" stroke="#1C2321" stroke-width="0.3" marker-end="url(#arr)"/>
+<rect x="216.93" y="203.33" width="21.33" height="26.67" fill="none" stroke="#7B837F" stroke-width="0.25"/>
+<rect x="218.53" y="204.93" width="8.27" height="5.07" fill="none" stroke="#7B837F" stroke-width="0.25"/>
+<rect x="228.40" y="204.93" width="8.27" height="5.07" fill="none" stroke="#7B837F" stroke-width="0.25"/>
+<line x1="216.93" y1="212.00" x2="238.27" y2="212.00" fill="none" stroke="#7B837F" stroke-width="0.25"/>
+<text x="206.93" y="213.07" font-size="3.1" font-weight="600" fill="#1C2321" text-anchor="middle" >Habitació 1</text>
+<text x="206.93" y="220.27" font-size="2.5" font-weight="400" fill="#7B837F" text-anchor="middle" >≈14 m²</text>
+<rect x="182.27" y="187.33" width="58.67" height="1.33" fill="#1C2321"/>
+<rect x="197.60" y="160.00" width="1.33" height="27.33" fill="#1C2321"/>
+<rect x="198.93" y="159.33" width="42.00" height="1.33" fill="#1C2321"/>
+<rect x="226.27" y="172.67" width="13.33" height="13.33" fill="none" stroke="#7B837F" stroke-width="0.25"/>
+<line x1="226.27" y1="186.00" x2="239.60" y2="172.67" fill="none" stroke="#7B837F" stroke-width="0.25"/>
+<line x1="226.27" y1="172.67" x2="239.60" y2="186.00" fill="none" stroke="#7B837F" stroke-width="0.25"/>
+<rect x="202.93" y="161.33" width="5.33" height="2.40" fill="none" stroke="#7B837F" stroke-width="0.25"/>
+<ellipse cx="205.60" cy="167.33" rx="2.53" ry="3.60" fill="none" stroke="#7B837F" stroke-width="0.25"/>
+<rect x="212.93" y="161.33" width="8.00" height="5.33" rx="0.6" fill="none" stroke="#7B837F" stroke-width="0.25"/>
+<text x="218.27" y="171.07" font-size="3.1" font-weight="600" fill="#1C2321" text-anchor="middle" >Bany</text>
+<text x="218.27" y="178.27" font-size="2.5" font-weight="400" fill="#7B837F" text-anchor="middle" >≈6 m²</text>
+<rect x="231.60" y="138.67" width="8.00" height="18.67" fill="none" stroke="#7B837F" stroke-width="0.25"/>
+<rect x="225.60" y="145.33" width="4.67" height="5.33" fill="none" stroke="#7B837F" stroke-width="0.25"/>
+<text x="212.93" y="146.40" font-size="3.1" font-weight="600" fill="#1C2321" text-anchor="middle" >Estudi obert</text>
+<text x="212.93" y="153.60" font-size="2.5" font-weight="400" fill="#7B837F" text-anchor="middle" >≈5 m²</text>
+<rect x="198.27" y="138.40" width="42.67" height="1.33" fill="#1C2321"/>
+<rect x="216.93" y="106.67" width="21.33" height="26.67" fill="none" stroke="#7B837F" stroke-width="0.25"/>
+<rect x="218.53" y="108.27" width="8.27" height="5.07" fill="none" stroke="#7B837F" stroke-width="0.25"/>
+<rect x="228.40" y="108.27" width="8.27" height="5.07" fill="none" stroke="#7B837F" stroke-width="0.25"/>
+<line x1="216.93" y1="115.33" x2="238.27" y2="115.33" fill="none" stroke="#7B837F" stroke-width="0.25"/>
+<text x="206.93" y="119.73" font-size="3.1" font-weight="600" fill="#1C2321" text-anchor="middle" >Habitació 2</text>
+<text x="206.93" y="126.93" font-size="2.5" font-weight="400" fill="#7B837F" text-anchor="middle" >≈12 m²</text>
+</g>
+<polygon points="115.09,106.73 155.09,106.73 155.09,70.73 115.09,70.73" fill="url(#eat)" stroke="#A63A2E" stroke-width="0.45"/>
+<polygon points="242.00,236.00 238.69,157.40 247.91,157.01 252.95,156.68 238.08,63.19 155.09,70.73 155.09,106.73 115.09,106.73 119.33,236.00" fill="none" stroke="#EDB91F" stroke-width="0.7"/>
+<text x="135.09" y="86.07" font-size="2.6" font-weight="700" fill="#A63A2E" text-anchor="middle" >Ocupat pel veí</text>
+<text x="135.09" y="94.07" font-size="2.3" font-weight="400" fill="#A63A2E" text-anchor="middle" >3,00 × 2,70 m</text>
+<rect x="82.67" y="238.00" width="199.33" height="56.00" fill="#EFEFEA"/>
+<text x="180.67" y="258.67" font-size="3.2" font-weight="600" fill="#7B837F" text-anchor="middle" letter-spacing="0.6">CARRER D'ANSELM CLAVÉ</text>
+<text x="96.67" y="169.33" font-size="2.8" font-weight="400" fill="#7B837F" text-anchor="middle" >núm. 28</text>
+<text x="267.33" y="196.00" font-size="2.8" font-weight="400" fill="#7B837F" text-anchor="middle" >núm. 32</text>
+<text x="188.67" y="49.33" font-size="2.8" font-weight="400" fill="#7B837F" text-anchor="middle" >veí del darrere</text>
+<text x="150.00" y="245.33" font-size="1" font-weight="400" fill="#1C2321" text-anchor="middle" ></text>
+<text x="150.00" y="274.67" font-size="3.0" font-weight="700" fill="#1C2321" text-anchor="middle" >CASA 1</text>
+<text x="211.33" y="274.67" font-size="3.0" font-weight="700" fill="#1C2321" text-anchor="middle" >CASA 2</text>
+<g transform="translate(40.0,40.0) rotate(171.6)"><circle r="6" fill="none" stroke="#1C2321" stroke-width="0.3"/><path d="M0,-5 L2.2,3 L0,1.6 L-2.2,3Z" fill="#1C2321"/></g><text x="40.0" y="51.0" font-size="2.6" text-anchor="middle" fill="#1C2321">Nord</text>
+<text x="28.0" y="279.0" font-size="2.5" fill="#1C2321">0</text>
+<rect x="28.00" y="282.00" width="13.33" height="1.6" fill="#1C2321" stroke="#1C2321" stroke-width="0.2"/>
+<rect x="41.33" y="282.00" width="13.33" height="1.6" fill="#fff" stroke="#1C2321" stroke-width="0.2"/>
+<rect x="54.67" y="282.00" width="13.33" height="1.6" fill="#1C2321" stroke="#1C2321" stroke-width="0.2"/>
+<rect x="68.00" y="282.00" width="13.33" height="1.6" fill="#fff" stroke="#1C2321" stroke-width="0.2"/>
+<rect x="81.33" y="282.00" width="13.33" height="1.6" fill="#1C2321" stroke="#1C2321" stroke-width="0.2"/>
+<text x="94.7" y="279.0" font-size="2.5" fill="#1C2321" text-anchor="middle">5 m</text>
+<line x1="292" y1="14" x2="292" y2="283" stroke="#D9D9D2" stroke-width="0.3"/>
+<text x="300" y="26" font-size="4" font-weight="700" fill="#1C2321">Serrajordi-Diaz Investments</text>
+<text x="300" y="33" font-size="3" fill="#7B837F">C/ Anselm Clavé, 30 · Llinars del Vallès</text>
+<text x="300" y="58" font-size="9" font-weight="700" fill="#1C2321">Planta segona</text>
+<text x="300" y="68" font-size="3.2" fill="#1C2321">Dues habitacions dobles, bany compartit i</text>
+<text x="300" y="73" font-size="3.2" fill="#1C2321">estudi obert.</text>
+<rect x="300" y="80.8" width="7" height="4.2" fill="#FFF3C4" stroke="#1C2321" stroke-width="0.5"/><text x="310" y="84" font-size="3" fill="#1C2321">Canvis a la casa 1 (17/11/2026)</text>
+<rect x="300" y="87.8" width="7" height="4.2" fill="url(#eat)" stroke="#A63A2E" stroke-width="0.5"/><text x="310" y="91" font-size="3" fill="#1C2321">Cantonada ocupada pel veí del darrere</text>
+<rect x="300" y="94.8" width="7" height="4.2" fill="none" stroke="#EDB91F" stroke-width="0.5"/><text x="310" y="98" font-size="3" fill="#1C2321">Solar útil, amb les mides preses al solar</text>
+<text x="300" y="262" font-size="3" fill="#1C2321">Escala 1:75 en DIN A3</text>
+<text x="300" y="268" font-size="3" fill="#1C2321">17 de novembre de 2026</text>
+<text x="300" y="276" font-size="2.6" fill="#7B837F">Esquema orientatiu, pendent del projecte de l'arquitecte.</text>
+</svg>

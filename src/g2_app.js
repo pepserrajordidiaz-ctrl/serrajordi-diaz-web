@@ -6,7 +6,7 @@
   const K = [
     { eye: [-4.6, 1.65, -11.9], target: [1.4, 2.6, -1.5], up: U, fov: 60, vis: ["plot"] },        // in front of the plot, at eye height
     { eye: [30, 21, -25], target: [-3, 2, -5], up: U, fov: 40, vis: ["plot", "st", "nb"] },        // the street from above
-    { eye: [2.0, 34, 10.5], target: [0.6, 0, -0.8], up: U, fov: 34, vis: ["dim"] },                // the plot, north up
+    { eye: [2.0, 34, 10.5], target: [0.6, 0, -0.8], up: U, fov: 34, vis: ["dim", "eat"] },                // the plot, north up
     { eye: [-4.5, 8, -31], target: [-0.3, 5.6, -6.8], up: U, fov: 37, vis: ["fl"] },              // the houses rise, seen from the front
     { eye: [-3.5, 31, 21], target: [0.8, 3.2, -2.8], up: U, fov: 38, vis: [] }                           // the back faces south
   ];
@@ -78,7 +78,7 @@ const SUNSTUDY = (function () {
     }
     return out;
   }
-  const T = { t: { pts: grid([HOUSES.back], 0.6, 0.3), y: 4.4 }, r: { pts: grid(HOUSES.houses, 0.8, 0.35), y: HOUSE_H + 0.25 } };
+  const T = { t: { pts: grid(HOUSES.backs, 0.5, 0.25), y: 4.4 }, r: { pts: grid(HOUSES.houses, 0.8, 0.35), y: HOUSE_H + 0.25 } };
   function litFrac(set, az, el) {
     if (el <= horizon(az)) return 0;
     const dx = Math.sin(az * DEG), dn = Math.cos(az * DEG), tn = Math.tan(el * DEG), y = set.y, maxT = Math.min(80, (17.5 - y) / tn);
@@ -175,6 +175,16 @@ const SUNSTUDY = (function () {
   });
 })();
 
+// ---------- plans: one floor at a time ----------
+(function plans() {
+  const tabs = document.querySelectorAll(".ptabs .chip");
+  tabs.forEach(t => t.addEventListener("click", () => {
+    const k = t.dataset.k;
+    tabs.forEach(o => o.setAttribute("aria-pressed", String(o === t)));
+    document.querySelectorAll(".planfig svg.pl, .planside .pside").forEach(el => el.classList.toggle("on", el.dataset.k === k));
+  }));
+})();
+
 // ---------- mortgage simulator ----------
 (function quota() {
   const PRICE = 396000, ent = $("qEnt"), any = $("qAny"), tin = $("qTin");
@@ -192,7 +202,7 @@ const SUNSTUDY = (function () {
 
 // ---------- reveal on scroll and counters ----------
 (function reveal() {
-  const els = document.querySelectorAll(".block h2, .block .lede, .block .frame, .heat, .sunside, .calc, .result, .facts, .princ, .tabs");
+  const els = document.querySelectorAll(".block h2, .block .lede, .block .frame, .heat, .sunside, .calc, .result, .facts, .princ, .tabs, .planfig, .planside");
   const count = el => {
     const end = +el.dataset.count, sep = el.dataset.sep, t0 = performance.now(), dur = 1300;
     const f = now => { const t = clamp((now - t0) / dur, 0, 1), v = Math.round(end * easeOut3(t)); el.textContent = sep ? v.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".") : String(v); if (t < 1) requestAnimationFrame(f); };

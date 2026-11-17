@@ -151,6 +151,7 @@ void main(){
   if(min(fract(t.x)*2.,fract(t.y))<.06)alb*=.78; alb*=mix(.72,1.,smoothstep(0.,.9,vUV.y)); alb*=1.-.12*vnoise(vec2(vUV.x*3.,vUV.y*.4));}
  else if(m==20){alb=vCol*(.66+.34*smoothstep(.08,.45,fract(vUV.y*8.)))*(.85+.25*fbm(vUV*2.5)); spec=.1;}
  else if(m==18){alb=vCol*(.8+.25*fbm(vec2(xz.x+xz.y,vUV.y)*3.));}
+ else if(m==23){float st=step(.5,fract((xz.x-xz.y)*2.2)); alb=mix(vCol,vec3(.93,.88,.82),st*.55);}
  else if(m==9){alb=mix(vCol,vec3(.32,.28,.14),.45*smoothstep(.45,.75,fbm(xz*.35)))*(.8+.35*fbm(xz*1.1));}
  else if(m==10){vec2 t=xz/.5; alb=vCol*(.88+.14*fbm(xz*.8))*(min(fract(t.x),fract(t.y))<.04?.85:1.);}
  else if(m==11){alb=vCol*(.7+.5*fbm(vPos.xz*1.6+vPos.y*1.3)); ao=.55+.45*(N.y*.5+.5);}

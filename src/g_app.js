@@ -99,25 +99,24 @@ const VIEW = (function () {
   // ----- labels -----
   const labels = [];
   const addLabel = (html, pos, cls, extra) => { const el = document.createElement("div"); el.className = "lbl hide " + cls; el.innerHTML = html; layer.appendChild(el); labels.push(Object.assign({ el, pos, cls, on: false }, extra)); };
-  addLabel("C/ Anselm Clavé, 30<em>Solar de 126 m² · aquí farem les cases</em>", [0.6, 0.3, -0.5], "plot");
+  addLabel("C/ Anselm Clavé, 30<em>Solar de ≈" + SITE_AREA + " m² útils · aquí farem les cases</em>", [0.6, 0.3, -0.5], "plot");
   addLabel("Carrer d'Anselm Clavé", [-21, 0.3, -7.2], "st");
   for (const rc of Object.keys(NUMBERS)) {
     const ps = PARTS.filter(p => p.rc === rc); if (!ps.length) continue;
     const top = ps.reduce((a, b) => b.H > a.H ? b : a), c = top.pts.reduce((a, q) => [a[0] + q[0] / top.pts.length, a[1] + q[1] / top.pts.length], [0, 0]);
     addLabel(NUMBERS[rc] + " · " + (top.fl > 1 ? "PB+" + (top.fl - 1) : "PB"), [c[0], top.H + 1.4, -c[1]], "nb");
   }
-  {
-    const P = PLOT, merged = [], ang = s => Math.atan2(s[1][1] - s[0][1], s[1][0] - s[0][0]);
-    for (let i = 0; i < P.length; i++) { const sg = [P[i], P[(i + 1) % P.length]], l = merged[merged.length - 1];
-      if (l && Math.abs(((ang(l) - ang(sg) + 3 * Math.PI) % (2 * Math.PI)) - Math.PI) < 0.14) l[1] = sg[1]; else merged.push(sg); }
-    for (const [a, b] of merged) { const L = Math.hypot(b[0] - a[0], b[1] - a[1]); if (L < 2.2) continue; const mx = (a[0] + b[0]) / 2, my = (a[1] + b[1]) / 2, cx = 0.6, cy = 0.5, k = 1.4 / Math.hypot(cx - mx, cy - my); addLabel(L.toFixed(2).replace(".", ",") + " m", [mx + (cx - mx) * k, 0.3, -(my + (cy - my) * k)], "dim"); }
+  for (const [i, j, t] of SITE_DIMS) { // measured on site
+    const a = SITE_EN[i], b = SITE_EN[j], L = Math.hypot(b[0] - a[0], b[1] - a[1]), n = [-(b[1] - a[1]) / L, (b[0] - a[0]) / L], k = L < 3.5 ? 0.75 : 1.1;
+    addLabel(t, [(a[0] + b[0]) / 2 + n[0] * k, 0.3, -((a[1] + b[1]) / 2 + n[1] * k)], "dim");
   }
+  { const c = EAT_EN.reduce((s, q) => [s[0] + q[0] / 4, s[1] + q[1] / 4], [0, 0]); addLabel("Ocupat pel veí<em>3,00 × 2,70 m · ≈8 m²</em>", [c[0] + HOUSES.f[0] * 1.2 + HOUSES.d[0] * 0.6, 0.3, -(c[1] + HOUSES.f[1] * 1.2 + HOUSES.d[1] * 0.6)], "eat"); }
   {
     const [A, B] = PLOT_FRONT, M = [(A[0] + B[0]) / 2, (A[1] + B[1]) / 2];
-    [["PB · Garatge", 1.7, 3.0], ["P1 · Cuina i menjador", 4.7, 6.0], ["P2 · 2 habitacions + estudi", 7.7, 9.0], ["Altell · Suite", 10.6, 11.8]]
+    [["PB · Garatge i safareig", 1.7, 3.0], ["P1 · Sala, cuina i menjador", 4.7, 6.0], ["P2 · 2 habitacions + estudi", 7.7, 9.0], ["Altell · Suite", 10.6, 11.8]]
       .forEach(([t, y, minH]) => addLabel(t, [M[0], y, -(M[1] + 0.25)], "fl", { minH }));
   }
-  const VIS = { plot: ["aer", "str"], st: ["aer", "pla"], nb: ["aer"], dim: ["pla"], fl: ["aer", "str"] };
+  const VIS = { plot: ["aer", "str"], st: ["aer", "pla"], nb: ["aer"], dim: ["pla"], eat: ["aer", "pla"], fl: ["aer", "str"] };
   function placeLabels(vp, vis, ghostH, still) {
     const w = canvas.clientWidth, h = canvas.clientHeight;
     for (const L of labels) {
@@ -128,7 +127,7 @@ const VIEW = (function () {
       }
       if (ok !== L.on) { L.on = ok; L.el.classList.toggle("hide", !ok); }
       if (!ok) continue;
-      L.el.style.transform = `translate(${((p[0] * 0.5 + 0.5) * w).toFixed(1)}px,${((0.5 - p[1] * 0.5) * h).toFixed(1)}px) ` + (L.cls === "dim" || L.cls === "fl" ? "translate(-50%,-50%)" : "translate(-50%,-100%)");
+      L.el.style.transform = `translate(${((p[0] * 0.5 + 0.5) * w).toFixed(1)}px,${((0.5 - p[1] * 0.5) * h).toFixed(1)}px) ` + (L.cls === "dim" || L.cls === "fl" || L.cls === "eat" ? "translate(-50%,-50%)" : "translate(-50%,-100%)");
     }
   }
   function updateNorth(vp) {
