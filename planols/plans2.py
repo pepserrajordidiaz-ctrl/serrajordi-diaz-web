@@ -34,8 +34,8 @@ def text_xy(x, y, s, size=3.0, weight=400, fill=INK, anchor='middle', **a):
 class H:
     def __init__(s, name):
         s.name = name; s.A = name == 'A'
-        s.sg = 1 if s.A else -1; s.u0 = 4.8 if s.A else 4.4
-        s.D = DA if s.A else DB; s.Di = s.D - 0.2
+        s.sg = 1 if s.A else -1; s.u0 = 4.6 + WT if s.A else 4.6 - WT
+        s.D = DA if s.A else DB; s.Di = s.D - WT
         s.P = HA if s.A else HB; s.Yd = YA if s.A else YB
     def u(s, x): return s.u0 + s.sg*x
     def R(s, x0, v0, x1, v1):     # rect polygon in local coords
@@ -47,7 +47,7 @@ class H:
     def width_at(s, v):           # free width from the shared wall at depth v
         P = s.P if v <= s.D else s.Yd
         xs = [p[0] for p in clip(clip(P, lambda p: p[1]-(v-0.01)), lambda p: (v+0.01)-p[1])]
-        return (max(xs) - s.u0 - 0.2) if s.A else (s.u0 - min(xs) - 0.2)
+        return (max(xs) - s.u0 - WT) if s.A else (s.u0 - min(xs) - WT)
     def zone_area(s, x0, v0, x1, v1, P=None):
         R = s.R(x0, v0, x1, v1); us = sorted(p[0] for p in R)
         Q = clip(clip(clip(clip(P or s.P, lambda p: p[0]-us[0]), lambda p: us[-1]-p[0]), lambda p: p[1]-v0), lambda p: v1-p[1])
@@ -61,7 +61,17 @@ def label(h, x, v, name, sub_=None, tag=None, size=3.1):
     if tag: o.append(h.text(x, v-0.85, tag, size=2.1, weight=700, fill='#9A6B00'))
     return o
 def m2(a): return f'≈{a:.1f}'.replace('.', ',') + ' m²'
-def part(h, x0, v0, x1, v1): return h.rect(x0, v0, x1, v1, fill='#5A615D')
+def part(h, x0, v0, x1, v1): return h.rect(x0, v0, x1, v1, fill='#6B726E')
+WT = 0.10   # walls drawn thin: the party walls already exist on site
+def fmt(x): return f'{x:.2f}'.replace('.', ',')
+def dims(h, x0, v0, x1, v1, wpos=None, dpos=None):
+    """Interior measurements of a room: width along its front edge, depth along its outer side."""
+    vm = (v0 + v1)/2
+    xr = x1 if x1 is not None else h.width_at(min(max(vm, v0 + 0.3), v1 - 0.3))
+    o = [h.text((x0 + xr)/2, (wpos if wpos is not None else v0 + 0.2), fmt(abs(xr - x0)), size=1.9, fill='#3E6FA8')]
+    xd = (dpos if dpos is not None else xr - 0.22); x, y = X(h.u(xd)), Y(vm)
+    o.append(text_xy(x, y, fmt(v1 - v0), size=1.9, fill='#3E6FA8', transform=f'rotate(-90 {x:.2f} {y:.2f})'))
+    return o
 def door(h, x, v, w, into=1):
     o = [h.rect(x, v-0.1, x+w, v+0.1, fill='#fff')]
     o.append(h.line(x, v, x, v+into*w, stroke=INK, stroke_width=0.3))
@@ -104,7 +114,7 @@ def sofa(h, x0, v0, x1, v1): return [h.rect(x0, v0, x1, v1, fill='#fff', stroke=
 def wardrobe(h, x0, v0, x1, v1, t='armari'): return [h.rect(x0, v0, x1, v1, fill='#fff', stroke=MUTE, stroke_width=0.25), h.line(x0, (v0+v1)/2, x1, (v0+v1)/2, **FUR) if abs(v1-v0) < abs(x1-x0) else h.line((x0+x1)/2, v0, (x0+x1)/2, v1, **FUR), h.text((x0+x1)/2, (v0+v1)/2-0.08, t, size=1.8, fill=MUTE)]
 def washer(h, x, v): return [h.rect(x, v, x+0.6, v+0.6, fill='#fff', stroke=MUTE, stroke_width=0.25), h.circle(x+0.3, v+0.3, 0.2, **FUR)]
 
-def shell(h, key, P, wall=0.2, fillc='#fff'):
+def shell(h, key, P, wall=WT, fillc='#fff'):
     cid = f'cp{h.name}{key}{len(P)}{int(P[0][1]*100)}'
     return [f'<clipPath id="{cid}"><polygon points="{" ".join(pt(*p) for p in P)}"/></clipPath>', poly(P, fill=fillc)], \
            [poly(P, fill='none', stroke=INK, stroke_width=f'{2*wall*SC:.2f}', clip_path=f'url(#{cid})')], cid
@@ -115,7 +125,7 @@ def plan(h, lvl):
     body_in, body_w, cid = shell(h, lvl, h.P)
     yard = h.Yd; Wb = h.width_at(h.Di - 0.3)
     if lvl in ('pb', 'p1'):
-        yi, yw, ycid = shell(h, lvl + 'y', yard, wall=0.15 if lvl == 'pb' else 0.0, fillc='#fff')
+        yi, yw, ycid = shell(h, lvl + 'y', yard, wall=0.1 if lvl == 'pb' else 0.0, fillc='#fff')
         o += yi
     elif lvl == 'p2':
         o.append(poly(yard, fill='none', stroke=MUTE, stroke_width=0.25, stroke_dasharray='1 0.7'))
@@ -137,6 +147,7 @@ def plan(h, lvl):
         o.append(h.rect(1.48, -0.12, 4.33, 0.12, fill='#fff', stroke=INK, stroke_width=0.25, stroke_dasharray='1 0.6'))
         o.append(h.text(2.9, 0.4, "porta de garatge 2,85", size=2.0, fill=MUTE))
         o += door(h, 0.6, h.D - 0.1, 0.8, into=1)
+        o += dims(h, 0, 0.12, 1.25, 1.25, wpos=0.95, dpos=1.05) + dims(h, 1.1, 0.12, None, h.Di, wpos=0.25) + dims(h, 0, 2.25, 1.0, 5.85, wpos=1.9, dpos=0.8)
         ya = area(yard)
         if h.A:
             o += washer(h, 0.25, h.D + 1.5) + [h.rect(0.95, h.D + 1.45, 1.55, h.D + 2.05, **FUR)]
@@ -150,13 +161,13 @@ def plan(h, lvl):
             o += window(h, 0.5, 3.8, 0.1)
             o += [h.rect(0.0, 0.6, 0.35, 2.4, fill='#fff', stroke=MUTE, stroke_width=0.25), h.text(0.17, 1.4, 'TV', size=1.8, fill=MUTE)]
             o += sofa(h, 3.3, 0.5, 4.25, 2.75) + [h.rect(1.5, 0.7, 2.3, 1.5, **FUR)]
-            o += label(h, 2.3, 2.6, 'ESTAR', m2(h.zone_area(0, 0.2, 9, 2.85) + h.zone_area(1.95, 2.85, 9, 3.6)), tag='NOU')
-            o += table(h, 2.6, 3.95, l=1.4) + label(h, 3.05, 5.95, 'MENJADOR', None, size=2.6)
+            o += label(h, 2.3, 2.75, 'ESTAR', m2(h.zone_area(0, 0.2, 9, 2.85) + h.zone_area(1.95, 2.85, 9, 3.6)), tag='NOU')
+            o += table(h, 2.6, 4.0, l=1.4)
             Wk = h.width_at(8.0)
             o += counter(h, Wk - 0.62, 6.85, Wk + 0.3, h.Di) + counter(h, 1.75, h.Di - 0.62, Wk + 0.3, h.Di)
             o += hob(h, Wk - 0.31, 7.9) + sink(h, 2.6, h.Di - 0.31) + [h.rect(Wk - 0.62, 6.85, Wk + 0.3, 7.5, fill='#fff', stroke=MUTE, stroke_width=0.25), h.text(Wk - 0.2, 7.1, 'nevera', size=1.7, fill=MUTE)]
-            o += label(h, 2.55, 8.05, 'CUINA', m2(h.zone_area(1.95, 6.75, 9, h.Di)), tag='NOU')
-            o += slider(h, 0.2, 1.4, h.D - 0.1)
+            o += label(h, 3.05, 6.75, 'CUINA · MENJADOR', 'oberta, llum per la terrassa', size=2.5) + [h.text(3.05, 5.95, m2(h.zone_area(1.95, 3.6, 9, h.Di) + h.zone_area(0, 6.75, 1.95, h.Di)) + ' · NOU', size=2.1, weight=700, fill='#9A6B00')]
+            o += slider(h, 0.12, 1.62, h.D - 0.06) + dims(h, 0, 0.12, None, 3.6) + dims(h, 1.95, 3.6, None, h.Di, wpos=6.55)
             ya = area(yard)
             o += [poly(yard, fill=COL['ter'])] + label(h, 0.85, h.D + 1.2, 'TERRASSA', m2(ya), tag='NOU · petita', size=2.6)
         else:
@@ -169,12 +180,14 @@ def plan(h, lvl):
             Wm = h.width_at(8.0)
             o += sofa(h, 0.05, 7.4, 0.95, h.Di - 0.1) + [h.rect(Wm - 0.35, 6.9, Wm, 9.0, fill='#fff', stroke=MUTE, stroke_width=0.25), h.text(Wm - 0.17, 7.9, 'TV', size=1.8, fill=MUTE), h.rect(1.6, 7.6, 2.4, 8.4, **FUR)]
             o += label(h, 2.3, 7.05, 'ESTAR', m2(h.zone_area(0, 6.75, 9, h.Di) + h.zone_area(1.95, 5.9, 9, 6.75)))
-            o += slider(h, 0.3, min(Wb, 4.2) - 0.2, h.D - 0.1)
+            o += slider(h, 0.3, min(Wb, 4.2) - 0.2, h.D - 0.06) + dims(h, 1.95, 0.12, None, 6.75, wpos=2.55) + dims(h, 0, 6.75, None, h.Di, wpos=6.95)
             ya = area(yard)
             o += [poly(yard, fill=COL['ter'])] + bed(h, 1.4, h.D + 0.9, w=1.4, l=1.6) + label(h, 2.1, h.D + 0.55, 'TERRASSA', m2(ya), size=2.6)
         # common: L stair and toilet
         o += stair_L(h) + [part(h, 1.0, 3.85, 1.1, 5.9), part(h, 1.1, 3.85, 2.05, 3.95), part(h, 1.95, 3.95, 2.05, 5.9)]
-        o += wc(h, 1.55, 4.0, face=1) + basin(h, 1.55, 5.45) + door(h, 1.12, 5.9, 0.75, into=1) + [h.text(1.55, 4.95, 'LAVABO', size=2.0, weight=700)]
+        o += wc(h, 1.55, 4.0, face=1) + basin(h, 1.55, 5.45) + door(h, 1.12, 5.9, 0.75, into=1) + [h.text(1.55, 4.95, 'LAVABO', size=2.0, weight=700)] + dims(h, 1.1, 3.95, 1.95, 5.9, wpos=4.75, dpos=1.25)
+        ytop = max(p[1] for p in yard); yw = h.width_at(h.D + 0.5)
+        o += [h.text(yw/2, ytop - 0.45, fmt(yw), size=1.9, fill='#3E6FA8')]
     elif lvl == 'p2':
         z += [fill_zone(h, -1, 0, 9, h.D, COL['night'])]
         o += [f'<g clip-path="url(#{cid})">'] + z + ['</g>']
@@ -188,12 +201,15 @@ def plan(h, lvl):
         o.append(h.text(3.5, 4.7, 'pas', size=2.1, fill=MUTE))
         sm = Wb/2
         o += [part(h, 1.0, 6.7, Wb + 0.3, 6.8), part(h, sm - 0.05, 6.8, sm + 0.05, h.Di)]
-        o += wardrobe(h, 0.05, 6.85, sm - 0.85, 7.35) + wardrobe(h, sm + 0.85, 6.85, Wb, 7.35)
+        o += wardrobe(h, 0.05, 6.85, sm - 0.85, 7.4) + wardrobe(h, sm + 0.85, 6.85, Wb, 7.4)
         o += door(h, sm - 0.82, 6.75, 0.75, into=1) + door(h, sm + 0.07, 6.75, 0.75, into=1)
-        o += bed(h, (sm - 1.35)/2, h.Di - 1.95) + bed(h, sm + (Wb - sm - 1.35)/2, h.Di - 1.95)
+        o += bed(h, 0.05, 7.5, w=1.2, l=1.9, head='side') + bed(h, Wb - 1.95, 7.5, w=1.2, l=1.9, head='side')
+        for x0 in (0.35, sm + 0.35):
+            o += [h.rect(x0, h.Di - 0.5, x0 + 1.25, h.Di, fill='#fff', stroke=MUTE, stroke_width=0.25), h.rect(x0 + 0.42, h.Di - 0.95, x0 + 0.82, h.Di - 0.58, **FUR), h.text(x0 + 0.62, h.Di - 0.3, 'escriptori', size=1.6, fill=MUTE)]
+        o += dims(h, 0, 0.12, None, 2.85, wpos=2.6) + dims(h, 1.1, 3.95, 2.95, 5.8, wpos=4.0, dpos=2.75) + dims(h, 0, 6.8, sm, h.Di, wpos=7.0, dpos=sm - 0.2) + dims(h, sm, 6.8, Wb, h.Di, wpos=7.0)
         o += window(h, 0.3, sm - 0.3, h.D - 0.1) + window(h, sm + 0.3, Wb - 0.3, h.D - 0.1)
         dA = h.zone_area(0, 6.8, sm, h.Di)
-        o += label(h, sm/2, h.Di - 1.05, 'DORM. ' + ('1' if h.A else '2'), m2(dA), size=2.4) + label(h, sm + (Wb - sm)/2, h.Di - 1.05, 'DORM. ' + ('2' if h.A else '1'), m2(h.zone_area(sm, 6.8, 9, h.Di)), size=2.4)
+        o += label(h, sm/2, 8.3, 'DORM. ' + ('1' if h.A else '2'), m2(dA), size=2.3) + label(h, sm + (Wb - sm)/2, 8.3, 'DORM. ' + ('2' if h.A else '1'), m2(h.zone_area(sm, 6.8, 9, h.Di)), size=2.3)
     else:   # àtic
         vt = h.D - 2.05
         z += [fill_zone(h, -1, 0, 9, 2.8, COL['ter']), fill_zone(h, -1, vt, 9, h.D, COL['ter']), fill_zone(h, -1, 2.8, 9, vt, COL['suite'])]
@@ -214,12 +230,14 @@ def plan(h, lvl):
             o += [part(h, 2.55, 5.75, 2.65, vt), part(h, 1.1, 5.7, Wm + 0.3, 5.8)] + shower(h, Wm - 0.9, 6.7, Wm, vt - 0.1) + wc(h, 3.0, 5.85, face=1) + basin(h, 3.0, vt - 0.3)
             o += label(h, 3.6, 6.1, 'BANY', m2((Wm - 2.65)*(vt - 5.8)), size=2.3) + wardrobe(h, 1.15, 6.95, 2.5, vt - 0.05, 'vestidor') + door(h, 1.6, 5.75, 0.7, into=-1)
         o += bed(h, 2.0, 3.25, w=1.5, l=2.0) + wardrobe(h, 1.15, 3.0, 1.6, 5.0, 'TV')
+        o += dims(h, 0, 0.12, None, 2.75, wpos=0.7) + dims(h, 1.1, 2.9, None, 5.7, wpos=3.05) + dims(h, 0, vt + 0.1, None, h.Di, wpos=vt + 0.3)
+        o += dims(h, 2.2 if h.A else 2.65, 5.8, Wm, vt, wpos=5.95)
         o += label(h, 3.0 if h.A else 3.2, 5.35, 'SUITE', f'dormitori {m2(h.zone_area(1.1, 2.9, 9, 5.7))}')
     uid = f'u{h.name}{lvl}'
     out = [f'<clipPath id="{uid}"><polygon points="{" ".join(pt(*p) for p in h.P)}"/><polygon points="{" ".join(pt(*p) for p in yard)}"/></clipPath>']
     keep = [x for x in o if 'stroke-dasharray="1 0.7"' in x or 'font-style' in x]     # P1-terrace outline on upper floors stays unclipped
     out += keep + [f'<g clip-path="url(#{uid})">'] + [x for x in o if x not in keep] + ['</g>'] + body_w
-    if lvl == 'pb': out += shell(h, lvl + 'yw', yard, wall=0.15, fillc='none')[1]
+    if lvl == 'pb': out += shell(h, lvl + 'yw', yard, wall=0.1, fillc='none')[1]
     return out
 
 def neighbour_and_street(h, lvl):
@@ -269,10 +287,8 @@ def house_sheet(name):
         CUR.update(cx=58 + i*101, um=um, fy=238)
         o.append(text_xy(CUR['cx'], 52, t, size=3.6, weight=700)); o.append(text_xy(CUR['cx'], 57, c, size=2.4, fill=MUTE))
         o += neighbour_and_street(h, k) + plan(h, k)
-        if k in ('p1', 'at'): o += dim_bottom(h, f'{h.width_at(0.6):.2f}'.replace('.', ',') + ' lliures')
-        if k == 'pb':
-            o += dim_side(h, 0, h.D, f'{h.D:.2f}'.replace('.', ',')) + dim_side(h, h.D, max(p[1] for p in h.Yd), f'≈{max(p[1] for p in h.Yd)-h.D:.1f}'.replace('.', ','))
-            o += dim_bottom(h, '1,25 porxo · 2,85 porta de garatge')
+        o += dim_side(h, 0, h.D, f'{h.D:.2f}'.replace('.', ',')) + dim_side(h, h.D, max(p[1] for p in h.Yd), f'≈{max(p[1] for p in h.Yd)-h.D:.1f}'.replace('.', ','))
+        o += dim_bottom(h, '4,60 façana · 1,25 porxo · 2,85 porta de garatge' if k == 'pb' else '4,60 façana · ' + f'{h.width_at(0.6):.2f}'.replace('.', ',') + ' lliures')
     notes = ['Superfícies útils orientatives, calculades amb les mides preses al solar el 17/11/2026 (façana 9,20 · fondària 9,70 al costat del núm. 28).',
              "Escala d'1,00 m de pas al costat de la mitgera, a la mateixa posició a totes les plantes; a P1 i P2 arrenca en L amb graons compensats · 16 graons ≈18,4 cm (2,95 m entre forjats).",
              "Pendent de verificar amb l'arquitecte: nombre de plantes i alçada permesa, fondària edificable, recular l'àtic, gàlib de l'escala sota l'àtic i la cantonada ocupada pel veí."]
