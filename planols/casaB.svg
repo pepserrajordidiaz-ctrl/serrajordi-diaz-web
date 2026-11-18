@@ -3,7 +3,7 @@
 <marker id="arrB" viewBox="0 0 6 6" refX="5" refY="3" markerWidth="4" markerHeight="4" orient="auto"><path d="M0 0L6 3L0 6z" fill="#1C2321"/></marker></defs>
 <rect width="420" height="297" fill="#fff"/>
 <text x="12.00" y="20.00" font-size="5.2" font-weight="700" fill="#1C2321" text-anchor="start" >CASA ADOSSADA B · C/ Anselm Clavé 30, Llinars del Vallès</text>
-<text x="12.00" y="27.00" font-size="2.7" font-weight="400" fill="#7B837F" text-anchor="start" >Fondària 9,80 m. Distribució adaptada al graó del límit lateral a 5,90 m: cuina en L a la P1, dos dormitoris i estar familiar a la P2. Revisió 18/11/2026. · Serrajordi-Diaz Investments</text>
+<text x="12.00" y="27.00" font-size="2.7" font-weight="400" fill="#7B837F" text-anchor="start" >Fondària 9,80 m. Distribució adaptada al graó del límit lateral a 5,90 m: cuina en L a la P1, dos dormitoris i estudi obert a la P2. Revisió 18/11/2026. · Serrajordi-Diaz Investments</text>
 <text x="408.00" y="20.00" font-size="4" font-weight="700" fill="#1C2321" text-anchor="end" >E 1:75 (en DIN A3)</text>
 <rect x="341.30" y="24" width="13.33" height="2" fill="#1C2321" stroke="#1C2321" stroke-width="0.2"/>
 <rect x="354.63" y="24" width="13.33" height="2" fill="#fff" stroke="#1C2321" stroke-width="0.2"/>
@@ -145,11 +145,8 @@
 <text x="156.60" y="145.33" font-size="1.9" font-weight="400" fill="#3E6FA8" text-anchor="middle" >4,86</text>
 <text x="186.07" y="128.33" font-size="1.9" font-weight="400" fill="#3E6FA8" text-anchor="middle" transform="rotate(-90 186.07 128.33)">2,95</text>
 <polygon points="186.98,107.33 180.27,65.19 122.86,70.41 122.86,107.33" fill="#EFE6D3"/>
-<polygon points="142.86,95.33 161.53,95.33 161.53,74.00 142.86,74.00" fill="#fff" stroke="#7B837F" stroke-width="0.25"/>
-<polygon points="144.19,80.00 151.53,80.00 151.53,75.33 144.19,75.33" fill="none" stroke="#7B837F" stroke-width="0.25"/>
-<polygon points="152.86,80.00 160.19,80.00 160.19,75.33 152.86,75.33" fill="none" stroke="#7B837F" stroke-width="0.25"/>
-<text x="152.19" y="100.00" font-size="2.6" font-weight="700" fill="#1C2321" text-anchor="middle" >TERRASSA</text>
-<text x="152.19" y="105.60" font-size="2.3" font-weight="400" fill="#7B837F" text-anchor="middle" >≈13,6 m²</text>
+<text x="152.19" y="88.67" font-size="2.6" font-weight="700" fill="#1C2321" text-anchor="middle" >TERRASSA</text>
+<text x="152.19" y="94.27" font-size="2.3" font-weight="400" fill="#7B837F" text-anchor="middle" >≈13,6 m²</text>
 <polygon points="124.19,200.00 150.19,200.00 150.19,186.67 124.19,186.67" fill="#fff" stroke="#1C2321" stroke-width="0.3"/>
 <polygon points="124.19,186.67 137.53,186.67 137.53,159.33 124.19,159.33" fill="#fff" stroke="#1C2321" stroke-width="0.3"/>
 <line x1="124.19" y1="183.63" x2="137.53" y2="183.63" stroke="#7B837F" stroke-width="0.2"/>
@@ -186,6 +183,10 @@
 </g>
 <polygon points="184.19,238.00 180.89,159.40 190.10,159.01 195.14,158.68 186.98,107.33 122.86,107.33 122.86,238.00" fill="none" stroke="#1C2321" stroke-width="2.67" clip-path="url(#cpBp170)"/>
 <polygon points="184.19,238.00 180.89,159.40 190.10,159.01 195.14,158.68 186.98,107.33 122.86,107.33 122.86,238.00" fill="none" stroke="#1C2321" stroke-width="2.13" stroke-linejoin="miter"/>
+<polygon points="134.86,239.20 170.53,239.20 170.53,236.67 134.86,236.67" fill="#fff" class="win"/>
+<line x1="134.86" y1="239.07" x2="170.53" y2="239.07" stroke="#1C2321" stroke-width="0.18" class="win"/>
+<line x1="134.86" y1="236.80" x2="170.53" y2="236.80" stroke="#1C2321" stroke-width="0.18" class="win"/>
+<line x1="134.86" y1="237.93" x2="170.53" y2="237.93" stroke="#1C2321" stroke-width="0.28" class="win"/>
 <polygon points="128.19,108.67 177.53,108.67 177.53,106.13 128.19,106.13" fill="#fff" class="win"/>
 <line x1="128.19" y1="107.87" x2="155.53" y2="107.87" stroke="#1C2321" stroke-width="0.35" class="win"/>
 <line x1="150.19" y1="106.93" x2="177.53" y2="106.93" stroke="#1C2321" stroke-width="0.35" class="win"/>
@@ -216,15 +217,12 @@
 <g clip-path="url(#cpBp270)">
 <polygon points="211.86,238.00 345.19,238.00 345.19,107.33 211.86,107.33" fill="#EEF1EC"/>
 </g>
-<polygon points="225.86,234.67 230.53,234.67 230.53,203.33 225.86,203.33" fill="#fff" stroke="#7B837F" stroke-width="0.25"/>
-<text x="228.13" y="218.67" font-size="1.5" font-weight="400" fill="#7B837F" text-anchor="middle" transform="rotate(90 228.13 218.67)">llibreria</text>
-<polygon points="238.53,235.33 267.86,235.33 267.86,224.00 238.53,224.00" fill="#fff" stroke="#7B837F" stroke-width="0.25"/>
-<polygon points="246.53,221.33 259.86,221.33 259.86,216.00 246.53,216.00" fill="none" stroke="#7B837F" stroke-width="0.25"/>
-<polygon points="271.19,221.33 280.53,221.33 280.53,212.00 271.19,212.00" fill="#fff" stroke="#7B837F" stroke-width="0.25"/>
-<text x="253.19" y="230.00" font-size="1.6" font-weight="400" fill="#7B837F" text-anchor="middle" >sofà</text>
-<text x="275.86" y="217.33" font-size="1.4" font-weight="400" fill="#7B837F" text-anchor="middle" >butaca</text>
-<text x="255.19" y="208.00" font-size="2.5" font-weight="700" fill="#1C2321" text-anchor="middle" >ESTAR FAMILIAR</text>
-<text x="255.19" y="213.60" font-size="2.3" font-weight="400" fill="#7B837F" text-anchor="middle" >lectura · TV · ≈11,8 m²</text>
+<polygon points="233.19,234.67 278.20,234.67 278.20,226.67 233.19,226.67" fill="#fff" stroke="#7B837F" stroke-width="0.25"/>
+<polygon points="238.53,224.67 243.86,224.67 243.86,219.33 238.53,219.33" fill="none" stroke="#7B837F" stroke-width="0.25"/>
+<polygon points="251.86,224.67 257.19,224.67 257.19,219.33 251.86,219.33" fill="none" stroke="#7B837F" stroke-width="0.25"/>
+<polygon points="262.53,224.67 267.86,224.67 267.86,219.33 262.53,219.33" fill="none" stroke="#7B837F" stroke-width="0.25"/>
+<text x="254.36" y="210.00" font-size="3.1" font-weight="700" fill="#1C2321" text-anchor="middle" >ESTUDI</text>
+<text x="254.36" y="215.60" font-size="2.3" font-weight="400" fill="#7B837F" text-anchor="middle" >obert · ≈11,8 m²</text>
 <polygon points="225.19,200.00 251.19,200.00 251.19,186.67 225.19,186.67" fill="#fff" stroke="#1C2321" stroke-width="0.3"/>
 <polygon points="225.19,186.67 238.53,186.67 238.53,159.33 225.19,159.33" fill="#fff" stroke="#1C2321" stroke-width="0.3"/>
 <line x1="225.19" y1="183.63" x2="238.53" y2="183.63" stroke="#7B837F" stroke-width="0.2"/>
@@ -392,9 +390,6 @@
 <polygon points="326.86,146.67 334.86,146.67 334.86,136.00 326.86,136.00" fill="#fff" stroke="#7B837F" stroke-width="0.25"/>
 <line x1="330.86" y1="146.67" x2="330.86" y2="136.00" fill="none" stroke="#7B837F" stroke-width="0.25"/>
 <text x="330.86" y="142.40" font-size="1.8" font-weight="400" fill="#7B837F" text-anchor="middle" >vestidor</text>
-<polygon points="341.13,160.73 351.13,160.73 351.13,158.07 341.13,158.07" fill="#fff"/>
-<line x1="341.13" y1="159.40" x2="341.13" y2="169.40" stroke="#1C2321" stroke-width="0.3"/>
-<path d="M341.13,169.40 A10.00,10.00 0 0 0 351.13,159.40" fill="none" stroke="#7B837F" stroke-width="0.2" stroke-dasharray="0.6 0.4"/>
 <polygon points="351.53,168.07 381.43,168.07 381.43,160.07 351.53,160.07" fill="#fff" stroke="#7B837F" stroke-width="0.25"/>
 <line x1="351.93" y1="167.00" x2="366.08" y2="167.00" stroke="#1C2321" stroke-width="0.25"/>
 <line x1="366.88" y1="167.67" x2="381.03" y2="167.67" stroke="#1C2321" stroke-width="0.25"/>
@@ -430,6 +425,10 @@
 <polygon points="342.86,201.73 356.52,201.73 356.52,199.07 342.86,199.07" fill="#fff" class="win"/>
 <line x1="342.86" y1="200.87" x2="352.36" y2="200.87" stroke="#1C2321" stroke-width="0.35" class="win"/>
 <line x1="347.03" y1="199.93" x2="356.52" y2="199.93" stroke="#1C2321" stroke-width="0.35" class="win"/>
+<polygon points="359.46,201.73 378.79,201.73 378.79,199.07 359.46,199.07" fill="#fff" class="win"/>
+<line x1="359.46" y1="201.60" x2="378.79" y2="201.60" stroke="#1C2321" stroke-width="0.18" class="win"/>
+<line x1="359.46" y1="199.20" x2="378.79" y2="199.20" stroke="#1C2321" stroke-width="0.18" class="win"/>
+<line x1="359.46" y1="200.40" x2="378.79" y2="200.40" stroke="#1C2321" stroke-width="0.28" class="win"/>
 <line x1="405.14" y1="238.00" x2="405.14" y2="107.33" stroke="#1C2321" stroke-width="0.25"/>
 <line x1="404.14" y1="239.00" x2="406.14" y2="237.00" stroke="#1C2321" stroke-width="0.25"/>
 <line x1="404.14" y1="108.33" x2="406.14" y2="106.33" stroke="#1C2321" stroke-width="0.25"/>
@@ -445,5 +444,5 @@
 <text x="12.00" y="270.00" font-size="2.5" font-weight="400" fill="#1C2321" text-anchor="start" >Superfícies útils orientatives, calculades amb les mides preses al solar el 17/11/2026 (façana 9,20 · fondària 9,70 al costat del núm. 28).</text>
 <text x="12.00" y="276.00" font-size="2.5" font-weight="400" fill="#1C2321" text-anchor="start" >Escala d'1,00 m de pas al costat de la mitgera, a la mateixa posició a totes les plantes; a P1 i P2 arrenca en L amb graons compensats · 16 graons ≈18,4 cm (2,95 m entre forjats).</text>
 <text x="12.00" y="282.00" font-size="2.5" font-weight="400" fill="#1C2321" text-anchor="start" >Avantprojecte orientatiu. Pendent de validar amb l'arquitecte: alçada i nombre de plantes, fondària edificable, recular l'àtic i gàlib de l'escala.</text>
-<text x="12.00" y="288.00" font-size="2.5" font-weight="400" fill="#1C2321" text-anchor="start" >Pendent de validar amb l'arquitecte: nombre de plantes i alçada permesa, fondària edificable, recular l'àtic i gàlib de l'escala.</text>
+<text x="12.00" y="288.00" font-size="2.5" font-weight="400" fill="#1C2321" text-anchor="start" >Finestres a totes les parets que donen al carrer Anselm Clavé (P1, P2 i àtic). Porta del porxo: obre cap al porxo, sense envair la via pública.</text>
 </svg>

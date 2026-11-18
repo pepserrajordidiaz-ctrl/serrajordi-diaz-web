@@ -395,9 +395,6 @@
 <polygon points="391.79,146.67 383.79,146.67 383.79,137.33 391.79,137.33" fill="#fff" stroke="#7B837F" stroke-width="0.25"/>
 <line x1="387.79" y1="146.67" x2="387.79" y2="137.33" fill="none" stroke="#7B837F" stroke-width="0.25"/>
 <text x="387.79" y="143.07" font-size="1.8" font-weight="400" fill="#7B837F" text-anchor="middle" >armari</text>
-<polygon points="377.52,162.67 367.52,162.67 367.52,160.00 377.52,160.00" fill="#fff"/>
-<line x1="377.52" y1="161.33" x2="377.52" y2="171.33" stroke="#1C2321" stroke-width="0.3"/>
-<path d="M377.52,171.33 A10.00,10.00 0 0 1 367.52,161.33" fill="none" stroke="#7B837F" stroke-width="0.2" stroke-dasharray="0.6 0.4"/>
 <polygon points="367.12,169.33 331.16,169.33 331.16,162.00 367.12,162.00" fill="#fff" stroke="#7B837F" stroke-width="0.25"/>
 <line x1="366.72" y1="168.27" x2="355.53" y2="168.27" stroke="#1C2321" stroke-width="0.25"/>
 <line x1="354.73" y1="168.93" x2="343.55" y2="168.93" stroke="#1C2321" stroke-width="0.25"/>
@@ -430,6 +427,10 @@
 <polygon points="375.79,201.73 358.43,201.73 358.43,199.07 375.79,199.07" fill="#fff" class="win"/>
 <line x1="375.79" y1="200.87" x2="364.44" y2="200.87" stroke="#1C2321" stroke-width="0.35" class="win"/>
 <line x1="369.78" y1="199.93" x2="358.43" y2="199.93" stroke="#1C2321" stroke-width="0.35" class="win"/>
+<polygon points="355.50,201.73 336.16,201.73 336.16,199.07 355.50,199.07" fill="#fff" class="win"/>
+<line x1="355.50" y1="201.60" x2="336.16" y2="201.60" stroke="#1C2321" stroke-width="0.18" class="win"/>
+<line x1="355.50" y1="199.20" x2="336.16" y2="199.20" stroke="#1C2321" stroke-width="0.18" class="win"/>
+<line x1="355.50" y1="200.40" x2="336.16" y2="200.40" stroke="#1C2321" stroke-width="0.28" class="win"/>
 <line x1="320.21" y1="238.00" x2="320.21" y2="108.67" stroke="#1C2321" stroke-width="0.25"/>
 <line x1="319.21" y1="239.00" x2="321.21" y2="237.00" stroke="#1C2321" stroke-width="0.25"/>
 <line x1="319.21" y1="109.67" x2="321.21" y2="107.67" stroke="#1C2321" stroke-width="0.25"/>

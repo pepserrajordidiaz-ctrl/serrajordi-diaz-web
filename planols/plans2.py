@@ -23,6 +23,7 @@ HA = clip(clip(SITE, lambda p: p[0]-4.6), lambda p: DA-p[1]); YA = clip(clip(SIT
 HB = clip(clip(SITE, lambda p: 4.6-p[0]), lambda p: DB-p[1]); YB = clip(clip(SITE, lambda p: 4.6-p[0]), lambda p: p[1]-DB)
 
 CUR = {}
+CURVES = []
 def X(u): return CUR['cx'] + (CUR['um'] - u)*SC
 def Y(v): return CUR['fy'] - v*SC
 def pt(u, v): return f"{X(u):.2f},{Y(v):.2f}"
@@ -217,7 +218,7 @@ def plan(h, lvl):
             o += [lpoly(h, [(0, 0.1), (Wf - 0.62, 0.1), (Wf - 0.62, 0.72), (0.62, 0.72), (0.62, 2.35), (0, 2.35)], fill='#fff', stroke=MUTE, stroke_width=0.25)]
             o += [h.line(0.62, 0.72, 0.0, 0.1, **FUR), h.text(0.42, 0.42, 'racó', size=1.4, fill=MUTE)]
             o += [h.line(x, 0.1, x, 0.72, stroke=MUTE, stroke_width=0.15) for x in (1.22, 1.82, 2.72)] + [h.line(0, v, 0.62, v, stroke=MUTE, stroke_width=0.15) for v in (1.32, 1.92)]
-            o += hob(h, 0.31, 1.62) + sink(h, 2.27, 0.41) + [h.rect(1.25, 0.15, 1.79, 0.67, **FUR), h.text(1.52, 0.33, 'rentaplats', size=1.3, fill=MUTE)]
+            o += window(h, 0.8, Wf - 0.9, 0.1) + hob(h, 0.31, 1.62) + sink(h, 2.27, 0.41) + [h.rect(1.25, 0.15, 1.79, 0.67, **FUR), h.text(1.52, 0.33, 'rentaplats', size=1.3, fill=MUTE)]
             o += [h.rect(Wf - 0.62, 0.1, Wf - 0.02, 0.75, fill='#fff', stroke=MUTE, stroke_width=0.25), h.line(Wf - 0.62, 0.1, Wf - 0.02, 0.75, **FUR), h.text(Wf - 0.32, 0.5, 'nevera', size=1.6, fill=MUTE), h.text(0.31, 1.0, 'forn', size=1.6, fill=MUTE)]
             o += table(h, 2.5, 3.8, l=1.4) + label(h, 2.7, 2.15, 'CUINA · MENJADOR', m2(h.zone_area(0, 0.2, 9, 6.75) - 1.95*1.0 - 3.9 - 0.85))
             Wm = h.width_at(8.0)
@@ -225,7 +226,7 @@ def plan(h, lvl):
             o += label(h, 2.3, 7.05, 'ESTAR', m2(h.zone_area(0, 6.75, 9, h.Di) + h.zone_area(1.95, 5.9, 9, 6.75)))
             o += slider(h, 0.3, min(Wb, 4.2) - 0.2, h.D - 0.06) + dims(h, 1.95, 0.12, None, 6.75, wpos=2.55) + dims(h, 0, 6.75, None, h.Di, wpos=6.95)
             ya = area(yard)
-            o += [poly(yard, fill=COL['ter'])] + bed(h, 1.4, h.D + 0.9, w=1.4, l=1.6) + label(h, 2.1, h.D + 0.55, 'TERRASSA', m2(ya), size=2.6)
+            o += [poly(yard, fill=COL['ter'])] + label(h, 2.1, h.D + 1.4, 'TERRASSA', m2(ya), size=2.6)
         # common: L stair and toilet
         o += stair_L(h) + [part(h, 1.0, 3.85, 1.1, 5.9), part(h, 1.1, 3.85, 2.05, 3.95), part(h, 1.95, 3.95, 2.05, 5.9)]
         o += wc(h, 1.55, 4.0, face=1) + basin(h, 1.55, 5.45) + door(h, 1.12, 5.9, 0.75, into=1) + [h.text(1.55, 4.95, 'LAVABO', size=2.0, weight=700)] + dims(h, 1.1, 3.95, 1.95, 5.9, wpos=4.75, dpos=1.25)
@@ -236,7 +237,7 @@ def plan(h, lvl):
         o += [f'<g clip-path="url(#{cid})">'] + z + ['</g>']
         Wf = h.width_at(0.6)
         o += window(h, 0.6, Wf - 0.4, 0.1)
-        if h.A:
+        if True:
             o += [h.rect(0.6, 0.25, Wf - 0.4, 0.85, fill='#fff', stroke=MUTE, stroke_width=0.25)] + [h.rect(x, 1.0, x + 0.4, 1.4, **FUR) for x in (1.0, 2.0, 2.8)]
             o += label(h, Wf/2, 2.1, 'ESTUDI', f'obert · {m2(h.zone_area(0, 0.2, 9, 2.85))}')
         else:     # the closed office is now the old dorm 2, so the open front area becomes a small family sitting / reading room
@@ -254,6 +255,7 @@ def plan(h, lvl):
             sc, vc = h.u0 - h.P[1][0] + 0.05, jog + 0.02
             P0, C, P1 = (sm + 0.82, 6.75), (sc, 6.75), (sc, vc)
             bz = [((1-t)**2*P0[0] + 2*(1-t)*t*C[0] + t*t*P1[0], (1-t)**2*P0[1] + 2*(1-t)*t*C[1] + t*t*P1[1]) for t in [k/40 for k in range(41)]]
+            CURVES.append(bz)
             o += [part(h, 0.0, 6.7, sm + 0.82, 6.8), '<polyline points="' + ' '.join(f'{X(h.u(a)):.2f},{Y(b):.2f}' for a, b in bz) + f'" fill="none" stroke="#6B726E" stroke-width="{WT*SC:.2f}" stroke-linejoin="round"/>']
             def front(x):   # depth of the curved wall's inner face at s=x
                 if x <= P0[0]: return 6.8
@@ -302,10 +304,9 @@ def plan(h, lvl):
             o += shower(h, Wm - 0.85, vb + 0.02, Wm, vt - 0.1) + wc(h, 2.75, vt - 0.05, face=-1) + basin(h, 3.15, vb + 0.25) + door_v(h, 1.9, 6.15, 0.7, into=1, hinge='end')
             o += label(h, 3.5, 6.95, 'BANY', m2(h.zone_area(1.95, vb, 9, vt - 0.05)), size=2.4)
             o += wardrobe(h, 0.05, 6.85, 0.65, vt - 0.1)                 # hall cupboard against the party wall, clear of the terrace door
-            o += door(h, 1.12, vb - 0.05, 0.75, into=-1, hinge='start')
             o += builtin(h, 1.9, vb - 0.65, Wm - 0.02, vb - 0.1, face=-1)
             o += bed(h, Ws - 1.92, 3.35, w=1.35, l=1.9, head='side') + nightstand(h, Ws - 0.44, 2.93) + nightstand(h, Ws - 0.44, 4.72) + [h.rect(1.1, 3.6, 1.2, 4.45, fill='#fff', stroke=MUTE, stroke_width=0.2), h.text(1.35, 4.0, 'TV', size=1.5, fill=MUTE)]
-            o += slider(h, 1.25, Ws - 1.97, 2.82)
+            o += slider(h, 1.25, Ws - 1.97, 2.82) + window(h, Ws - 1.75, Ws - 0.3, 2.82)
             sa = h.zone_area(1.1, 2.9, 9, vb - 0.1)
             o += dims(h, 1.1, 2.9, None, vb - 0.1, wpos=4.92, dpos=1.42) + dims(h, 1.95, vb, Wm, vt - 0.05, wpos=7.35, dpos=2.2)
             o += [h.text(1.85, 4.35, 'SUITE', size=2.6, weight=700), h.text(1.85, 3.97, m2(sa), size=2.0, fill=MUTE)]
@@ -318,10 +319,9 @@ def plan(h, lvl):
             o += shower(h, Wj - 0.02, vb + 0.02, Wm, vb + 0.92) + wc(h, 3.15, vt - 0.05, face=-1) + basin(h, 2.55, vb + 0.25) + basin(h, 3.15, vb + 0.25) + window(h, 3.6, 4.45, vt + 0.02)
             o += label(h, 3.0, 7.0, 'BANY', m2(h.zone_area(1.95, vb, 9, vt - 0.05)), size=2.3)
             o += wardrobe(h, 0.05, 6.85, 0.65, vt - 0.1, 'vestidor')       # moved to the party wall, so the hall leads straight to the back terrace
-            o += door(h, 1.12, vb - 0.05, 0.75, into=-1, hinge='start')
             o += builtin(h, 1.9, vb - 0.7, Wj - 0.02, vb - 0.1, face=-1)
             o += bed(h, Ws - 1.92, 3.33, w=1.5, l=1.9, head='side') + nightstand(h, Ws - 0.44, 2.92) + nightstand(h, Ws - 0.44, 4.84) + [h.rect(1.1, 3.65, 1.2, 4.5, fill='#fff', stroke=MUTE, stroke_width=0.2), h.text(1.35, 4.05, 'TV', size=1.5, fill=MUTE)]
-            o += slider(h, 1.25, Ws - 1.97, 2.82)
+            o += slider(h, 1.25, Ws - 1.97, 2.82) + window(h, Ws - 1.75, Ws - 0.3, 2.82)
             sa = h.zone_area(1.1, 2.9, 9, vb - 0.1)
             o += dims(h, 1.1, 2.9, None, vb - 0.1, wpos=5.0, dpos=1.42) + dims(h, 1.95, vb, Wm, vt - 0.05, wpos=7.35, dpos=2.2)
             o += [h.text(1.85, 4.4, 'SUITE', size=2.6, weight=700), h.text(1.85, 4.02, m2(sa), size=2.0, fill=MUTE)]
@@ -372,7 +372,7 @@ def house_sheet(name):
     o = [f'<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 420 297" font-family="Archivo, Helvetica, Arial, sans-serif" role="img" aria-label="Casa {name}">', DEFS.replace('id="eat"', f'id="eat{name}"').replace('id="arr"', f'id="arr{name}"'), '<rect width="420" height="297" fill="#fff"/>']
     o.append(text_xy(12, 20, f'CASA ADOSSADA {name} · C/ Anselm Clavé 30, Llinars del Vallès', size=5.2, weight=700, anchor='start'))
     sub_ = ("Fondària 9,70 m. El veí del darrere ocupa 3,00 × 2,70 m: cuina al darrere i estar al davant a la P1. Revisió 18/11/2026." if h.A
-            else "Fondària 9,80 m. Distribució adaptada al graó del límit lateral a 5,90 m: cuina en L a la P1, dos dormitoris i estar familiar a la P2. Revisió 18/11/2026.")
+            else "Fondària 9,80 m. Distribució adaptada al graó del límit lateral a 5,90 m: cuina en L a la P1, dos dormitoris i estudi obert a la P2. Revisió 18/11/2026.")
     o.append(text_xy(12, 27, sub_ + ' · Serrajordi-Diaz Investments', size=2.7, fill=MUTE, anchor='start'))
     o.append(text_xy(408, 20, 'E 1:75 (en DIN A3)', size=4, weight=700, anchor='end'))
     for i in range(5): o.append(f'<rect x="{341.3+i*SC:.2f}" y="24" width="{SC:.2f}" height="2" fill="{INK if i % 2 == 0 else "#fff"}" stroke="{INK}" stroke-width="0.2"/>')
@@ -388,7 +388,7 @@ def house_sheet(name):
              ("Finestres de la P2 a la façana del darrere. Casa A: les del dormitori 2 donen sobre la cantonada ocupada pel veí; cal confirmar llums i vistes (distància al límit) amb l'arquitecte." if h.A
               else "Avantprojecte orientatiu. Pendent de validar amb l'arquitecte: alçada i nombre de plantes, fondària edificable, recular l'àtic i gàlib de l'escala."),
              ("Porta del porxo: obre cap al porxo (exterior), sense envair la via pública ni la porta del garatge." if h.A
-              else "Pendent de validar amb l'arquitecte: nombre de plantes i alçada permesa, fondària edificable, recular l'àtic i gàlib de l'escala.")]
+              else "Finestres a totes les parets que donen al carrer Anselm Clavé (P1, P2 i àtic). Porta del porxo: obre cap al porxo, sense envair la via pública.")]
     for j, n in enumerate(notes): o.append(text_xy(12, 270 + j*6, n, size=2.5, fill=INK, anchor='start'))
     o.append('</svg>'); return '\n'.join(o).replace('url(#eat)', f'url(#eat{name})').replace('url(#arr)', f'url(#arr{name})')
 

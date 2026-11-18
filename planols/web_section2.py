@@ -1,12 +1,12 @@
 import sys
 sys.path.insert(0, '/home/claude/plans')
-import plans2, compare
-SH = [('solar', 'Solar i mides', plans2.site_sheet()), ('A', 'Casa A', plans2.house_sheet('A')), ('B', 'Casa B', plans2.house_sheet('B')), ('canvis', 'Abans i després', compare.sheet())]
+import plans2, walls
+SH = [('solar', 'Solar i mides', plans2.site_sheet()), ('A', 'Casa A', plans2.house_sheet('A')), ('B', 'Casa B', plans2.house_sheet('B')), ('parets', 'Parets i mides', walls.sheet())]
 NOTES = {
  'solar': "Mides preses al solar el 17/11/2026. El veí del darrere ocupa una cantonada de 3,00 × 2,70 m al costat de la casa A. La línia grisa discontínua és el límit del Cadastre.",
  'A': "Casa del costat del núm. 28 (fondària 9,70 m). Com que el veí ocupa part del pati, el safareig i la terrassa són més petits, i a la planta primera la cuina passa a la cantonada del darrere, amb sortida a la terrassa. A l'àtic, el bany queda alineat amb la dutxa i s'allarga tota la paret de l'armari encastat de la suite; el llit té tauleta als dos costats.",
- 'B': "Fondària 9,80 m, amb el graó del límit lateral a 5,90 m. Cuina en L contínua a la planta primera; a la segona, dos dormitoris i un estar familiar al davant; a l'àtic, el bany s'alinea amb el graó, s'allarga al llarg de l'armari de la suite i té doble lavabo.",
- 'canvis': "Les zones que han canviat a la revisió del 18/11/2026, abans i després, i què queda pendent de validar amb l'arquitecte.",
+ 'B': "Fondària 9,80 m, amb el graó del límit lateral a 5,90 m. Cuina en L contínua a la planta primera; a la segona, dos dormitoris i l'estudi obert al davant; a l'àtic, el bany s'alinea amb el graó, s'allarga al llarg de l'armari de la suite i té doble lavabo.",
+ 'parets': "Les dues cases sense mobles, amb la llargada de cada línia: façanes, mitgeres i límits en negre, envans per trams en blau i obertures en gris.",
 }
 def web(k, svg):
     for i in ('eat', 'deck', 'arr'):
