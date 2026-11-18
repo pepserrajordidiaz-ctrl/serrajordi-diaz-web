@@ -254,7 +254,7 @@ def plan(h, lvl):
             sc, vc = h.u0 - h.P[1][0] + 0.05, jog + 0.02
             P0, C, P1 = (sm + 0.82, 6.75), (sc, 6.75), (sc, vc)
             bz = [((1-t)**2*P0[0] + 2*(1-t)*t*C[0] + t*t*P1[0], (1-t)**2*P0[1] + 2*(1-t)*t*C[1] + t*t*P1[1]) for t in [k/40 for k in range(41)]]
-            o += [part(h, 1.0, 6.7, sm + 0.82, 6.8), '<polyline points="' + ' '.join(f'{X(h.u(a)):.2f},{Y(b):.2f}' for a, b in bz) + f'" fill="none" stroke="#6B726E" stroke-width="{WT*SC:.2f}" stroke-linejoin="round"/>']
+            o += [part(h, 0.0, 6.7, sm + 0.82, 6.8), '<polyline points="' + ' '.join(f'{X(h.u(a)):.2f},{Y(b):.2f}' for a, b in bz) + f'" fill="none" stroke="#6B726E" stroke-width="{WT*SC:.2f}" stroke-linejoin="round"/>']
             def front(x):   # depth of the curved wall's inner face at s=x
                 if x <= P0[0]: return 6.8
                 if x >= sc: return vc
@@ -263,7 +263,7 @@ def plan(h, lvl):
             out_area = sum(0.0004 for k in range(int((9.0 - sm)/0.02)) for m in range(int((h.Di - 5.8)/0.02))
                            if (lambda x, v: v >= front(x) and x <= h.width_at(v))(sm + 0.05 + k*0.02, 5.8 + m*0.02))
         else:
-            o += [part(h, 1.0, 6.7, Wb + 0.3, 6.8)]
+            o += [part(h, 0.0, 6.7, Wb + 0.3, 6.8)]
             out_area = h.zone_area(sm, 6.8, 9, h.Di)
         o += [part(h, sm - 0.05, 6.8, sm + 0.05, h.Di)]
         o += door(h, sm - 0.82, 6.75, 0.75, into=1, hinge='end') + door(h, sm + 0.07, 6.75, 0.75, into=1, hinge='start')
@@ -272,24 +272,19 @@ def plan(h, lvl):
         # dorm 1 (party-wall side, both houses): bed of 90 with its head on the door wall, wardrobe on the central wall, desk under the windows
         o += bed(h, 0.05, 6.85, w=0.9, l=1.9, head='front') + wardrobe(h, sm - 0.6, 7.6, sm - 0.05, 8.55)
         o += desk(1.0, sm - 0.05, 1.6) if jog else desk(1.0, 2.1, 1.55)
-        if jog:   # casa B: the old dorm 2 becomes a closed office: long desk under the two windows, shelving on the central wall, cupboard along the side wall
-            o += desk(sm + 0.5, Wd, [sm + 0.95, sm + 1.75], d=0.65)
-            o += [h.rect(sm + 0.05, 7.6, sm + 0.4, h.Di, fill='#fff', stroke=MUTE, stroke_width=0.25), h.text(sm + 0.22, 8.4, 'prestatges', size=1.4, fill=MUTE, transform=f'rotate(90 {X(h.u(sm + 0.22)):.2f} {Y(8.4):.2f})')]
-            o += along_wall(h, 6.1, 8.05, 0.45, 'armari')
-            o += [h.rect(sm + 1.15, 6.95, sm + 1.85, 7.6, **FUR), h.text(sm + 1.5, 7.2, 'butaca', size=1.3, fill=MUTE)]
-        else:     # casa A dorm 2: mirror of dorm 1
-            o += bed(h, Wb - 0.95, 6.85, w=0.9, l=1.9, head='front') + wardrobe(h, sm + 0.05, 7.6, sm + 0.6, 8.55) + desk(sm + 0.1, sm + 1.2, sm + 0.65)
-        o += dims(h, 0, 0.12, None, 2.85, wpos=2.6, dpos=0.6) + dims(h, 1.1, 3.95, 2.95, 5.8, wpos=4.0, dpos=2.75) + dims(h, 0, 6.8, sm, h.Di, wpos=8.95, dpos=1.08, vpos=7.3) + dims(h, sm, 6.8, Wb, h.Di, wpos=(7.75 if jog else 8.95), dpos=(sm + 0.75 if jog else Wb - 1.08), vpos=7.3)
+        # dorm 2 (outer side, both houses): bed of 90 with its head on the door wall, wardrobe on the central wall, desk under the windows
+        o += bed(h, Wb - 0.95, 6.85, w=0.9, l=1.9, head='front') + wardrobe(h, sm + 0.05, 7.6, sm + 0.6, 8.55) + desk(sm + 0.1, sm + 1.2, sm + 0.65)
+        o += dims(h, 0, 0.12, None, 2.85, wpos=2.6, dpos=0.6) + dims(h, 1.1, 3.95, 2.95, 5.8, wpos=4.0, dpos=2.75) + dims(h, 0, 6.8, sm, h.Di, wpos=8.95, dpos=1.08, vpos=7.3) + dims(h, sm, 6.8, Wb, h.Di, wpos=8.95, dpos=Wb - 1.08, vpos=7.3)
         # two independent windows per room in the back façade, over the P1 terrace
         o += windows2(h, 0.05, sm - 0.05, h.D - 0.1) + windows2(h, sm + 0.05, Wd, h.D - 0.1)
         o += label(h, (0.95 + sm - 0.6)/2, 8.05, 'DORM. 1', m2(h.zone_area(0, 6.8, sm, h.Di)), size=2.0)
-        o += label(h, sm + 1.3, 8.35, 'DESPATX', m2(out_area), size=2.1) if jog else label(h, (sm + 0.6 + Wb - 0.95)/2, 8.05, 'DORM. 2', m2(out_area), size=2.0)
+        o += label(h, (sm + 0.6 + Wb - 0.95)/2, 8.05, 'DORM. 2', m2(out_area), size=2.0)
     else:   # àtic
         vt = h.D - 2.05
         z += [fill_zone(h, -1, 0, 9, 2.8, COL['ter']), fill_zone(h, -1, vt, 9, h.D, COL['ter']), fill_zone(h, -1, 2.8, 9, vt, COL['suite'])]
         z += [fill_zone(h, -1, 0.2, 9, 0.6, COL['green']), fill_zone(h, -1, h.Di - 0.4, 9, h.Di, COL['green'])]
         o += [f'<g clip-path="url(#{cid})">'] + z + ['</g>']
-        o += [part(h, 0, 2.75, 9, 2.9), part(h, 0, vt - 0.05, 9, vt + 0.1)] + slider(h, 1.05, 2.0, vt)
+        o += [part(h, 0, 2.75, 9, 2.9), part(h, 0, vt - 0.05, 9, vt + 0.1)] + slider(h, 0.75, 1.75, vt)
         Wf = h.width_at(1.5)
         o += label(h, Wf/2, 1.55, 'TERRASSA', m2(h.zone_area(0, 0.2, 9, 2.75))) + [h.text(Wf/2, 0.32, 'jardinera', size=1.9, fill=MUTE)]
         o += label(h, Wb/2, (vt + h.D)/2 + 0.1, 'TERRASSA', m2(h.zone_area(0, vt + 0.1, 9, h.Di))) + [h.text(Wb/2, h.Di - 0.3, 'jardinera', size=1.9, fill=MUTE)]
@@ -303,33 +298,33 @@ def plan(h, lvl):
         if h.A:
             vb = 5.8                                                     # inner face of the bath wall = front of the shower
             Wm = h.width_at(6.6); Ws = h.width_at(3.7)
-            o += [part(h, 2.1, vb, 2.2, vt), part(h, 1.9, vb - 0.1, Wm + 0.3, vb)]
-            o += shower(h, Wm - 0.85, vb + 0.02, Wm, vt - 0.1) + wc(h, 2.75, vt - 0.05, face=-1) + basin(h, 3.3, vb + 0.25) + door_v(h, 2.15, 6.0, 0.65, into=1)
-            o += label(h, 3.45, 6.95, 'BANY', m2(h.zone_area(2.2, vb, 9, vt - 0.05)), size=2.4)
+            o += [part(h, 1.85, vb, 1.95, vt), part(h, 1.85, vb - 0.1, Wm + 0.3, vb)]
+            o += shower(h, Wm - 0.85, vb + 0.02, Wm, vt - 0.1) + wc(h, 2.75, vt - 0.05, face=-1) + basin(h, 3.15, vb + 0.25) + door_v(h, 1.9, 6.15, 0.7, into=1, hinge='end')
+            o += label(h, 3.5, 6.95, 'BANY', m2(h.zone_area(1.95, vb, 9, vt - 0.05)), size=2.4)
             o += wardrobe(h, 0.05, 6.85, 0.65, vt - 0.1)                 # hall cupboard against the party wall, clear of the terrace door
             o += door(h, 1.12, vb - 0.05, 0.75, into=-1, hinge='start')
-            o += builtin(h, 1.9, vb - 0.7, Wm - 0.02, vb - 0.1, face=-1)
-            o += bed(h, Ws - 1.92, 2.95, w=1.35, l=1.9, head='side') + nightstand(h, Ws - 0.44, 4.32) + [h.rect(1.1, 3.2, 1.2, 4.1, fill='#fff', stroke=MUTE, stroke_width=0.2), h.text(1.35, 3.65, 'TV', size=1.5, fill=MUTE)]
+            o += builtin(h, 1.9, vb - 0.65, Wm - 0.02, vb - 0.1, face=-1)
+            o += bed(h, Ws - 1.92, 3.35, w=1.35, l=1.9, head='side') + nightstand(h, Ws - 0.44, 2.93) + nightstand(h, Ws - 0.44, 4.72) + [h.rect(1.1, 3.6, 1.2, 4.45, fill='#fff', stroke=MUTE, stroke_width=0.2), h.text(1.35, 4.0, 'TV', size=1.5, fill=MUTE)]
             o += slider(h, 1.25, Ws - 1.97, 2.82)
             sa = h.zone_area(1.1, 2.9, 9, vb - 0.1)
-            o += dims(h, 1.1, 2.9, None, vb - 0.1, wpos=4.82, dpos=1.42) + dims(h, 2.2, vb, Wm, vt - 0.05, wpos=7.35, dpos=2.45)
-            o += [h.text(1.95, 4.0, 'SUITE', size=2.6, weight=700), h.text(1.95, 3.62, m2(sa), size=2.0, fill=MUTE)]
+            o += dims(h, 1.1, 2.9, None, vb - 0.1, wpos=4.92, dpos=1.42) + dims(h, 1.95, vb, Wm, vt - 0.05, wpos=7.35, dpos=2.2)
+            o += [h.text(1.85, 4.35, 'SUITE', size=2.6, weight=700), h.text(1.85, 3.97, m2(sa), size=2.0, fill=MUTE)]
         else:
             # casa B: the side wall steps out at 5,90 m. The bath wall is set on that line, so it runs straight from the step, in line with the
             # shower that fills the corner past the step, and carries on inwards; the suite wardrobe gets the whole length of it.
             vb = h.P[1][1] + 0.05
             Wm = h.width_at(6.6); Wj = h.width_at(vb - 0.3); Ws = h.width_at(3.7)
-            o += [part(h, 2.55, vb, 2.65, vt), part(h, 1.9, vb - 0.1, Wj + 0.4, vb)] + slider_v(h, 2.6, 6.1, 6.9)
-            o += shower(h, Wj - 0.02, vb + 0.02, Wm, vb + 0.92) + wc(h, 3.15, vt - 0.05, face=-1) + basin(h, 3.45, vb + 0.25) + window(h, 3.6, 4.45, vt + 0.02)
-            o += label(h, 3.6, 7.1, 'BANY', m2(h.zone_area(2.65, vb, 9, vt - 0.05)), size=2.3)
+            o += [part(h, 1.85, vb, 1.95, vt), part(h, 1.85, vb - 0.1, Wj + 0.4, vb)] + slider_v(h, 1.9, 6.15, 6.95)
+            o += shower(h, Wj - 0.02, vb + 0.02, Wm, vb + 0.92) + wc(h, 3.15, vt - 0.05, face=-1) + basin(h, 2.55, vb + 0.25) + basin(h, 3.15, vb + 0.25) + window(h, 3.6, 4.45, vt + 0.02)
+            o += label(h, 3.0, 7.0, 'BANY', m2(h.zone_area(1.95, vb, 9, vt - 0.05)), size=2.3)
             o += wardrobe(h, 0.05, 6.85, 0.65, vt - 0.1, 'vestidor')       # moved to the party wall, so the hall leads straight to the back terrace
             o += door(h, 1.12, vb - 0.05, 0.75, into=-1, hinge='start')
             o += builtin(h, 1.9, vb - 0.7, Wj - 0.02, vb - 0.1, face=-1)
-            o += bed(h, Ws - 1.92, 2.95, w=1.5, l=1.9, head='side') + nightstand(h, Ws - 0.44, 4.47) + [h.rect(1.1, 3.2, 1.2, 4.1, fill='#fff', stroke=MUTE, stroke_width=0.2), h.text(1.35, 3.65, 'TV', size=1.5, fill=MUTE)]
+            o += bed(h, Ws - 1.92, 3.33, w=1.5, l=1.9, head='side') + nightstand(h, Ws - 0.44, 2.92) + nightstand(h, Ws - 0.44, 4.84) + [h.rect(1.1, 3.65, 1.2, 4.5, fill='#fff', stroke=MUTE, stroke_width=0.2), h.text(1.35, 4.05, 'TV', size=1.5, fill=MUTE)]
             o += slider(h, 1.25, Ws - 1.97, 2.82)
             sa = h.zone_area(1.1, 2.9, 9, vb - 0.1)
-            o += dims(h, 1.1, 2.9, None, vb - 0.1, wpos=5.0, dpos=1.42) + dims(h, 2.65, vb, Wm, vt - 0.05, wpos=7.35, dpos=2.85)
-            o += [h.text(1.95, 4.15, 'SUITE', size=2.6, weight=700), h.text(1.95, 3.77, m2(sa), size=2.0, fill=MUTE)]
+            o += dims(h, 1.1, 2.9, None, vb - 0.1, wpos=5.0, dpos=1.42) + dims(h, 1.95, vb, Wm, vt - 0.05, wpos=7.35, dpos=2.2)
+            o += [h.text(1.85, 4.4, 'SUITE', size=2.6, weight=700), h.text(1.85, 4.02, m2(sa), size=2.0, fill=MUTE)]
         o += dims(h, 0, 0.12, None, 2.75, wpos=0.7) + dims(h, 0, vt + 0.1, None, h.Di, wpos=vt + 0.3)
     uid = f'u{h.name}{lvl}'
     out = [f'<clipPath id="{uid}"><polygon points="{" ".join(pt(*p) for p in h.P)}"/><polygon points="{" ".join(pt(*p) for p in yard)}"/></clipPath>']
@@ -377,7 +372,7 @@ def house_sheet(name):
     o = [f'<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 420 297" font-family="Archivo, Helvetica, Arial, sans-serif" role="img" aria-label="Casa {name}">', DEFS.replace('id="eat"', f'id="eat{name}"').replace('id="arr"', f'id="arr{name}"'), '<rect width="420" height="297" fill="#fff"/>']
     o.append(text_xy(12, 20, f'CASA ADOSSADA {name} · C/ Anselm Clavé 30, Llinars del Vallès', size=5.2, weight=700, anchor='start'))
     sub_ = ("Fondària 9,70 m. El veí del darrere ocupa 3,00 × 2,70 m: cuina al darrere i estar al davant a la P1. Revisió 18/11/2026." if h.A
-            else "Fondària 9,80 m. Distribució adaptada al graó del límit lateral a 5,90 m: cuina en L a la P1, despatx i estar familiar a la P2. Revisió 18/11/2026.")
+            else "Fondària 9,80 m. Distribució adaptada al graó del límit lateral a 5,90 m: cuina en L a la P1, dos dormitoris i estar familiar a la P2. Revisió 18/11/2026.")
     o.append(text_xy(12, 27, sub_ + ' · Serrajordi-Diaz Investments', size=2.7, fill=MUTE, anchor='start'))
     o.append(text_xy(408, 20, 'E 1:75 (en DIN A3)', size=4, weight=700, anchor='end'))
     for i in range(5): o.append(f'<rect x="{341.3+i*SC:.2f}" y="24" width="{SC:.2f}" height="2" fill="{INK if i % 2 == 0 else "#fff"}" stroke="{INK}" stroke-width="0.2"/>')

@@ -17,7 +17,7 @@ def sheet():
     o = ['<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 420 297" font-family="Archivo, Helvetica, Arial, sans-serif" role="img" aria-label="Comparativa abans i després">', '<rect width="420" height="297" fill="#fff"/>']
     o.append(T(12, 20, 'COMPARATIVA · Abans i després de la revisió del 18/11/2026', size=5.2, weight=700, anchor='start'))
     o.append(T(12, 27, "Zones modificades. A l'esquerra de cada parella, el plànol anterior; a la dreta, el corregit. Mateixa escala (1:75 en DIN A3 a les làmines 2 i 3).", size=2.7, fill=MUTE, anchor='start'))
-    panels = [('Casa B · P1 · cuina en L', 'B', 1), ('Casa B · P2 · despatx i estar', 'B', 2), ('Casa A · àtic · bany i armari', 'A', 3), ('Casa B · àtic · bany i armari', 'B', 3)]
+    panels = [('Casa B · P1 · cuina en L', 'B', 1), ('Casa B · P2 · dormitoris i estar', 'B', 2), ('Casa A · àtic · bany i armari', 'A', 3), ('Casa B · àtic · bany i armari', 'B', 3)]
     W, gap, x0 = 58, 4, 12
     for n, (title, k, i) in enumerate(panels):
         col, row = n % 2, n // 2
@@ -32,10 +32,10 @@ def sheet():
     tx = 290; ty = 40
     o.append(T(tx, ty, 'CANVIS PRINCIPALS', size=3.2, weight=700, anchor='start'))
     items = [
-        ('Les dues cases', ["Escales al mateix lloc a totes les plantes (1,00 m de pas):", "sense el text «PUJA» ni el requadre «arriba»; es manté la", "fletxa. Compensats dibuixats des del vèrtex interior.", "Porta del porxo: obre cap a l'exterior (el porxo), 0,85 m,", "dins del porxo de 1,25 × 1,13: no envaeix la vorera.", "P2: dues finestres a cada habitació, a la façana del darrere.", "Façanes i mitgeres amb traç gruixut; envans més fins."]),
-        ('Àtics', ["Paret del bany alineada amb el davant de la dutxa i", "allargada cap a dins; a la cara de la suite, armari encastat", "de 0,60 m amb portes correderes de cara al llit.", "Llit amb el capçal a la paret lateral; pas lliure al costat", "de l'escala de la porta de la suite fins a la terrassa.", "Casa B: la paret del bany va a la línia del graó (5,90 m),", "la dutxa ocupa el racó del graó i l'armari s'allarga. El", "vestidor passa a la mitgera i el bany té porta corredera."]),
-        ('Casa B', ["P1: cuina en L contínua amb mòdul de racó, rentaplats,", "forn i placa al tram de la mitgera i nevera al final.", "P2: el dormitori 2 passa a DESPATX (escriptori llarg sota", "les dues finestres, prestatges, armari a la paret lateral).", "L'estudi obert del davant passa a ESTAR FAMILIAR."]),
-        ('Pendent de validar', ["Casa A, P2: les finestres del dormitori 2 donen sobre", "la cantonada ocupada pel veí (llums i vistes).", "Àtics: per l'espai (2,2 m lliures davant l'armari), el llit", "queda arrimat a la façana de la terrassa: accés per un", "costat. Alternativa: llit de 1,35 i armari de 0,55."]),
+        ('Les dues cases', ["Escales al mateix lloc a totes les plantes (1,00 m de pas):", "sense el text «PUJA» ni el requadre «arriba»; es manté la", "fletxa. Compensats dibuixats des del vèrtex interior.", "Porta del porxo: obre cap a l'exterior (el porxo), 0,85 m,", "dins del porxo de 1,25 × 1,13: no envaeix la vorera.", "P2: dues finestres a cada habitació, a la façana del darrere.", "P2: tancada la paret del dormitori del costat de l'escala.", "Façanes i mitgeres amb traç gruixut; envans més fins."]),
+        ('Àtics', ["Paret del bany alineada amb el davant de la dutxa i", "allargada cap a dins; a la cara de la suite, armari encastat", "amb portes correderes de cara al llit.", "El bany s'allarga tota la paret de l'armari (≈5,0 m² a la A,", "≈5,7 m² a la B, amb doble lavabo a la B).", "Llit centrat amb tauleta de nit a cada costat; pas lliure", "al costat de l'escala fins a la terrassa.", "Casa B: paret del bany a la línia del graó (5,90 m), dutxa", "al racó del graó, porta corredera; vestidor a la mitgera."]),
+        ('Casa B', ["P1: cuina en L contínua amb mòdul de racó, rentaplats,", "forn i placa al tram de la mitgera i nevera al final.", "P2: dos dormitoris (llit de 90, armari i escriptori sota", "les finestres). L'estudi del davant passa a ESTAR FAMILIAR."]),
+        ('Pendent de validar', ["Casa A, P2: les finestres del dormitori 2 donen sobre", "la cantonada ocupada pel veí (llums i vistes).", "Àtic A: armari de 0,55 m perquè hi càpiguen les dues", "tauletes; l'accés als costats del llit és just (≈0,45 m)."]),
     ]
     y = ty + 8
     for head, lines in items:
