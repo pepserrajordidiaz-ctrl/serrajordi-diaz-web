@@ -65,11 +65,12 @@ def outward(poly, a, b):
     mu, mv = (a[0] + b[0])/2, (a[1] + b[1])/2
     return (nu, nv) if (mu + nu - cu)**2 + (mv + nv - cv)**2 > (mu - nu - cu)**2 + (mv - nv - cv)**2 else (-nu, -nv)
 
-def exterior_dims(poly, seen, d=0.62):
+def exterior_dims(poly, seen, d=0.62, skip=None):
     o = []
     for i in range(len(poly)):
         a, b = poly[i], poly[(i + 1) % len(poly)]
         L = math.dist(a, b)
+        if skip and skip(a, b): continue
         key = tuple(sorted([(round(a[0], 2), round(a[1], 2)), (round(b[0], 2), round(b[1], 2))]))
         if L < 0.2 or key in seen: continue
         seen.add(key)
