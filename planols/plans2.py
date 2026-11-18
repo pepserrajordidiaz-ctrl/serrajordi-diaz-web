@@ -72,12 +72,19 @@ def dims(h, x0, v0, x1, v1, wpos=None, dpos=None):
     xd = (dpos if dpos is not None else xr - 0.22); x, y = X(h.u(xd)), Y(vm)
     o.append(text_xy(x, y, fmt(v1 - v0), size=1.9, fill='#3E6FA8', transform=f'rotate(-90 {x:.2f} {y:.2f})'))
     return o
-def door(h, x, v, w, into=1):
-    o = [h.rect(x, v-0.1, x+w, v+0.1, fill='#fff')]
-    o.append(h.line(x, v, x, v+into*w, stroke=INK, stroke_width=0.3))
-    sweep = 1 if into*h.sg < 0 else 0
-    o.append(f'<path d="M{X(h.u(x)):.2f},{Y(v+into*w):.2f} A{w*SC:.2f},{w*SC:.2f} 0 0 {sweep} {X(h.u(x+w)):.2f},{Y(v):.2f}" fill="none" stroke="{MUTE}" stroke-width="0.2" stroke-dasharray="0.6 0.4"/>')
-    return o
+def _swing(h, C, S, E, w):
+    cx, cy = X(h.u(C[0])), Y(C[1]); sx, sy = X(h.u(S[0])), Y(S[1]); ex, ey = X(h.u(E[0])), Y(E[1])
+    sweep = 1 if (sx-cx)*(ey-cy) - (sy-cy)*(ex-cx) > 0 else 0
+    return [h.line(C[0], C[1], S[0], S[1], stroke=INK, stroke_width=0.3),
+            f'<path d="M{sx:.2f},{sy:.2f} A{w*SC:.2f},{w*SC:.2f} 0 0 {sweep} {ex:.2f},{ey:.2f}" fill="none" stroke="{MUTE}" stroke-width="0.2" stroke-dasharray="0.6 0.4"/>']
+def door(h, x, v, w, into=1, hinge='start'):
+    """Door in a wall parallel to the façade (depth v), opening from s=x to x+w; the leaf swings towards +v (into=1) or -v."""
+    hx, fx = (x, x + w) if hinge == 'start' else (x + w, x)
+    return [h.rect(x, v-0.1, x+w, v+0.1, fill='#fff')] + _swing(h, (hx, v), (hx, v + into*w), (fx, v), w)
+def door_v(h, xs, v, w, into=1, hinge='start'):
+    """Door in a wall perpendicular to the façade (at s=xs), opening from v to v+w; the leaf swings towards +s (into=1) or -s."""
+    hv, fv = (v, v + w) if hinge == 'start' else (v + w, v)
+    return [h.rect(xs-0.1, v, xs+0.1, v+w, fill='#fff')] + _swing(h, (xs, hv), (xs + into*w, hv), (xs, fv), w)
 def slider(h, x0, x1, v): return [h.rect(x0, v-0.1, x1, v+0.1, fill='#fff'), h.line(x0, v-0.03, (x0+x1)/2+0.2, v-0.03, stroke=INK, stroke_width=0.35), h.line((x0+x1)/2-0.2, v+0.04, x1, v+0.04, stroke=INK, stroke_width=0.35)]
 def window(h, x0, x1, v): return [h.rect(x0, v-0.1, x1, v+0.1, fill='#fff'), h.line(x0, v, x1, v, stroke=INK, stroke_width=0.2)]
 def stair_straight(h, v0, v1):
@@ -197,13 +204,13 @@ def plan(h, lvl):
         o += label(h, Wf/2, 2.1, 'ESTUDI', f'obert · {m2(h.zone_area(0, 0.2, 9, 2.85))}')
         o += stair_L(h) + [part(h, 1.0, 3.85, 1.1, 5.9)]
         o += [part(h, 1.1, 3.85, 3.05, 3.95), part(h, 2.95, 3.95, 3.05, 5.9), part(h, 1.1, 5.8, 2.3, 5.9)]
-        o += shower(h, 1.2, 4.0, 2.05, 4.85) + wc(h, 2.75, 5.75, face=-1) + basin(h, 1.55, 5.45) + door(h, 2.35, 5.85, 0.6, into=-1) + label(h, 2.1, 5.1, 'BANY', m2(1.85*1.85), size=2.4)
+        o += shower(h, 1.2, 4.0, 2.05, 4.85) + wc(h, 2.55, 3.97, face=1) + basin(h, 1.6, 5.55) + door(h, 2.25, 5.85, 0.65, into=-1, hinge='end') + label(h, 1.9, 5.0, 'BANY', m2(1.85*1.85), size=2.4)
         o.append(h.text(3.5, 4.7, 'pas', size=2.1, fill=MUTE))
         sm = Wb/2
         o += [part(h, 1.0, 6.7, Wb + 0.3, 6.8), part(h, sm - 0.05, 6.8, sm + 0.05, h.Di)]
         o += wardrobe(h, 0.05, 6.85, sm - 0.85, 7.4) + wardrobe(h, sm + 0.85, 6.85, Wb, 7.4)
-        o += door(h, sm - 0.82, 6.75, 0.75, into=1) + door(h, sm + 0.07, 6.75, 0.75, into=1)
-        o += bed(h, 0.05, 7.5, w=1.2, l=1.9, head='side') + bed(h, Wb - 1.95, 7.5, w=1.2, l=1.9, head='side')
+        o += door(h, sm - 0.82, 6.75, 0.75, into=1, hinge='end') + door(h, sm + 0.07, 6.75, 0.75, into=1, hinge='start')
+        o += bed(h, 0.05, 7.6, w=1.05, l=1.9, head='side') + bed(h, Wb - 1.95, 7.6, w=1.05, l=1.9, head='side')
         for x0 in (0.35, sm + 0.35):
             o += [h.rect(x0, h.Di - 0.5, x0 + 1.25, h.Di, fill='#fff', stroke=MUTE, stroke_width=0.25), h.rect(x0 + 0.42, h.Di - 0.95, x0 + 0.82, h.Di - 0.58, **FUR), h.text(x0 + 0.62, h.Di - 0.3, 'escriptori', size=1.6, fill=MUTE)]
         o += dims(h, 0, 0.12, None, 2.85, wpos=2.6) + dims(h, 1.1, 3.95, 2.95, 5.8, wpos=4.0, dpos=2.75) + dims(h, 0, 6.8, sm, h.Di, wpos=7.0, dpos=sm - 0.2) + dims(h, sm, 6.8, Wb, h.Di, wpos=7.0)
@@ -224,11 +231,11 @@ def plan(h, lvl):
         o += [part(h, 1.0, 2.9, 1.1, 5.9)]
         Wm = h.width_at(6.6)
         if h.A:
-            o += [part(h, 2.1, 5.75, 2.2, vt), part(h, 2.1, 5.7, Wm + 0.3, 5.8)] + shower(h, Wm - 0.85, 5.85, Wm, vt - 0.1) + wc(h, 2.75, vt - 0.05, face=-1) + basin(h, 2.7, 6.1) + door(h, 2.25, 5.75, 0.6, into=-1)
+            o += [part(h, 2.1, 5.75, 2.2, vt), part(h, 2.1, 5.7, Wm + 0.3, 5.8)] + shower(h, Wm - 0.85, 5.85, Wm, vt - 0.1) + wc(h, 2.75, vt - 0.05, face=-1) + basin(h, Wm - 1.15, 6.05) + door(h, 2.25, 5.75, 0.6, into=1)
             o += label(h, 3.3, 6.85, 'BANY', m2((Wm - 2.2)*(vt - 5.8)), size=2.4) + wardrobe(h, 1.1, 6.75, 2.05, vt - 0.05)
         else:
-            o += [part(h, 2.55, 5.75, 2.65, vt), part(h, 1.1, 5.7, Wm + 0.3, 5.8)] + shower(h, Wm - 0.9, 6.7, Wm, vt - 0.1) + wc(h, 3.0, 5.85, face=1) + basin(h, 3.0, vt - 0.3)
-            o += label(h, 3.6, 6.1, 'BANY', m2((Wm - 2.65)*(vt - 5.8)), size=2.3) + wardrobe(h, 1.15, 6.95, 2.5, vt - 0.05, 'vestidor') + door(h, 1.6, 5.75, 0.7, into=-1)
+            o += [part(h, 2.55, 5.75, 2.65, vt), part(h, 1.1, 5.7, Wm + 0.3, 5.8)] + shower(h, Wm - 0.9, 6.7, Wm, vt - 0.1) + wc(h, 3.1, vt - 0.05, face=-1) + basin(h, 3.4, 6.05) + door_v(h, 2.6, 6.25, 0.65, into=1)
+            o += label(h, 3.6, 6.1, 'BANY', m2((Wm - 2.65)*(vt - 5.8)), size=2.3) + wardrobe(h, 1.15, 6.95, 2.5, vt - 0.05, 'vestidor') + door(h, 1.6, 5.75, 0.7, into=1)
         o += bed(h, 2.0, 3.25, w=1.5, l=2.0) + wardrobe(h, 1.15, 3.0, 1.6, 5.0, 'TV')
         o += dims(h, 0, 0.12, None, 2.75, wpos=0.7) + dims(h, 1.1, 2.9, None, 5.7, wpos=3.05) + dims(h, 0, vt + 0.1, None, h.Di, wpos=vt + 0.3)
         o += dims(h, 2.2 if h.A else 2.65, 5.8, Wm, vt, wpos=5.95)
