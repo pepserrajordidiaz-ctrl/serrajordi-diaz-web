@@ -1,11 +1,12 @@
 import sys
 sys.path.insert(0, '/home/claude/plans')
-import plans2
-SH = [('solar', 'Solar i mides', plans2.site_sheet()), ('A', 'Casa A', plans2.house_sheet('A')), ('B', 'Casa B', plans2.house_sheet('B'))]
+import plans2, compare
+SH = [('solar', 'Solar i mides', plans2.site_sheet()), ('A', 'Casa A', plans2.house_sheet('A')), ('B', 'Casa B', plans2.house_sheet('B')), ('canvis', 'Abans i després', compare.sheet())]
 NOTES = {
  'solar': "Mides preses al solar el 17/11/2026. El veí del darrere ocupa una cantonada de 3,00 × 2,70 m al costat de la casa A. La línia grisa discontínua és el límit del Cadastre.",
- 'A': "Casa del costat del núm. 28. Com que el veí ocupa part del pati, el safareig i la terrassa són més petits, i a la planta primera la cuina passa a la cantonada del darrere, amb una porta a la seva dreta per sortir a la terrassa. L'estar va al davant. En groc, els canvis.",
- 'B': "La mateixa distribució que la casa A en espill, sense canvis, ajustada al límit real de la parcel·la: el graó del costat és a 5,90 m de la façana.",
+ 'A': "Casa del costat del núm. 28 (fondària 9,70 m). Com que el veí ocupa part del pati, el safareig i la terrassa són més petits, i a la planta primera la cuina passa a la cantonada del darrere, amb sortida a la terrassa. A l'àtic, el bany queda alineat amb la dutxa i la suite té un armari encastat llarg.",
+ 'B': "Fondària 9,80 m, amb el graó del límit lateral a 5,90 m. Cuina en L contínua a la planta primera; a la segona, un dormitori, un despatx i un estar familiar al davant; a l'àtic, el bany s'alinea amb el graó i l'armari de la suite s'allarga.",
+ 'canvis': "Les zones que han canviat a la revisió del 18/11/2026, abans i després, i què queda pendent de validar amb l'arquitecte.",
 }
 def web(k, svg):
     for i in ('eat', 'deck', 'arr'):
@@ -17,7 +18,7 @@ side = ''.join(f'<div class="pside{" on" if k == "solar" else ""}" data-k="{k}">
 html = f'''
 <section class="block" id="planols">
  <div class="wrap grid">
-  <p class="eyebrow"><span>06 · Plànols</span><span>Actualitzats el 17/11/2026</span></p>
+  <p class="eyebrow"><span>06 · Plànols</span><span>Revisats el 18/11/2026</span></p>
   <h2>Com seran les cases, planta per planta</h2>
   <p class="lede">La casa A és la del costat del núm. 28; la casa B, la de l'altre costat. Quatre plantes: garatge, dia, nit i àtic amb suite.<span class="s">Esquema orientatiu, pendent del projecte de l'arquitecte</span></p>
   <div class="tabs ptabs" role="group" aria-label="Plànols">{tabs}</div>
