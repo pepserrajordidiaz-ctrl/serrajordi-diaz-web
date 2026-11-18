@@ -251,7 +251,7 @@ function buildScene() {
 // planned volume: two houses, 10 m deep from the façade, split at the middle of the frontage
 const PSITE = ccw(SITE_EN), EAT = ccw(EAT_EN);
 // casa B (west) is 9,80 m deep; casa A (east, next to núm. 28) stops at 9,70 m, where the occupied corner starts.
-// Floors every 2,95 m; the àtic (8,85–11,80) leaves a 2,80 m terrace at the front and ≈2,05 m at the back.
+// Floors every 2,95 m; the altell (8,85–11,80, pitched roof) leaves a 2,80 m terrace at the front and ≈2,05 m at the back.
 const HOUSES = (() => {
   const [A, B] = PLOT_FRONT, fl = Math.hypot(B[0] - A[0], B[1] - A[1]), f = [(B[0] - A[0]) / fl, (B[1] - A[1]) / fl];
   const d = [f[1], -f[0]], c0 = A[0] * d[0] + A[1] * d[1], mf = A[0] * f[0] + A[1] * f[1] + 4.6, nf = [-f[0], -f[1]], nd = [-d[0], -d[1]];
@@ -260,7 +260,7 @@ const HOUSES = (() => {
   const atic = (h, D) => clipHalf(clipHalf(h, nd, -(c0 + 2.8)), d, c0 + D - 2.05);
   return { houses: [h2, h1].map(ccw), backs: [y2, y1].map(ccw), atics: [atic(h2, 9.8), atic(h1, 9.7)].map(ccw), f, d, A };
 })();
-const HOUSE_H = 11.8, BODY_H = 8.85; // PB + P1 + P2 up to 8,85 m, àtic up to 11,80 m (orientatiu)
+const HOUSE_H = 11.8, BODY_H = 8.85; // PB + P1 + P2 up to 8,85 m, altell under a pitched roof up to 11,80 m (orientatiu)
 function buildGhost() {
   const m = new Mesh(), H = HOUSE_H, c = [1, 1, 1];
   const prism = (h, y0, y1) => {
@@ -272,6 +272,21 @@ function buildGhost() {
     }
     m.tris(h.map(q => W3(q, y1)), earclip(h), [0, 1, 0], c, 17, [100, 100, 0, 0], Z4, () => [50, 50]);
   };
-  HOUSES.houses.forEach(h => prism(h, 0.08, BODY_H)); HOUSES.atics.forEach(h => prism(h, BODY_H, H));
+  // altell: pitched roof, eaves 1,00 m above the P2 slab over each terrace edge, ridge in the middle at 11,80 m (orientatiu)
+  const d = HOUSES.d, nd = [-d[0], -d[1]], c0 = HOUSES.A[0] * d[0] + HOUSES.A[1] * d[1], E = BODY_H + 1.0, dd = p => p[0] * d[0] + p[1] * d[1];
+  const roofed = (h, D) => {
+    const v0 = c0 + 2.8, v1 = c0 + D - 2.05, vm = (v0 + v1) / 2, half = (v1 - v0) / 2, yy = p => E + (H - E) * (1 - Math.abs(dd(p) - vm) / half);
+    [[clipHalf(h, d, vm), 1], [clipHalf(h, nd, -vm), -1]].forEach(([q, sg]) => {
+      if (q.length < 3) return; q = ccw(q);
+      for (let i = 0; i < q.length; i++) {
+        const a = q[i], b = q[(i + 1) % q.length], L = Math.hypot(b[0] - a[0], b[1] - a[1]); if (L < 0.05) continue;
+        const n = [(b[1] - a[1]) / L, 0, (b[0] - a[0]) / L], ya = yy(a), yb = yy(b);
+        m.poly([W3(a, BODY_H), W3(b, BODY_H), W3(b, yb), W3(a, ya)], n, [[0, 0], [L, 0], [L, yb - BODY_H], [0, ya - BODY_H]], c, 17, [L, Math.max(ya, yb) - BODY_H, 0, 0]);
+      }
+      const g = (H - E) / half * sg, nn = [-g * d[0], 1, g * d[1]], nl = Math.hypot(...nn);
+      m.tris(q.map(p => W3(p, yy(p))), earclip(q), nn.map(x => x / nl), c, 17, [100, 100, 0, 0], Z4, () => [50, 50]);
+    });
+  };
+  HOUSES.houses.forEach(h => prism(h, 0.08, BODY_H)); HOUSES.atics.forEach((h, i) => roofed(h, i === 0 ? 9.8 : 9.7));
   return m;
 }

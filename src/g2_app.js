@@ -57,7 +57,7 @@ const SUNSTUDY = (function () {
     const cv = document.createElement("canvas"); cv.width = cv.height = n; const g = cv.getContext("2d");
     g.fillStyle = "#000"; g.fillRect(0, 0, n, n);
     const items = PARTS.map(p => ({ pts: p.pts, h: (p.H ?? ((SHOPS.has(p.rc) ? 3.6 : 3.2) + (p.fl - 1) * 2.95)) + 0.5 }))
-      .concat(HOUSES.houses.map(q => ({ pts: q, h: BODY_H + 0.9 }))).concat(HOUSES.atics.map(q => ({ pts: q, h: HOUSE_H }))).sort((a, b) => a.h - b.h);
+      .concat(HOUSES.houses.map(q => ({ pts: q, h: BODY_H + 0.9 }))).concat(HOUSES.atics.map(q => ({ pts: q, h: (BODY_H + 1.0 + HOUSE_H) / 2 }))).sort((a, b) => a.h - b.h);
     for (const it of items) {
       const v = Math.min(255, Math.round(it.h * 8)); g.fillStyle = `rgb(${v},${v},${v})`; g.beginPath();
       it.pts.forEach(([E, N], i) => { const X = (E - x0) / cs, Y = (N - y0) / cs; if (i) g.lineTo(X, Y); else g.moveTo(X, Y); });

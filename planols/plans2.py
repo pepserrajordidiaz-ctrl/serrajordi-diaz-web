@@ -364,7 +364,7 @@ def dim_side(h, v0, v1, txt):
 
 DEFS = f'''<defs><pattern id="eat" width="2.4" height="2.4" patternUnits="userSpaceOnUse" patternTransform="rotate(45)"><rect width="2.4" height="2.4" fill="#F6E1DD"/><rect width="1.0" height="2.4" fill="#E4A79E"/></pattern>
 <marker id="arr" viewBox="0 0 6 6" refX="5" refY="3" markerWidth="4" markerHeight="4" orient="auto"><path d="M0 0L6 3L0 6z" fill="{INK}"/></marker></defs>'''
-LV = [('pb', 'PLANTA BAIXA', 'cota +0,00 m'), ('p1', 'PLANTA PRIMERA', 'cota +2,95 m'), ('p2', 'PLANTA SEGONA', 'cota +5,90 m'), ('at', 'PLANTA TERCERA · ÀTIC', 'cota +8,85 m')]
+LV = [('pb', 'PLANTA BAIXA', 'cota +0,00 m'), ('p1', 'PLANTA PRIMERA', 'cota +2,95 m'), ('p2', 'PLANTA SEGONA', 'cota +5,90 m'), ('at', 'PLANTA TERCERA · ALTELL', 'cota +8,85 m')]
 def house_sheet(name):
     h = H(name)
     us = [p[0] for p in SITE if (p[0] >= 4.6 if h.A else p[0] <= 4.6)] + [4.6]
@@ -386,10 +386,11 @@ def house_sheet(name):
     notes = ['Superfícies útils orientatives, calculades amb les mides preses al solar el 17/11/2026 (façana 9,20 · fondària 9,70 al costat del núm. 28).',
              "Escala d'1,00 m de pas al costat de la mitgera, a la mateixa posició a totes les plantes; a P1 i P2 arrenca en L amb graons compensats · 16 graons ≈18,4 cm (2,95 m entre forjats).",
              ("Finestres de la P2 a la façana del darrere. Casa A: les del dormitori 2 donen sobre la cantonada ocupada pel veí; cal confirmar llums i vistes (distància al límit) amb l'arquitecte." if h.A
-              else "Avantprojecte orientatiu. Pendent de validar amb l'arquitecte: alçada i nombre de plantes, fondària edificable, recular l'àtic i gàlib de l'escala."),
+              else "Avantprojecte orientatiu. Pendent de validar amb l'arquitecte: alçada i nombre de plantes, fondària edificable, recular l'altell i gàlib de l'escala."),
              ("Porta del porxo: obre cap al porxo (exterior), sense envair la via pública ni la porta del garatge." if h.A
-              else "Finestres a totes les parets que donen al carrer Anselm Clavé (P1, P2 i àtic). Porta del porxo: obre cap al porxo, sense envair la via pública.")]
-    for j, n in enumerate(notes): o.append(text_xy(12, 270 + j*6, n, size=2.5, fill=INK, anchor='start'))
+              else "Finestres a totes les parets que donen al carrer Anselm Clavé (P1, P2 i altell). Porta del porxo: obre cap al porxo, sense envair la via pública.")]
+    notes.append("Planta tercera: altell sota coberta inclinada (carener al mig, a 11,80 m). Les terrasses del davant i del darrere no es fan habitables perquè el sostre baixa cap a les façanes.")
+    for j, n in enumerate(notes): o.append(text_xy(12, 266 + j*6, n, size=2.5, fill=INK, anchor='start'))
     o.append('</svg>'); return '\n'.join(o).replace('url(#eat)', f'url(#eat{name})').replace('url(#arr)', f'url(#arr{name})')
 
 def site_sheet():

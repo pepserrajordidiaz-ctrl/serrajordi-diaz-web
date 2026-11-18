@@ -421,7 +421,7 @@
 <text x="264.44" y="113.53" font-size="1.4" font-weight="400" fill="#6E7672" text-anchor="middle" transform="rotate(0.0 264.44 113.53)">f 0,80</text>
 <text x="279.29" y="113.53" font-size="1.4" font-weight="400" fill="#6E7672" text-anchor="middle" transform="rotate(0.0 279.29 113.53)">f 0,80</text>
 <text x="274.07" y="154.78" font-size="1.55" font-weight="400" fill="#2F5F9E" text-anchor="middle" transform="rotate(0.0 274.07 154.78)">1,61 (paret corba)</text>
-<text x="361.00" y="48.00" font-size="3.4" font-weight="700" fill="#1C2321" text-anchor="middle" transform="rotate(0.0 361.00 48.00)">PLANTA TERCERA · ÀTIC</text>
+<text x="361.00" y="48.00" font-size="3.4" font-weight="700" fill="#1C2321" text-anchor="middle" transform="rotate(0.0 361.00 48.00)">PLANTA TERCERA · ALTELL</text>
 <text x="361.00" y="53.00" font-size="2.3" font-weight="400" fill="#7B837F" text-anchor="middle" transform="rotate(0.0 361.00 53.00)">cota +8,85 m</text>
 <line x1="321.9" y1="238.6" x2="400.1" y2="238.6" stroke="#8B5FA8" stroke-width="0.35" stroke-dasharray="1.4 0.9"/>
 <clipPath id="wBuBat"><polygon points="386.19,238.00 382.89,159.40 392.10,159.01 397.14,158.68 388.98,107.33 324.86,107.33 324.86,238.00"/><polygon points="388.98,107.33 382.27,65.19 324.86,70.41 324.86,107.33"/></clipPath>

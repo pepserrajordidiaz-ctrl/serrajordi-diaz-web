@@ -331,7 +331,7 @@
 <line x1="224.19" y1="251.00" x2="226.19" y2="249.00" stroke="#1C2321" stroke-width="0.25"/>
 <line x1="282.53" y1="251.00" x2="284.53" y2="249.00" stroke="#1C2321" stroke-width="0.25"/>
 <text x="254.36" y="248.80" font-size="2.3" font-weight="400" fill="#1C2321" text-anchor="middle" >4,60 façana · 4,38 lliures</text>
-<text x="361.00" y="52.00" font-size="3.6" font-weight="700" fill="#1C2321" text-anchor="middle" >PLANTA TERCERA · ÀTIC</text>
+<text x="361.00" y="52.00" font-size="3.6" font-weight="700" fill="#1C2321" text-anchor="middle" >PLANTA TERCERA · ALTELL</text>
 <text x="361.00" y="57.00" font-size="2.4" font-weight="400" fill="#7B837F" text-anchor="middle" >cota +8,85 m</text>
 <text x="404.19" y="151.33" font-size="2.2" font-weight="400" fill="#7B837F" text-anchor="middle" transform="rotate(-90 404.2 151.3)">veí (parcel·la 02)</text>
 <text x="320.19" y="151.33" font-size="2.2" font-weight="400" fill="#7B837F" text-anchor="middle" transform="rotate(-90 320.2 151.3)">CASA A</text>
@@ -441,8 +441,9 @@
 <line x1="325.19" y1="251.00" x2="327.19" y2="249.00" stroke="#1C2321" stroke-width="0.25"/>
 <line x1="383.53" y1="251.00" x2="385.53" y2="249.00" stroke="#1C2321" stroke-width="0.25"/>
 <text x="355.36" y="248.80" font-size="2.3" font-weight="400" fill="#1C2321" text-anchor="middle" >4,60 façana · 4,38 lliures</text>
-<text x="12.00" y="270.00" font-size="2.5" font-weight="400" fill="#1C2321" text-anchor="start" >Superfícies útils orientatives, calculades amb les mides preses al solar el 17/11/2026 (façana 9,20 · fondària 9,70 al costat del núm. 28).</text>
-<text x="12.00" y="276.00" font-size="2.5" font-weight="400" fill="#1C2321" text-anchor="start" >Escala d'1,00 m de pas al costat de la mitgera, a la mateixa posició a totes les plantes; a P1 i P2 arrenca en L amb graons compensats · 16 graons ≈18,4 cm (2,95 m entre forjats).</text>
-<text x="12.00" y="282.00" font-size="2.5" font-weight="400" fill="#1C2321" text-anchor="start" >Avantprojecte orientatiu. Pendent de validar amb l'arquitecte: alçada i nombre de plantes, fondària edificable, recular l'àtic i gàlib de l'escala.</text>
-<text x="12.00" y="288.00" font-size="2.5" font-weight="400" fill="#1C2321" text-anchor="start" >Finestres a totes les parets que donen al carrer Anselm Clavé (P1, P2 i àtic). Porta del porxo: obre cap al porxo, sense envair la via pública.</text>
+<text x="12.00" y="266.00" font-size="2.5" font-weight="400" fill="#1C2321" text-anchor="start" >Superfícies útils orientatives, calculades amb les mides preses al solar el 17/11/2026 (façana 9,20 · fondària 9,70 al costat del núm. 28).</text>
+<text x="12.00" y="272.00" font-size="2.5" font-weight="400" fill="#1C2321" text-anchor="start" >Escala d'1,00 m de pas al costat de la mitgera, a la mateixa posició a totes les plantes; a P1 i P2 arrenca en L amb graons compensats · 16 graons ≈18,4 cm (2,95 m entre forjats).</text>
+<text x="12.00" y="278.00" font-size="2.5" font-weight="400" fill="#1C2321" text-anchor="start" >Avantprojecte orientatiu. Pendent de validar amb l'arquitecte: alçada i nombre de plantes, fondària edificable, recular l'altell i gàlib de l'escala.</text>
+<text x="12.00" y="284.00" font-size="2.5" font-weight="400" fill="#1C2321" text-anchor="start" >Finestres a totes les parets que donen al carrer Anselm Clavé (P1, P2 i altell). Porta del porxo: obre cap al porxo, sense envair la via pública.</text>
+<text x="12.00" y="290.00" font-size="2.5" font-weight="400" fill="#1C2321" text-anchor="start" >Planta tercera: altell sota coberta inclinada (carener al mig, a 11,80 m). Les terrasses del davant i del darrere no es fan habitables perquè el sostre baixa cap a les façanes.</text>
 </svg>
