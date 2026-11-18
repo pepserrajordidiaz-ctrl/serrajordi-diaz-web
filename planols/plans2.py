@@ -64,12 +64,12 @@ def m2(a): return f'≈{a:.1f}'.replace('.', ',') + ' m²'
 def part(h, x0, v0, x1, v1): return h.rect(x0, v0, x1, v1, fill='#6B726E')
 WT = 0.10   # walls drawn thin: the party walls already exist on site
 def fmt(x): return f'{x:.2f}'.replace('.', ',')
-def dims(h, x0, v0, x1, v1, wpos=None, dpos=None):
+def dims(h, x0, v0, x1, v1, wpos=None, dpos=None, vpos=None):
     """Interior measurements of a room: width along its front edge, depth along its outer side."""
     vm = (v0 + v1)/2
     xr = x1 if x1 is not None else h.width_at(min(max(vm, v0 + 0.3), v1 - 0.3))
     o = [h.text((x0 + xr)/2, (wpos if wpos is not None else v0 + 0.2), fmt(abs(xr - x0)), size=1.9, fill='#3E6FA8')]
-    xd = (dpos if dpos is not None else xr - 0.22); x, y = X(h.u(xd)), Y(vm)
+    xd = (dpos if dpos is not None else xr - 0.22); x, y = X(h.u(xd)), Y(vpos if vpos is not None else vm)
     o.append(text_xy(x, y, fmt(v1 - v0), size=1.9, fill='#3E6FA8', transform=f'rotate(-90 {x:.2f} {y:.2f})'))
     return o
 def _swing(h, C, S, E, w):
@@ -104,6 +104,7 @@ def stair_L(h):   # P1 / P2: winders at 2,85–3,85, straight run to 5,90, landi
     return o
 def car(h, x, v): return [h.rect(x, v, x+1.85, v+4.3, rx=1.6, fill='none', stroke=MUTE, stroke_width=0.3, stroke_dasharray='1 0.6'), h.rect(x+0.3, v+1.2, x+1.55, v+3.0, **FUR), h.text(x+0.92, v+3.5, 'cotxe', size=2.2, fill=MUTE)]
 def bed(h, x, v, w=1.35, l=1.9, head='back'):
+    if head == 'front': return [h.rect(x, v, x+w, v+l, fill='#fff', stroke=MUTE, stroke_width=0.25), h.rect(x+0.1, v+0.1, x+w-0.1, v+0.45, **FUR)]
     if head == 'back': return [h.rect(x, v, x+w, v+l, fill='#fff', stroke=MUTE, stroke_width=0.25), h.rect(x+0.1, v+l-0.45, x+w/2-0.05, v+l-0.1, **FUR), h.rect(x+w/2+0.05, v+l-0.45, x+w-0.1, v+l-0.1, **FUR)]
     return [h.rect(x, v, x+l, v+w, fill='#fff', stroke=MUTE, stroke_width=0.25), h.rect(x+l-0.45, v+0.1, x+l-0.1, v+w/2-0.05, **FUR), h.rect(x+l-0.45, v+w/2+0.05, x+l-0.1, v+w-0.1, **FUR)]
 def table(h, x, v, w=0.9, l=1.4):
@@ -207,16 +208,33 @@ def plan(h, lvl):
         o += shower(h, 1.2, 4.0, 2.05, 4.85) + wc(h, 2.55, 3.97, face=1) + basin(h, 1.6, 5.55) + door(h, 2.25, 5.85, 0.65, into=-1, hinge='end') + label(h, 1.9, 5.0, 'BANY', m2(1.85*1.85), size=2.4)
         o.append(h.text(3.5, 4.7, 'pas', size=2.1, fill=MUTE))
         sm = Wb/2
-        o += [part(h, 1.0, 6.7, Wb + 0.3, 6.8), part(h, sm - 0.05, 6.8, sm + 0.05, h.Di)]
-        o += wardrobe(h, 0.05, 6.85, sm - 0.85, 7.4) + wardrobe(h, sm + 0.85, 6.85, Wb, 7.4)
+        jog = h.P[1][1] if not h.A else None              # casa B: the plot steps in at 5,90 m on the outer side
+        if jog:   # outer bedroom wall curves from its door down to the corner where the plot steps in
+            sc, vc = h.u0 - h.P[1][0] + 0.05, jog + 0.02
+            P0, C, P1 = (sm + 0.82, 6.75), (sc, 6.75), (sc, vc)
+            bz = [((1-t)**2*P0[0] + 2*(1-t)*t*C[0] + t*t*P1[0], (1-t)**2*P0[1] + 2*(1-t)*t*C[1] + t*t*P1[1]) for t in [k/40 for k in range(41)]]
+            o += [part(h, 1.0, 6.7, sm + 0.82, 6.8), '<polyline points="' + ' '.join(f'{X(h.u(a)):.2f},{Y(b):.2f}' for a, b in bz) + f'" fill="none" stroke="#6B726E" stroke-width="{WT*SC:.2f}" stroke-linejoin="round"/>']
+            def front(x):   # depth of the curved wall's inner face at s=x
+                if x <= P0[0]: return 6.8
+                if x >= sc: return vc
+                for (a0, b0), (a1, b1) in zip(bz, bz[1:]):
+                    if a0 <= x <= a1: return b0 + (b1 - b0)*(x - a0)/(a1 - a0 + 1e-9) + 0.05
+            out_area = sum(0.0004 for k in range(int((9.0 - sm)/0.02)) for m in range(int((h.Di - 5.8)/0.02))
+                           if (lambda x, v: v >= front(x) and x <= h.width_at(v))(sm + 0.05 + k*0.02, 5.8 + m*0.02))
+        else:
+            o += [part(h, 1.0, 6.7, Wb + 0.3, 6.8)]
+            out_area = h.zone_area(sm, 6.8, 9, h.Di)
+        o += [part(h, sm - 0.05, 6.8, sm + 0.05, h.Di)]
         o += door(h, sm - 0.82, 6.75, 0.75, into=1, hinge='end') + door(h, sm + 0.07, 6.75, 0.75, into=1, hinge='start')
-        o += bed(h, 0.05, 7.6, w=1.05, l=1.9, head='side') + bed(h, Wb - 1.95, 7.6, w=1.05, l=1.9, head='side')
-        for x0 in (0.35, sm + 0.35):
-            o += [h.rect(x0, h.Di - 0.5, x0 + 1.25, h.Di, fill='#fff', stroke=MUTE, stroke_width=0.25), h.rect(x0 + 0.42, h.Di - 0.95, x0 + 0.82, h.Di - 0.58, **FUR), h.text(x0 + 0.62, h.Di - 0.3, 'escriptori', size=1.6, fill=MUTE)]
-        o += dims(h, 0, 0.12, None, 2.85, wpos=2.6) + dims(h, 1.1, 3.95, 2.95, 5.8, wpos=4.0, dpos=2.75) + dims(h, 0, 6.8, sm, h.Di, wpos=7.0, dpos=sm - 0.2) + dims(h, sm, 6.8, Wb, h.Di, wpos=7.0)
+        # beds of 90 x 190 with the headboard on the door wall; wardrobe against the central wall past the door swing; desk under the window
+        o += bed(h, 0.05, 6.85, w=0.9, l=1.9, head='front') + bed(h, Wb - 0.95, 6.85, w=0.9, l=1.9, head='front')
+        o += wardrobe(h, sm - 0.6, 7.6, sm - 0.05, 8.55) + wardrobe(h, sm + 0.05, 7.6, sm + 0.6, 8.55)
+        if jog: o += [h.rect(Wb - 0.05, 6.25, Wb + 0.35, 6.75, fill='#fff', stroke=MUTE, stroke_width=0.25), h.text(Wb + 0.15, 6.55, 'prestatge', size=1.5, fill=MUTE)]
+        for x0 in (1.0, sm + 0.1):
+            o += [h.rect(x0, h.Di - 0.5, x0 + 1.1, h.Di, fill='#fff', stroke=MUTE, stroke_width=0.25), h.rect(x0 + 0.35, h.Di - 0.95, x0 + 0.75, h.Di - 0.58, **FUR), h.text(x0 + 0.55, h.Di - 0.3, 'escriptori', size=1.6, fill=MUTE)]
+        o += dims(h, 0, 0.12, None, 2.85, wpos=2.6) + dims(h, 1.1, 3.95, 2.95, 5.8, wpos=4.0, dpos=2.75) + dims(h, 0, 6.8, sm, h.Di, wpos=8.95, dpos=1.08, vpos=7.3) + dims(h, sm, 6.8, Wb, h.Di, wpos=8.95, dpos=Wb - 1.08, vpos=7.3)
         o += window(h, 0.3, sm - 0.3, h.D - 0.1) + window(h, sm + 0.3, Wb - 0.3, h.D - 0.1)
-        dA = h.zone_area(0, 6.8, sm, h.Di)
-        o += label(h, sm/2, 8.3, 'DORM. ' + ('1' if h.A else '2'), m2(dA), size=2.3) + label(h, sm + (Wb - sm)/2, 8.3, 'DORM. ' + ('2' if h.A else '1'), m2(h.zone_area(sm, 6.8, 9, h.Di)), size=2.3)
+        o += label(h, (0.95 + sm - 0.6)/2, 8.05, 'DORM. 1', m2(h.zone_area(0, 6.8, sm, h.Di)), size=2.0) + label(h, (sm + 0.6 + Wb - 0.95)/2, 8.05, 'DORM. 2', m2(out_area), size=2.0)
     else:   # àtic
         vt = h.D - 2.05
         z += [fill_zone(h, -1, 0, 9, 2.8, COL['ter']), fill_zone(h, -1, vt, 9, h.D, COL['ter']), fill_zone(h, -1, 2.8, 9, vt, COL['suite'])]
